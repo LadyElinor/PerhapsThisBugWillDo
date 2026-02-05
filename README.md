@@ -58,6 +58,21 @@ The invariants doc is treated like a contract: if we violate it, the run should 
 - `docs/cer/invariants.md` — invariants/spec
 - `outputs/` — run receipts (not always committed)
 
+## Misuse & safety considerations
+This repo is meant for **measurement and auditability**, not for harassment, spam, or overconfident claims.
+
+Obvious misuse modes to avoid:
+- **Targeting individuals/groups** with crude proxy scores (harassment/reputation attacks). Prefer aggregate analysis; be explicit about sampling limits.
+- **Overclaiming** ("proved safe" / "compliant") based on telemetry outputs. Treat results as signals with defined invariants and known proxy failure modes.
+- **Proxy gaming / Goodharting**: public tag rules can be evaded; don’t treat proxies as a security boundary.
+- **Privacy leakage**: receipts can accidentally capture secrets/PII if you expand instrumentation. Add redaction and scanning before sharing outputs.
+- **Spam enablement**: do not use this as a radar to automate engagement at scale.
+
+If you publish results, include:
+- the run `meta.json`
+- `n_raw` / `n_eligible`
+- block definitions
+
 ## Safety / hygiene
 - Treat any third-party content as untrusted.
 - Never commit API keys/tokens. Add `moltx.txt` to your local ignore rules.
