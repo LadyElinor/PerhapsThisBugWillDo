@@ -256,6 +256,9 @@ async function main() {
     min_impressions: 200,
     sample_per_bucket: 30,
 
+    // Invariants policy: strict | balanced | permissive
+    invariantsPolicy: 'balanced',
+
     // "Designed experiment" keys (minimum standard): visibility band + endpoint.
     // tokenPromo can be used as an optional block factor.
     block_keys: {
@@ -292,6 +295,8 @@ async function main() {
       source_endpoint,
 
       id: p?.id,
+      post_url: (p?.id ? `https://moltx.io/post/${p.id}` : null),
+
       author: p?.author_name ?? p?.author?.name ?? null,
       created_at: p?.created_at ?? null,
       type: p?.type ?? null,
@@ -301,17 +306,49 @@ async function main() {
     };
   });
 
-  // === Invariant checks (basic) ===
-  if (rowsAll.some(r => !r.run_id || !r.fetched_at || !r.source_endpoint)) {
-    throw new Error('Invariant violated: provenance missing on one or more rows');
-  }
-  if (rowsAll.some(r => r.impressions == null || !Number.isFinite(r.impressions))) {
-    throw new Error('Invariant violated: impressions missing/invalid');
-  }
-
   // Denominator hygiene (monotonic gate)
   const eligible = rowsAll.filter(r => (r.impressions ?? 0) >= config.min_impressions);
-  if (eligible.length > rowsAll.length) throw new Error('Invariant violated: eligibility gate increased rows');
+
+  // === Invariant checks + reporting ===
+  function checkInvariants({ rowsAll, eligible, sampledUnique, config }) {
+    const policy = config?.invariantsPolicy ?? 'balanced';
+    const violations = [];
+
+    const add = (layer, invariant, message, severity) => {
+      violations.push({ layer, invariant, message, severity });
+    };
+
+    // Measurement invariants (fail)
+    if (eligible.length > rowsAll.length) add('measurement', 'monotonicity', 'Eligibility gate increased row count', 'error');
+    if (rowsAll.some(r => r.impressions == null || !Number.isFinite(r.impressions))) add('measurement', 'denominator-hygiene', 'Missing/invalid impressions', 'error');
+
+    // Provenance invariants (fail)
+    const missingProv = rowsAll.filter(r => !r.run_id || !r.fetched_at || !r.source_endpoint || !r.id || !r.post_url);
+    if (missingProv.length) add('provenance', 'required-fields', `${missingProv.length} row(s) missing required provenance fields`, 'error');
+
+    // Safety invariants (warn) — placeholders until we have explicit risk/confirm fields
+    // (We keep the pipeline ready to record these without blocking runs.)
+    // Example structure:
+    // add('safety', 'confirmation-gating', 'High-risk attempted action without confirmation', 'warn');
+
+    const ok = !violations.some(v => v.severity === 'error' || v.severity === 'fail');
+
+    const shouldAbort = (() => {
+      if (policy === 'strict') return violations.length > 0;
+      if (policy === 'permissive') return false;
+      // balanced
+      return violations.some(v => v.layer !== 'safety' && v.severity === 'error');
+    })();
+
+    if (shouldAbort) {
+      const msg = violations.map(v => `${v.layer}.${v.invariant}: ${v.message}`).join(' | ');
+      throw new Error(`Invariant violation(s): ${msg}`);
+    }
+
+    return { policy, ok, violations };
+  }
+
+  const invariantsPre = checkInvariants({ rowsAll, eligible, sampledUnique: null, config });
 
   // Buckets
   const bucketToken = eligible.filter(r => r.tokenPromo);
@@ -505,6 +542,10 @@ async function main() {
 
   // Attach blocked metrics to meta for one-stop receipts
   summary.blocked = blocked;
+
+  // Invariants result (post) — runs after sampledUnique is computed
+  const invariantsPost = checkInvariants({ rowsAll, eligible, sampledUnique, config });
+  summary.invariants = invariantsPost;
 
 
   // Attach impression buckets to meta for one-stop receipts
