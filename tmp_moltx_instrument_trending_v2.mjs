@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { createTelemetry } from './tools/cer-telemetry/index.js';
 
 /*
 Action plan implementation (v2):
@@ -245,6 +246,7 @@ function sampleN(rows, n) {
 
 async function main() {
   const runId = `moltx_trending_v2_${nowIso().replace(/[:.]/g, '-')}`;
+  const telemetry = createTelemetry({ runId, script: 'tmp_moltx_instrument_trending_v2.mjs' });
   const outDir = new URL(`./outputs/moltx_runs/${runId}/`, import.meta.url);
   fs.mkdirSync(outDir, { recursive: true });
   fs.mkdirSync(new URL('./snapshots/', outDir), { recursive: true });
@@ -274,10 +276,12 @@ async function main() {
   };
 
   const fetched_at = nowIso();
+  telemetry.logStep('config', { run_id: runId, fetched_at, config });
 
   const pulled = await pullCandidates({ max: config.candidate_max });
   const candidates = pulled.posts;
   const source_endpoint = pulled.source_endpoint;
+  telemetry.logStep('collect', { run_id: runId, fetched_at, source_endpoint, candidates: candidates.length });
 
   fs.writeFileSync(
     new URL('./snapshots/candidates_top.json', outDir),
@@ -285,6 +289,7 @@ async function main() {
   );
 
   // Feature + engagement extraction
+  telemetry.logStep('feature_extract_begin', { run_id: runId, n: candidates.length });
   const rowsAll = candidates.map(p => {
     const cls = classify(p?.content ?? '');
     const eng = engagement(p);
@@ -308,6 +313,7 @@ async function main() {
 
   // Denominator hygiene (monotonic gate)
   const eligible = rowsAll.filter(r => (r.impressions ?? 0) >= config.min_impressions);
+  telemetry.logStep('eligibility_gate', { run_id: runId, rows_all: rowsAll.length, eligible: eligible.length, min_impressions: config.min_impressions });
 
   // === Invariant checks + reporting ===
   function checkInvariants({ rowsAll, eligible, sampledUnique, config }) {
@@ -349,6 +355,9 @@ async function main() {
   }
 
   const invariantsPre = checkInvariants({ rowsAll, eligible, sampledUnique: null, config });
+  telemetry.logStep('invariants_pre', { run_id: runId, ok: invariantsPre.ok, violations: invariantsPre.violations });
+  // Mirror into CER telemetry store (warn-only behavior is handled there)
+  telemetry.runInvariants({ rowsAll, eligible, sampledUnique: null, config });
 
   // Buckets
   const bucketToken = eligible.filter(r => r.tokenPromo);
@@ -406,6 +415,7 @@ async function main() {
     if (!uniqueById.has(r.id)) uniqueById.set(r.id, r);
   }
   const sampledUnique = [...uniqueById.values()];
+  telemetry.logStep('sampled_unique', { run_id: runId, sampled_rows_total: sampled.length, sampled_unique_posts: sampledUnique.length });
 
   const byImp = {};
   for (const b of IMPRESSION_BUCKETS) {
@@ -546,6 +556,8 @@ async function main() {
   // Invariants result (post) — runs after sampledUnique is computed
   const invariantsPost = checkInvariants({ rowsAll, eligible, sampledUnique, config });
   summary.invariants = invariantsPost;
+  telemetry.logStep('invariants_post', { run_id: runId, ok: invariantsPost.ok, violations: invariantsPost.violations });
+  telemetry.runInvariants({ rowsAll, eligible, sampledUnique, config });
 
 
   // Attach impression buckets to meta for one-stop receipts
@@ -578,7 +590,42 @@ async function main() {
   }
   fs.writeFileSync(new URL('./posts.csv', outDir), lines.join('\n'));
 
-  console.log(JSON.stringify({ ok: true, runId, outDir: outDir.pathname, counts: summary.counts }, null, 2));
+  // === CER telemetry metrics + rolling drift ===
+  const N = sampledUnique.length;
+  const count = (pred) => sampledUnique.filter(pred).length;
+
+  const metrics = [];
+  metrics.push(telemetry.metricFromCounts('sampled_unique.tokenPromo', count(r => r.tokenPromo), N, 'Unweighted prevalence on unique sampled posts'));
+  metrics.push(telemetry.metricFromCounts('sampled_unique.attempted_external_any', count(r => r.attempted_external_any), N, 'Unweighted prevalence on unique sampled posts'));
+  metrics.push(telemetry.metricFromCounts('sampled_unique.receipt_score_ge_2', count(r => (r.receipt_score ?? 0) >= 2), N, 'Unweighted prevalence on unique sampled posts'));
+
+  const drift = {
+    tokenPromo: telemetry.rollingDelta('sampled_unique.tokenPromo', { num: metrics[0].num, den: metrics[0].den }),
+    attempted_external_any: telemetry.rollingDelta('sampled_unique.attempted_external_any', { num: metrics[1].num, den: metrics[1].den }),
+    receipt_score_ge_2: telemetry.rollingDelta('sampled_unique.receipt_score_ge_2', { num: metrics[2].num, den: metrics[2].den }),
+  };
+
+  const receiptObj = {
+    kind: 'cer_telemetry_receipt_v0.1',
+    run_id: runId,
+    script: 'tmp_moltx_instrument_trending_v2.mjs',
+    generated_at: nowIso(),
+    outDir: outDir.pathname,
+    counts: summary.counts,
+    invariants: summary.invariants,
+    metrics,
+    drift,
+    notes: {
+      policy: 'warn',
+      guarded_actions: ['post','reply','like','follow'],
+      rolling_lookback_runs: telemetry.config?.rolling?.lookbackRuns ?? 20
+    }
+  };
+
+  telemetry.logStep('receipt_finalize', { run_id: runId, note: 'Writing receipt + closing telemetry DB' });
+  const receiptPath = telemetry.finish({ receiptObj });
+
+  console.log(JSON.stringify({ ok: true, runId, outDir: outDir.pathname, receiptPath, counts: summary.counts }, null, 2));
 }
 
 await main();
