@@ -87,7 +87,23 @@ export async function resilientJsonGet(url, {
       if (attempt >= retries) break;
 
       const msg = String(e?.message ?? e);
-      const blocked = e?.name === 'Blocked403Error' || msg.includes('HTTP 403') && msg.toLowerCase().includes('blocked');
+      const blocked = e?.name === 'Blocked403Error' || (msg.includes('HTTP 403') && msg.toLowerCase().includes('blocked'));
+
+      // If caller will tolerate 403 by breaking a paging loop, surface it immediately.
+      // This prevents long hangs/timeouts during MoltX throttling.
+      if (blocked && tolerate403) {
+        telemetry?.logStep?.('network_throttle', {
+          ts: nowIso(),
+          url,
+          status: e?.status ?? 403,
+          attempt,
+          blocked403: true,
+          delay_ms: 0,
+          phase: phaseCtx ?? null,
+          note: 'tolerate403=true; throwing immediately to allow partial results'
+        });
+        throw e;
+      }
 
       const delay = blocked
         ? (cfg.blocked403DelayMs + jitterMs(cfg.jitterMs))

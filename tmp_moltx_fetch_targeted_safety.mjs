@@ -34,7 +34,7 @@ async function jget(url, { retries = 6, telemetry = null, phaseCtx = null } = {}
     retry: cerConfig?.retry,
     telemetry,
     phaseCtx,
-    tolerate403: false,
+    tolerate403: true,
   });
 }
 

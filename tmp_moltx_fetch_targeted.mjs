@@ -263,7 +263,7 @@ async function pullCandidates({ max = 200, source = 'top', mode = 'safety', onBl
             retry: cerConfig?.retry,
             telemetry,
             phaseCtx: { endpoint: ep.label, page },
-            tolerate403: false,
+            tolerate403: true,
           });
         } catch (e) {
           const msg = String(e?.message ?? e);
