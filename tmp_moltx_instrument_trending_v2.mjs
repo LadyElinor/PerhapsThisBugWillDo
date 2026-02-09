@@ -606,10 +606,17 @@ async function main() {
   };
 
   const receiptObj = {
+    receipt_version: '0.1',
     kind: 'cer_telemetry_receipt_v0.1',
+
+    runId: runId,
     run_id: runId,
     script: 'tmp_moltx_instrument_trending_v2.mjs',
+
+    timestamp: nowIso(),
     generated_at: nowIso(),
+    phases: ['run_start','config','collect','feature_extract_begin','eligibility_gate','invariants_pre','sampled_unique','invariants_post','receipt_finalize'],
+
     outDir: outDir.pathname,
     counts: summary.counts,
     invariants: summary.invariants,

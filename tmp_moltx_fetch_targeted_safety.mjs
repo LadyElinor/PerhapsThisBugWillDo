@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { createTelemetry } from './tools/cer-telemetry/index.js';
+import { resilientJsonGet, Blocked403Error } from './tools/cer-telemetry/http.js';
 
 /*
 Targeted MoltX sampler (safety/receipt/CER-ish cohort)
@@ -21,33 +22,18 @@ let key = '';
 try { key = fs.readFileSync(new URL('./moltx.txt', import.meta.url), 'utf8').trim(); } catch {}
 const headers = key ? { Authorization: `Bearer ${key}` } : {};
 
-async function jget(url, { retries = 6, baseDelayMs = 500 } = {}) {
-  let lastErr;
-  for (let attempt = 0; attempt <= retries; attempt++) {
-    try {
-      const res = await fetch(url, { headers });
-      const text = await res.text();
-      let json;
-      try { json = JSON.parse(text); } catch {
-        throw new Error(`Non-JSON ${res.status} from ${url}: ${text.slice(0, 200)}`);
-      }
-      if (!res.ok || json.success === false) {
-        const msg = typeof json?.error === 'string' ? json.error : text.slice(0, 500);
-        if ([429, 500, 502, 503, 504].includes(res.status)) throw new Error(`RETRYABLE_HTTP_${res.status}: ${msg}`);
-        throw new Error(`HTTP ${res.status} from ${url}: ${msg}`);
-      }
-      return json;
-    } catch (e) {
-      lastErr = e;
-      if (attempt < retries) {
-        const jitter = Math.floor(Math.random() * 200);
-        const delay = baseDelayMs * Math.pow(1.6, attempt) + jitter;
-        await new Promise(r => setTimeout(r, delay));
-        continue;
-      }
-    }
-  }
-  throw lastErr;
+let cerConfig = {};
+try {
+  cerConfig = JSON.parse(fs.readFileSync(new URL('./tools/cer-telemetry/config.json', import.meta.url), 'utf8'));
+} catch {}
+
+async function jget(url, { retries = 6 } = {}) {
+  return resilientJsonGet(url, {
+    headers,
+    retries,
+    retry: cerConfig?.retry,
+    tolerate403: false,
+  });
 }
 
 function nowIso() { return new Date().toISOString(); }
@@ -198,7 +184,26 @@ async function main() {
   const fetched_at = nowIso();
   telemetry.logStep('config', { run_id: runId, fetched_at, config });
 
-  const candidates = await pullCandidates({ max: config.candidate_max });
+  let partial_results = false;
+  let blocked403_count = 0;
+
+  let candidates = [];
+  try {
+    candidates = await pullCandidates({ max: config.candidate_max });
+  } catch (e) {
+    const msg = String(e?.message ?? e);
+    const is403 = (e?.name === 'Blocked403Error') || (msg.includes('HTTP 403') && msg.toLowerCase().includes('blocked'));
+    if (is403) {
+      partial_results = true;
+      blocked403_count++;
+      telemetry.logStep('collect_blocked_403', { run_id: runId, endpoint: 'pullCandidates', url: null, message: msg, collected_so_far: 0 });
+      // tolerate: continue with empty candidates
+      candidates = [];
+    } else {
+      throw e;
+    }
+  }
+
   telemetry.logStep('collect', { run_id: runId, fetched_at, candidates: candidates.length });
   fs.writeFileSync(new URL('./snapshots/candidates.json', outDir), JSON.stringify({ fetched_at, count: candidates.length }, null, 2));
 
@@ -294,12 +299,21 @@ async function main() {
   };
 
   const receiptObj = {
+    receipt_version: '0.1',
     kind: 'cer_telemetry_receipt_v0.1',
+
+    runId: runId,
     run_id: runId,
     script: 'tmp_moltx_fetch_targeted_safety.mjs',
+
+    timestamp: nowIso(),
     generated_at: nowIso(),
+    phases: ['run_start','config','collect','feature_extract_begin','eligibility_gate','invariants','receipt_finalize'],
+
     outDir: outDir.pathname,
     counts: meta.counts,
+    partial_results,
+    throttling: blocked403_count ? { blocked403_count } : null,
     invariants: { ok: inv.ok, violations: inv.violations },
     metrics,
     drift,

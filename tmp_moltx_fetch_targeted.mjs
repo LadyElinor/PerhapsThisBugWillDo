@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { createTelemetry } from './tools/cer-telemetry/index.js';
+import { resilientJsonGet, Blocked403Error } from './tools/cer-telemetry/http.js';
 
 /*
 Targeted MoltX sampler (mode-based cohorts)
@@ -25,6 +26,11 @@ let key = '';
 try { key = fs.readFileSync(new URL('./moltx.txt', import.meta.url), 'utf8').trim(); } catch {}
 const headers = key ? { Authorization: `Bearer ${key}` } : {};
 
+let cerConfig = {};
+try {
+  cerConfig = JSON.parse(fs.readFileSync(new URL('./tools/cer-telemetry/config.json', import.meta.url), 'utf8'));
+} catch {}
+
 const args = process.argv.slice(2);
 const modeArg = args.find(a => a.startsWith('--mode=')) || '--mode=safety';
 const MODE = (modeArg.split('=')[1] || 'safety').toLowerCase();
@@ -43,33 +49,15 @@ let FETCH_LIMIT = Number((limitArg.split('=')[1] || '').trim() || NaN);
 if (!Number.isFinite(FETCH_LIMIT)) FETCH_LIMIT = (MODE === 'safety') ? 300 : 100;
 
 
-async function jget(url, { retries = 6, baseDelayMs = 500 } = {}) {
-  let lastErr;
-  for (let attempt = 0; attempt <= retries; attempt++) {
-    try {
-      const res = await fetch(url, { headers });
-      const text = await res.text();
-      let json;
-      try { json = JSON.parse(text); } catch {
-        throw new Error(`Non-JSON ${res.status} from ${url}: ${text.slice(0, 200)}`);
-      }
-      if (!res.ok || json.success === false) {
-        const msg = typeof json?.error === 'string' ? json.error : text.slice(0, 500);
-        if ([429, 500, 502, 503, 504].includes(res.status)) throw new Error(`RETRYABLE_HTTP_${res.status}: ${msg}`);
-        throw new Error(`HTTP ${res.status} from ${url}: ${msg}`);
-      }
-      return json;
-    } catch (e) {
-      lastErr = e;
-      if (attempt < retries) {
-        const jitter = Math.floor(Math.random() * 200);
-        const delay = baseDelayMs * Math.pow(1.6, attempt) + jitter;
-        await new Promise(r => setTimeout(r, delay));
-        continue;
-      }
-    }
-  }
-  throw lastErr;
+async function jget(url, { retries = 6 } = {}) {
+  // Centralized retry/throttle behavior
+  return resilientJsonGet(url, {
+    headers,
+    retries,
+    retry: cerConfig?.retry,
+    // tolerate403 is handled at the paging layer (break loop), not here.
+    tolerate403: false,
+  });
 }
 
 function nowIso() { return new Date().toISOString(); }
@@ -216,7 +204,7 @@ function csvEscape(v) {
   return s;
 }
 
-async function pullCandidates({ max = 200, source = 'top', mode = 'safety', onBlocked403 } = {}) {
+async function pullCandidates({ max = 200, source = 'top', mode = 'safety', onBlocked403, telemetry } = {}) {
   // Unified multi-endpoint union + dedupe for recall/volume.
   // Safety mode behavior:
   // - PRIMARY: /v1/posts?sort=latest (paged via offset)
@@ -269,33 +257,27 @@ async function pullCandidates({ max = 200, source = 'top', mode = 'safety', onBl
 
         let j;
         try {
-          j = await jget(url);
+          j = await resilientJsonGet(url, {
+            headers,
+            retries: 6,
+            retry: cerConfig?.retry,
+            telemetry,
+            phaseCtx: { endpoint: ep.label, page },
+            tolerate403: false,
+          });
         } catch (e) {
           const msg = String(e?.message ?? e);
-          const is403 = msg.includes('HTTP 403') || msg.toLowerCase().includes('blocked');
+          const is403 = (e?.name === 'Blocked403Error') || (msg.includes('HTTP 403') && msg.toLowerCase().includes('blocked'));
           if (is403) {
-            const backoffMs = Math.max(60_000, Number(process.env.MOLTX_403_BACKOFF_MS ?? 60_000));
-            console.warn(`403 Blocked on ${ep.label} page ${page} — backing off for ${Math.round(backoffMs/1000)}s, then retrying once...`);
-            await new Promise(r => setTimeout(r, backoffMs));
-            try {
-              j = await jget(url, { retries: 1, baseDelayMs: 1200 });
-            } catch (e2) {
-              const msg2 = String(e2?.message ?? e2);
-              const is403b = msg2.includes('HTTP 403') || msg2.toLowerCase().includes('blocked');
-              if (is403b) {
-                // Tolerate: stop paging this endpoint and continue pipeline with partial results.
-                if (typeof onBlocked403 === 'function') {
-                  try { onBlocked403({ endpoint: ep.label, page, url, message: msg2, collected_so_far: allCandidates.length }); } catch {}
-                }
-                console.warn(`403 Blocked again on ${ep.label} page ${page} — stopping pagination for this endpoint (partial results).`);
-                hasMore = false;
-                break;
-              }
-              throw e2;
+            // Tolerate: stop paging this endpoint and continue pipeline with partial results.
+            if (typeof onBlocked403 === 'function') {
+              try { onBlocked403({ endpoint: ep.label, page, url, message: msg, collected_so_far: allCandidates.length }); } catch {}
             }
-          } else {
-            throw e;
+            console.warn(`403 Blocked on ${ep.label} page ${page} — stopping pagination for this endpoint (partial results).`);
+            hasMore = false;
+            break;
           }
+          throw e;
         }
 
         const posts = j?.data?.posts ?? j?.data ?? [];
@@ -389,6 +371,7 @@ async function main() {
     max: config.fetch_limit,
     source: config.source,
     mode: MODE,
+    telemetry,
     onBlocked403: (ev) => {
       blocked403.push(ev);
       telemetry.logStep('collect_blocked_403', { run_id: runId, ...ev });
@@ -512,14 +495,21 @@ async function main() {
   };
 
   const receiptObj = {
+    receipt_version: '0.1',
     kind: 'cer_telemetry_receipt_v0.1',
+
+    runId: runId,
     run_id: runId,
     script: 'tmp_moltx_fetch_targeted.mjs',
+
+    timestamp: nowIso(),
     generated_at: nowIso(),
+    phases: ['run_start','config','collect','feature_extract_begin','eligibility_gate','invariants','receipt_finalize'],
+
     outDir: outDir.pathname,
     counts: meta.counts,
     partial_results: blocked403.length > 0,
-    throttling: blocked403.length ? { blocked403 } : null,
+    throttling: blocked403.length ? { blocked403, blocked403_count: blocked403.length } : null,
     invariants: { ok: inv.ok, violations: inv.violations },
     metrics,
     drift,

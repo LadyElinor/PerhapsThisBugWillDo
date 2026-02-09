@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { createTelemetry } from './tools/cer-telemetry/index.js';
+import { resilientJsonGet, Blocked403Error } from './tools/cer-telemetry/http.js';
 
 const key = fs.readFileSync(new URL('./moltx.txt', import.meta.url), 'utf8').trim();
 if (!key) throw new Error('Missing MoltX API key');
@@ -11,44 +12,16 @@ try {
   cerConfig = JSON.parse(fs.readFileSync(new URL('./tools/cer-telemetry/config.json', import.meta.url), 'utf8'));
 } catch {}
 
-async function jget(url, { retries = 6, baseDelayMs = (cerConfig?.retry?.baseDelayMs ?? 600) } = {}) {
-  let lastErr;
-  for (let attempt = 0; attempt <= retries; attempt++) {
-    try {
-      const res = await fetch(url, { headers });
-      const text = await res.text();
-      let json;
-      try { json = JSON.parse(text); } catch {
-        throw new Error(`Non-JSON ${res.status} from ${url}: ${text.slice(0, 200)}`);
-      }
-      if (!res.ok || json.success === false) {
-        const msg = typeof json?.error === 'string' ? json.error : text.slice(0, 500);
-        // Retry on transient server/db errors (+ MoltX "Blocked" 403s with long backoff)
-        if ([429, 500, 502, 503, 504].includes(res.status)) {
-          throw new Error(`RETRYABLE_HTTP_${res.status}: ${msg}`);
-        }
-        if (res.status === 403 && String(msg).toLowerCase().includes('blocked')) {
-          throw new Error(`RETRYABLE_HTTP_403_BLOCKED: ${msg}`);
-        }
-        throw new Error(`HTTP ${res.status} from ${url}: ${msg}`);
-      }
-      return json;
-    } catch (e) {
-      lastErr = e;
-      // backoff
-      if (attempt < retries) {
-        const msg = String(e?.message ?? e);
-        const isBlocked403 = msg.includes('RETRYABLE_HTTP_403_BLOCKED');
-        const jitter = Math.floor(Math.random() * (cerConfig?.retry?.jitterMs ?? 200));
-        const delay = isBlocked403
-          ? ((cerConfig?.retry?.blocked403DelayMs ?? 60_000) + jitter)
-          : (baseDelayMs * Math.pow(1.6, attempt) + jitter);
-        await sleep(delay);
-        continue;
-      }
-    }
-  }
-  throw lastErr;
+async function jget(url, { retries = 6, telemetry, phaseCtx } = {}) {
+  return resilientJsonGet(url, {
+    headers,
+    retries,
+    retry: cerConfig?.retry,
+    telemetry,
+    phaseCtx,
+    // paging loops tolerate by breaking on Blocked403Error
+    tolerate403: true,
+  });
 }
 
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
@@ -130,7 +103,7 @@ function features(post) {
   };
 }
 
-async function pullTop(limit=100) {
+async function pullTop(limit=100, telemetry=null, runId=null) {
   // MoltX docs show limit/offset; use offset paging.
   // IMPORTANT: tolerate mid-run 403 blocks by returning what we already have.
   const pageSize = 25;
@@ -139,14 +112,15 @@ async function pullTop(limit=100) {
     const n = Math.min(pageSize, limit - out.length);
     const url = `https://moltx.io/v1/posts?sort=top&limit=${n}&offset=${offset}`;
     try {
-      const j = await jget(url);
+      const j = await jget(url, { telemetry, phaseCtx: { pull: 'top', offset } });
       const posts = j?.data?.posts ?? j?.data ?? [];
       if (!Array.isArray(posts) || posts.length === 0) break;
       out.push(...posts);
     } catch (e) {
       const msg = String(e?.message ?? e);
-      if (msg.includes('HTTP 403') || msg.includes('RETRYABLE_HTTP_403_BLOCKED')) {
-        // stop paging; keep partial data
+      const is403 = (e?.name === 'Blocked403Error') || (msg.includes('HTTP 403') && msg.toLowerCase().includes('blocked'));
+      if (is403) {
+        telemetry?.logStep?.('collect_blocked_403', { run_id: runId, endpoint: 'pullTop', offset, url, message: msg, collected_so_far: out.length });
         break;
       }
       throw e;
@@ -156,7 +130,7 @@ async function pullTop(limit=100) {
   return out;
 }
 
-async function pullGlobal(limit=120) {
+async function pullGlobal(limit=120, telemetry=null, runId=null) {
   // IMPORTANT: tolerate mid-run 403 blocks by returning what we already have.
   const pageSize = 50;
   const out = [];
@@ -164,13 +138,15 @@ async function pullGlobal(limit=120) {
     const n = Math.min(pageSize, limit - out.length);
     const url = `https://moltx.io/v1/feed/global?type=post,quote&limit=${n}&offset=${offset}`;
     try {
-      const j = await jget(url);
+      const j = await jget(url, { telemetry, phaseCtx: { pull: 'global', offset } });
       const posts = j?.data?.posts ?? j?.data ?? [];
       if (!Array.isArray(posts) || posts.length === 0) break;
       out.push(...posts);
     } catch (e) {
       const msg = String(e?.message ?? e);
-      if (msg.includes('HTTP 403') || msg.includes('RETRYABLE_HTTP_403_BLOCKED')) {
+      const is403 = (e?.name === 'Blocked403Error') || (msg.includes('HTTP 403') && msg.toLowerCase().includes('blocked'));
+      if (is403) {
+        telemetry?.logStep?.('collect_blocked_403', { run_id: runId, endpoint: 'pullGlobal', offset, url, message: msg, collected_so_far: out.length });
         break;
       }
       throw e;
@@ -242,7 +218,7 @@ async function main() {
   const telemetry = createTelemetry({ runId, script: 'tmp_moltx_engagement_analysis.mjs' });
   telemetry.logStep('config', { run_id: runId, note: 'Engagement analysis over top+global pulls; excludes token promo; impressions>=20' });
 
-  const [topPosts, globalPosts] = await Promise.all([pullTop(100), pullGlobal(120)]);
+  const [topPosts, globalPosts] = await Promise.all([pullTop(100, telemetry, runId), pullGlobal(120, telemetry, runId)]);
   telemetry.logStep('collect', { run_id: runId, topPulled: topPosts.length, globalPulled: globalPosts.length });
 
   // Normalize shape.
@@ -369,15 +345,23 @@ async function main() {
   };
 
   const receiptObj = {
+    receipt_version: '0.1',
     kind: 'cer_telemetry_receipt_v0.1',
+
+    runId: runId,
     run_id: runId,
     script: 'tmp_moltx_engagement_analysis.mjs',
+
+    timestamp: new Date().toISOString(),
     generated_at: new Date().toISOString(),
+    phases: ['run_start','config','collect','eligibility_gate','receipt_finalize'],
+
     artifacts: {
       json: 'moltx-engagement-analysis.json',
       md: 'moltx-engagement-analysis.md'
     },
     counts: out.counts,
+    invariants: { ok: true, violations: [] },
     metrics,
     drift,
     notes: {

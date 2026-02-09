@@ -5,6 +5,7 @@ import { createEventLogger } from './event_logger.js';
 import { checkInvariants } from './invariants.js';
 import { wilsonInterval, rateDelta } from './stats.js';
 import { writeReceipt } from './receipt.js';
+export { resilientJsonGet, Blocked403Error, ThrottleError } from './http.js';
 
 function nowIso() { return new Date().toISOString(); }
 
