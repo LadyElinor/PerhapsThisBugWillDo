@@ -27,11 +27,13 @@ try {
   cerConfig = JSON.parse(fs.readFileSync(new URL('./tools/cer-telemetry/config.json', import.meta.url), 'utf8'));
 } catch {}
 
-async function jget(url, { retries = 6 } = {}) {
+async function jget(url, { retries = 6, telemetry = null, phaseCtx = null } = {}) {
   return resilientJsonGet(url, {
     headers,
     retries,
     retry: cerConfig?.retry,
+    telemetry,
+    phaseCtx,
     tolerate403: false,
   });
 }
@@ -137,16 +139,16 @@ function csvEscape(v) {
   return s;
 }
 
-async function pullCandidates({ max = 200 } = {}) {
+async function pullCandidates({ max = 200, telemetry = null } = {}) {
   const primary = `https://moltx.io/v1/posts?sort=top&limit=${max}&offset=0`;
   let j;
   try {
-    j = await jget(primary);
+    j = await jget(primary, { telemetry, phaseCtx: { endpoint: 'posts_top_single' } });
   } catch (e) {
     const msg = String(e?.message ?? e);
     if (msg.includes('HTTP 403') || msg.toLowerCase().includes('blocked')) {
       const fb = `https://moltx.io/v1/feed/global?type=post,quote&limit=${max}`;
-      j = await jget(fb);
+      j = await jget(fb, { telemetry, phaseCtx: { endpoint: 'feed_global_single' } });
     } else {
       throw e;
     }
@@ -189,7 +191,7 @@ async function main() {
 
   let candidates = [];
   try {
-    candidates = await pullCandidates({ max: config.candidate_max });
+    candidates = await pullCandidates({ max: config.candidate_max, telemetry });
   } catch (e) {
     const msg = String(e?.message ?? e);
     const is403 = (e?.name === 'Blocked403Error') || (msg.includes('HTTP 403') && msg.toLowerCase().includes('blocked'));
