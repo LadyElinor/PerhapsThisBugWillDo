@@ -1,0 +1,52 @@
+meta:
+  version: "v0.3"
+  units: "mm"
+  frame:
+    convention: "right-handed"
+    x: "forward"
+    y: "left"
+    z: "up"
+
+body:
+  stance_height_mm: 180.0
+  mass_total_kg: 30.0
+  leg_count: 6
+
+coxa:
+  shaft_diameter_mm: 12.0
+  yaw_range_deg: [-60.0, 60.0]
+  mount_hole_pattern: "to_be_defined"
+  suggested_motor: "50W BLDC or harmonic drive"
+  gear_ratio: 80.0
+
+femur:
+  link_length_mm: 50.0
+  pitch_range_deg: [-90.0, 45.0]
+  bearing_type: "dual angular contact"
+
+tibia_screw:
+  pitch_mm_per_rev: 13.5      # nominal; sweep 12.0..15.0
+  stroke_mm: 35.0             # nominal; sweep 25.0..45.0
+  rotation_range_deg: 120.0
+  joint_type_suggestion: "helical (recirculating ball nut preferred for low stiction)"
+
+foot:
+  radius_mm: 80.0             # nominal; sweep 70.0..90.0
+  pad_thickness_mm: 6.0       # nominal; sweep 5.0..8.0
+  cleat_forward_gain: 1.50
+  cleat_lateral_gain: 1.80
+  cleat_rake_forward_deg: 38.0
+  cleat_rake_lateral_deg: 60.0
+  cleat_engage_threshold_N: 50.0
+
+urdf_defaults:
+  mass_kg:
+    coxa: 0.8
+    femur: 0.6
+    tibia_assembly: 1.2
+    foot: 0.4
+  inertia_mode: "box_approx_v0"
+  joint_approximation:
+    coxa: "revolute"
+    femur: "revolute"
+    tibia: "prismatic + revolute combo (macro for helical)"

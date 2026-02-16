@@ -1,0 +1,49 @@
+meta:
+  source: "weevil_leg_params.yaml"
+  version: "v0.3"
+  units:
+    mass: "kg"
+    length: "m"
+
+links:
+  coxa:
+    mass: 0.8
+    inertia:
+      ixx: 0.0016
+      iyy: 0.0012
+      izz: 0.0014
+      ixy: 0.0
+      ixz: 0.0
+      iyz: 0.0
+  femur:
+    mass: 0.6
+    inertia:
+      ixx: 0.0010
+      iyy: 0.0008
+      izz: 0.0009
+      ixy: 0.0
+      ixz: 0.0
+      iyz: 0.0
+  tibia_assembly:
+    mass: 1.2
+    inertia:
+      ixx: 0.0024
+      iyy: 0.0018
+      izz: 0.0020
+      ixy: 0.0
+      ixz: 0.0
+      iyz: 0.0
+  foot:
+    mass: 0.4
+    inertia:
+      ixx: 0.0006
+      iyy: 0.0006
+      izz: 0.0008
+      ixy: 0.0
+      ixz: 0.0
+      iyz: 0.0
+
+notes:
+  - "Inertials are v0 placeholders for early simulation stability."
+  - "Replace with CAD-derived inertias when geometry is finalized."
+  - "Maintain frame convention: +X forward, +Y left, +Z up."
