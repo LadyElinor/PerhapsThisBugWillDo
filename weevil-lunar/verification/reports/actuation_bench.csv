@@ -1,0 +1,4 @@
+name,torque_ripple_pct,backlash_deg,push_off_spike_ratio,vacuum_tribology_ok,pass
+bench_nominal,4.2,0.35,0.82,True,True
+bench_loaded,6.8,0.62,0.93,True,True
+bench_endurance,7.4,0.71,0.98,True,True

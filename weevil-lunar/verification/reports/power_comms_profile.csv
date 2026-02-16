@@ -1,0 +1,4 @@
+name,mobility_wh,thermal_survival_wh,available_wh,telemetry_loss_pct,autonomous_continue_ok,pass
+nominal_day,320,60,500,0.2,True,True
+steep_slope,360,70,520,0.5,True,True
+dropout_window,300,80,500,0.9,True,True

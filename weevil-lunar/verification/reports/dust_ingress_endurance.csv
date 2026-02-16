@@ -1,0 +1,4 @@
+cycles,torque_rise_pct,binding_events,pass
+1000,8.5,0,True
+2500,15.2,0,True
+5000,23.9,0,True

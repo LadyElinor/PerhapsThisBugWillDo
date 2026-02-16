@@ -1,0 +1,17 @@
+morphology,terrain,workspace_vol_m3,sinkage_cm,friction_cone_deg,max_shear_N,slope_margin_45,notes
+Ant (speed/throughput),mare,9.312576e-04,0.135,36.79,6.05,0.818,45° slope likely unstable
+Ant (speed/throughput),highland,9.220219e-04,0.434,38.84,6.52,0.863,45° slope likely unstable
+Ant (speed/throughput),mixed,9.206725e-04,0.103,39.52,6.68,0.878,45° slope likely unstable
+Ant (speed/throughput),compacted,9.111460e-04,0.009,45.83,8.33,1.018,—
+Beetle/Weevil (durability),mare,1.465143e-03,0.067,38.56,6.45,0.857,screw coupling (robust routing); 45° slope likely unstable
+Beetle/Weevil (durability),highland,1.472502e-03,0.228,39.69,6.72,0.882,screw coupling (robust routing); 45° slope likely unstable
+Beetle/Weevil (durability),mixed,1.465354e-03,0.051,41.96,7.28,0.932,screw coupling (robust routing); 45° slope likely unstable
+Beetle/Weevil (durability),compacted,1.466580e-03,0.004,50.83,9.93,1.129,screw coupling (robust routing)
+Arachnid (reach/precision),mare,3.353682e-03,0.078,38.06,4.75,0.846,more legs → lower load/leg; 45° slope likely unstable
+Arachnid (reach/precision),highland,3.380234e-03,0.263,39.44,4.99,0.877,more legs → lower load/leg; 45° slope likely unstable
+Arachnid (reach/precision),mixed,3.396807e-03,0.059,41.28,5.33,0.917,more legs → lower load/leg; 45° slope likely unstable
+Arachnid (reach/precision),compacted,3.380830e-03,0.005,49.49,7.10,1.100,more legs → lower load/leg
+Crab (lateral force/stability),mare,3.623615e-04,0.035,41.56,5.38,0.924,more legs → lower load/leg; reduced ROM (stable contact); 45° slope likely unstable
+Crab (lateral force/stability),highland,3.588071e-04,0.126,41.17,5.31,0.915,more legs → lower load/leg; reduced ROM (stable contact); 45° slope likely unstable
+Crab (lateral force/stability),mixed,3.494449e-04,0.027,45.93,6.27,1.021,more legs → lower load/leg; reduced ROM (stable contact)
+Crab (lateral force/stability),compacted,3.561895e-04,0.002,57.74,9.62,1.283,more legs → lower load/leg; reduced ROM (stable contact)

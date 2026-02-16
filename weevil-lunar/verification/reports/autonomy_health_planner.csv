@@ -1,0 +1,5 @@
+name,torque_margin,thermal_margin,friction_index,expected_mode,actual_mode,pass
+healthy_nominal,0.45,0.5,0.3,nominal,nominal,True
+high_friction_guard,0.35,0.4,0.82,steep_slope,steep_slope,True
+low_torque_margin,0.1,0.35,0.4,recovery,recovery,True
+low_thermal_margin,0.28,0.1,0.35,recovery,recovery,True

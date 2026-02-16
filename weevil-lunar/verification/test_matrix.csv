@@ -1,0 +1,8 @@
+requirement_id,test_name,terrain,slope_deg,pass_criteria,status,artifact
+REQ-FOOT-001,test_twist_settle_gain,mare,0,shear_ratio>=1.15,pass,results/GPT/Robotics/weevil_lunar_test_results.md
+REQ-FOOT-004,test_sinkage_limit,mare,0,sinkage_cm<=8.0,pass,results/GPT/Robotics/weevil_lunar_test_results.md
+REQ-FOOT-002;REQ-FOOT-003,test_directional_slope_margin_45deg,mare,45,downslope>=1.05 and lateral>=1.20,fail (baseline),results/GPT/Robotics/weevil_lunar_test_results.md
+REQ-FOOT-002;REQ-FOOT-003,slope_rescue_sweep,mare,45,find feasible geometry+anchoring combo,pass,results/GPT/Robotics/mare_rescue_profile.md
+REQ-FOOT-002;REQ-FOOT-003,slope_rescue_sweep,highland,45,find feasible geometry+anchoring combo,pass,results/GPT/Robotics/weevil_lunar_test_results.md
+REQ-FOOT-002;REQ-FOOT-003,slope_rescue_sweep,mixed,45,find feasible geometry+anchoring combo,pass,results/GPT/Robotics/weevil_lunar_test_results.md
+REQ-FOOT-002;REQ-FOOT-003,slope_rescue_sweep,compacted,45,find feasible geometry+anchoring combo,pass,results/GPT/Robotics/weevil_lunar_test_results.md

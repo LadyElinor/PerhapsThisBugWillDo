@@ -1,0 +1,9 @@
+item_id,subsystem,component,qty,notes
+BOM-001,foot,replaceable foot pad,6,wear component
+BOM-002,foot,directional cleat insert set,6,forward/lateral variants
+BOM-003,locomotion,leg actuator module,18,3 per leg baseline
+BOM-004,actuation,screw-joint transmission set,6,one per leg
+BOM-005,sensing,foot state sensor package,6,preload/slip/penetration proxies
+BOM-006,compute,onboard compute module,1,autonomy + health manager
+BOM-007,thermal,survival heater set,1,night/shadow support
+BOM-008,sealing,labyrinth shield kit,6,joint dust mitigation

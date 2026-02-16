@@ -1,0 +1,12 @@
+# Integrated Gate Check
+
+| class | status | details |
+|---|---|---|
+| mobility | pass | steep_slope_state_machine.csv:pass |
+| foot | pass | steep_slope_state_machine.csv:pass |
+| autonomy | pass | steep_slope_state_machine.csv:pass; autonomy_health_planner.csv:pass |
+| dust | pass | dust_ingress_endurance.csv:pass |
+| thermal | pass | thermal_vac_cycle.csv:pass |
+| actuation | pass | actuation_bench.csv:pass |
+| power | pass | power_comms_profile.csv:pass |
+| comms | pass | power_comms_profile.csv:pass |

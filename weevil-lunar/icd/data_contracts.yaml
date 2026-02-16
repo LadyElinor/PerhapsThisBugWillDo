@@ -1,0 +1,29 @@
+foot_state:
+  foot_id: string
+  anchored: boolean
+  preload_N: number
+  slip_ratio: number
+  penetration_depth_cm: number
+  margin_downslope: number
+  margin_lateral: number
+
+terrain_patch:
+  regolith_class:
+    type: string
+    enum: [mare, highland, mixed, compacted]
+  slope_deg: number
+  confidence: number
+
+health_state:
+  joint_torque_margin: number
+  thermal_margin: number
+  actuator_friction_index: number
+  degraded_mode: boolean
+
+locomotion_command:
+  gait_mode:
+    type: string
+    enum: [nominal, steep_slope, recovery]
+  target_velocity_mps: number
+  duty_factor: number
+  preload_schedule: object
