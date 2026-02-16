@@ -27,3 +27,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Local assistant memory (never publish)
+memory/
