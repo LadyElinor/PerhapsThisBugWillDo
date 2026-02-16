@@ -1,0 +1,18 @@
+alias,value,unit,notes
+stance_height_mm,180,mm,Nominal body-to-ground stance height
+coxa_shaft_diameter_mm,12,mm,Coxa yaw shaft diameter
+coxa_yaw_min_deg,-60,deg,Coxa yaw lower limit
+coxa_yaw_max_deg,60,deg,Coxa yaw upper limit
+femur_link_length_mm,50,mm,Femur center-to-center length
+femur_pitch_min_deg,-90,deg,Femur pitch lower limit
+femur_pitch_max_deg,45,deg,Femur pitch upper limit
+tibia_pitch_mm_per_rev,13.5,mm/rev,Helical screw lead/pitch
+tibia_stroke_mm,35,mm,Nominal tibia stroke
+tibia_rotation_range_deg,120,deg,Allowed tibia rotation range
+foot_radius_mm,80,mm,Nominal foot radius
+foot_pad_thickness_mm,6,mm,Compliant pad thickness
+cleat_forward_gain,1.5,ratio,Directional traction gain forward
+cleat_lateral_gain,1.8,ratio,Directional traction gain lateral
+cleat_rake_forward_deg,38,deg,Forward quadrant rake angle
+cleat_rake_lateral_deg,60,deg,Lateral quadrant rake angle
+cleat_engage_threshold_N,50,N,Preload threshold to engage anchoring
