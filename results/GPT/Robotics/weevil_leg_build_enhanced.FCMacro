@@ -1,0 +1,337 @@
+# -*- coding: utf-8 -*-
+"""
+weevil_leg_build_enhanced.FCMacro
+
+Updated Weevil-Lunar leg macro with v0.3+ refinements:
+- Supports canonical schema (coxa/femur/tibia_screw/foot)
+- Supports legacy schema (thigh/shin/foot)
+- Adds proximal gimbal proportions/axis cues
+- Adds TFJ compliance spring visualization
+- Adds directional cleat layout (forward vs lateral emphasis)
+
+This macro is for CAD scaffolding only (not FEM mesh import).
+"""
+
+import os
+import math
+import FreeCAD as App
+import Part
+
+YAML_CANDIDATES = [
+    r"C:/Users/arren/.openclaw/workspace/results/GPT/Robotics/weevil_leg_params.yaml",
+    r"C:/Users/arren/.openclaw/workspace/weevil-lunar/cad/weevil_leg_params.yaml",
+]
+
+
+def _pick_yaml_path():
+    for p in YAML_CANDIDATES:
+        if os.path.exists(p):
+            return p
+    raise FileNotFoundError("No YAML params file found. Checked: {}".format(", ".join(YAML_CANDIDATES)))
+
+
+def _load_yaml(path):
+    try:
+        import yaml
+    except Exception:
+        raise RuntimeError("PyYAML missing in FreeCAD Python environment.")
+    with open(path, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    if not isinstance(data, dict):
+        raise ValueError("YAML did not parse to dict: {}".format(path))
+    return data
+
+
+def _num(v, name):
+    if v is None:
+        raise ValueError("Missing numeric value: {}".format(name))
+    return float(v)
+
+
+def _safe_get(d, k, default):
+    if not isinstance(d, dict):
+        return default
+    return d.get(k, default)
+
+
+def _normalize(params):
+    keys = set(params.keys())
+
+    # Canonical v0.3(+)
+    if {"coxa", "femur", "tibia_screw", "foot"}.issubset(keys):
+        coxa = params["coxa"]
+        femur = params["femur"]
+        tibia = params["tibia_screw"]
+        foot = params["foot"]
+        pg = params.get("proximal_gimbal", {})
+        tfj = params.get("tfj_compliance", {})
+        gait = params.get("gait_phase", {})
+        coup = params.get("coupling", {})
+
+        femur_len = _num(femur.get("link_length_mm"), "femur.link_length_mm")
+        tibia_len = max(15.0, _num(tibia.get("stroke_mm"), "tibia_screw.stroke_mm"))
+        foot_r = _num(foot.get("radius_mm"), "foot.radius_mm")
+        total_leg = max(1.0, femur_len + tibia_len + foot_r * 0.25)
+
+        return {
+            "schema": "v0.3",
+            "coxa_d": _num(coxa.get("shaft_diameter_mm"), "coxa.shaft_diameter_mm"),
+            "femur_len": femur_len,
+            "tibia_len": tibia_len,
+            "foot_r": foot_r,
+            "foot_t": _num(foot.get("pad_thickness_mm"), "foot.pad_thickness_mm"),
+            "cleat_forward_gain": float(_safe_get(foot, "cleat_forward_gain", 1.5)),
+            "cleat_lateral_gain": float(_safe_get(foot, "cleat_lateral_gain", 1.8)),
+            "cleat_rake_fwd": float(_safe_get(foot, "cleat_rake_forward_deg", 38.0)),
+            "cleat_rake_lat": float(_safe_get(foot, "cleat_rake_lateral_deg", 60.0)),
+            "coxa_ratio_target": float(_safe_get(pg, "coxa_length_ratio_target", 0.10)),
+            "trochanter_ratio_target": float(_safe_get(pg, "trochanter_length_ratio_target", 0.08)),
+            "axis_ortho_deg": float(_safe_get(pg, "axis_orthogonality_target_deg", 90.0)),
+            "tfj_enabled": bool(_safe_get(tfj, "enabled", True)),
+            "tfj_k": float(_safe_get(tfj, "torsion_spring_k_Nm_per_rad", 18.0)),
+            "tfj_c": float(_safe_get(tfj, "damping_c_Nms_per_rad", 0.9)),
+            "contact_z_threshold_mm": float(_safe_get(gait, "contact_z_threshold_mm", 2.5)),
+            "offplane_index_limit": float(_safe_get(coup, "offplane_index_limit", 0.35)),
+            "total_leg_len": total_leg,
+        }
+
+    # Legacy
+    if {"thigh", "shin", "foot"}.issubset(keys):
+        thigh = params["thigh"]
+        shin = params["shin"]
+        foot = params["foot"]
+        thigh_r = _num(thigh.get("radius", 25.0), "thigh.radius")
+        femur_len = _num(thigh.get("length", 300.0), "thigh.length")
+        tibia_len = _num(shin.get("length", 300.0), "shin.length")
+        foot_r = max(25.0, 0.5 * _num(foot.get("length", 150.0), "foot.length"))
+        total_leg = max(1.0, femur_len + tibia_len + foot_r * 0.25)
+
+        return {
+            "schema": "legacy",
+            "coxa_d": max(8.0, 0.48 * thigh_r),
+            "femur_len": femur_len,
+            "tibia_len": tibia_len,
+            "foot_r": foot_r,
+            "foot_t": _num(foot.get("height", 20.0), "foot.height"),
+            "cleat_forward_gain": 1.5,
+            "cleat_lateral_gain": 1.8,
+            "cleat_rake_fwd": 38.0,
+            "cleat_rake_lat": 60.0,
+            "coxa_ratio_target": 0.10,
+            "trochanter_ratio_target": 0.08,
+            "axis_ortho_deg": 90.0,
+            "tfj_enabled": True,
+            "tfj_k": 18.0,
+            "tfj_c": 0.9,
+            "contact_z_threshold_mm": 2.5,
+            "offplane_index_limit": 0.35,
+            "total_leg_len": total_leg,
+        }
+
+    raise KeyError("Unsupported schema. Found top-level keys: {}".format(sorted(list(keys))))
+
+
+def _add_feature(doc, name, shape):
+    obj = doc.addObject("Part::Feature", name)
+    obj.Shape = shape
+    return obj
+
+
+def _make_coxa_with_screw_hint(coxa_d, coxa_len):
+    shaft = Part.makeCylinder(coxa_d * 0.5, coxa_len, App.Vector(0, 0, 0), App.Vector(1, 0, 0))
+    turns = max(4, int(coxa_len / max(2.0, coxa_d * 0.75)))
+    out = shaft
+    for i in range(turns):
+        x = (i + 0.5) * (coxa_len / turns)
+        ridge = Part.makeTorus(coxa_d * 0.52, max(0.4, coxa_d * 0.03), App.Vector(x, 0, 0), App.Vector(1, 0, 0))
+        out = out.fuse(ridge)
+    return out
+
+
+def _make_knee_with_grooves(center, base_r, width, groove_n=8):
+    base = Part.makeCylinder(base_r, width, center, App.Vector(0, 0, 1))
+    groove_r = max(0.8, base_r * 0.12)
+    cut = base
+    for i in range(groove_n):
+        ang = (360.0 / groove_n) * i
+        ax = App.Rotation(App.Vector(0, 0, 1), ang).multVec(App.Vector(1, 0, 0))
+        origin = center + App.Vector(0, 0, width * 0.25)
+        g = Part.makeCylinder(groove_r, base_r * 2.2, origin - ax * (base_r * 1.1), ax)
+        cut = cut.cut(g)
+    return cut
+
+
+def _make_tfj_spring(center, height, radius, wire_r, turns):
+    # Helix edge + profile circle -> swept spring solid.
+    helix = Part.makeHelix(max(2.0, height / max(1, turns)), height, radius, 0)
+    profile = Part.makeCircle(wire_r, App.Vector(radius, 0, 0), App.Vector(0, 1, 0))
+    profile_wire = Part.Wire(profile)
+    try:
+        spring = profile_wire.makePipeShell([helix], True, True)
+    except Exception:
+        # fallback tube if sweep is unavailable
+        spring = Part.makeTorus(radius, wire_r, center, App.Vector(0, 0, 1))
+        return spring
+    spring.translate(center)
+    return spring
+
+
+def _cleat_counts(forward_gain, lateral_gain):
+    forward = max(5, min(8, int(round(4 + 2 * forward_gain))))
+    lateral = max(8, min(14, int(round(6 + 3 * lateral_gain))))
+    rear = max(3, int(round(0.5 * forward)))
+    return forward, lateral, rear
+
+
+def _add_directional_cleats(doc, coxa_len, foot_z_top, foot_r, foot_t, f_gain, l_gain):
+    f_count, l_count, r_count = _cleat_counts(f_gain, l_gain)
+    cleat_h = max(2.5, foot_t * 0.9)
+    cleat_r = max(1.2, foot_r * 0.035)
+    z = foot_z_top + foot_t
+
+    def place(angle_deg, idx_name):
+        a = math.radians(angle_deg)
+        rad = foot_r * 0.8
+        x = coxa_len + rad * math.cos(a)
+        y = rad * math.sin(a)
+        c = Part.makeCone(cleat_r * 0.7, cleat_r, cleat_h, App.Vector(x, y, z), App.Vector(0, 0, 1))
+        _add_feature(doc, idx_name, c)
+
+    # Forward sector: -45..+45
+    if f_count > 1:
+        for i in range(f_count):
+            a = -45.0 + 90.0 * (i / float(f_count - 1))
+            place(a, "CleatF{:02d}".format(i + 1))
+
+    # Lateral sectors: +45..+135 and -45..-135
+    if l_count > 1:
+        half = l_count // 2
+        for i in range(half):
+            a = 45.0 + 90.0 * (i / float(max(1, half - 1)))
+            place(a, "CleatLp{:02d}".format(i + 1))
+        for i in range(l_count - half):
+            a = -45.0 - 90.0 * (i / float(max(1, l_count - half - 1)))
+            place(a, "CleatLn{:02d}".format(i + 1))
+
+    # Rear sector: +135..+225
+    if r_count > 1:
+        for i in range(r_count):
+            a = 135.0 + 90.0 * (i / float(r_count - 1))
+            place(a, "CleatR{:02d}".format(i + 1))
+
+
+def build(doc, p):
+    coxa_d = p["coxa_d"]
+    femur_len = p["femur_len"]
+    tibia_len = p["tibia_len"]
+    foot_r = p["foot_r"]
+    foot_t = p["foot_t"]
+
+    total_leg = p["total_leg_len"]
+    coxa_len = max(20.0, p["coxa_ratio_target"] * total_leg)
+    trochanter_len = max(8.0, p["trochanter_ratio_target"] * total_leg)
+
+    femur_r = max(6.0, 0.14 * coxa_d)
+    tibia_r = max(5.0, 0.12 * coxa_d)
+
+    # Coxa and trochanter (proximal gimbal chain cue)
+    _add_feature(doc, "Coxa", _make_coxa_with_screw_hint(coxa_d, coxa_len))
+
+    trochanter_origin = App.Vector(coxa_len, 0, 0)
+    trochanter_shape = Part.makeCylinder(max(0.35 * coxa_d, 4.0), trochanter_len, trochanter_origin, App.Vector(0, 1, 0))
+    _add_feature(doc, "Trochanter", trochanter_shape)
+
+    # Femur downward (-Z) from trochanter end
+    femur_origin = App.Vector(coxa_len, trochanter_len, 0)
+    femur_shape = Part.makeCylinder(femur_r, femur_len, femur_origin, App.Vector(0, 0, -1))
+    _add_feature(doc, "Femur", femur_shape)
+
+    # Knee groove collar at femur-tibia transition
+    knee_center = App.Vector(coxa_len, trochanter_len, -femur_len - 4.0)
+    _add_feature(doc, "KneeGrooveCollar", _make_knee_with_grooves(knee_center, max(8.0, femur_r * 1.5), 8.0, groove_n=8))
+
+    # TFJ compliance spring visual
+    if p["tfj_enabled"]:
+        tfj_h = max(8.0, min(18.0, 6.0 + 0.4 * p["tfj_k"]))
+        tfj_radius = max(3.0, femur_r * 0.85)
+        tfj_wire = max(0.6, 0.25 + 0.15 * p["tfj_c"])
+        tfj_turns = 6
+        spring_center = App.Vector(coxa_len + tfj_radius, trochanter_len, -femur_len + 2.0)
+        _add_feature(doc, "TFJ_ComplianceSpring", _make_tfj_spring(spring_center, tfj_h, tfj_radius, tfj_wire, tfj_turns))
+
+    # Tibia
+    tibia_origin = App.Vector(coxa_len, trochanter_len, -femur_len)
+    tibia_shape = Part.makeCylinder(tibia_r, tibia_len, tibia_origin, App.Vector(0, 0, -1))
+    _add_feature(doc, "Tibia", tibia_shape)
+
+    # Foot pad
+    foot_origin = App.Vector(coxa_len, trochanter_len, -femur_len - tibia_len - foot_t)
+    foot_shape = Part.makeCylinder(foot_r, foot_t, foot_origin, App.Vector(0, 0, 1))
+    _add_feature(doc, "FootPad", foot_shape)
+
+    # Tarsus segmented pads (forward chain)
+    seg_n = 3
+    seg_len = max(20.0, foot_r * 0.45)
+    seg_w = max(10.0, foot_r * 0.35)
+    seg_h = max(4.0, foot_t * 0.8)
+    z0 = -femur_len - tibia_len - foot_t - seg_h
+
+    for i in range(seg_n):
+        x = coxa_len - seg_len * 0.5 + i * (seg_len * 0.35)
+        y = trochanter_len - seg_w * 0.5 + (i % 2) * (seg_w * 0.1)
+        seg = Part.makeBox(seg_len, seg_w, seg_h, App.Vector(x, y, z0 - i * (seg_h * 0.45)))
+        _add_feature(doc, "TarsusSeg{}".format(i + 1), seg)
+
+    # Directional cleat ring (anisotropy mapping)
+    _add_directional_cleats(doc, coxa_len, z0 + seg_h, foot_r, foot_t, p["cleat_forward_gain"], p["cleat_lateral_gain"])
+
+    # Gimbal axis markers (orthogonality cue)
+    axis_len = max(12.0, 0.35 * coxa_len)
+    coxa_axis = Part.makeCylinder(max(0.7, coxa_d * 0.08), axis_len, App.Vector(0, 0, 0), App.Vector(1, 0, 0))
+    tro_axis = Part.makeCylinder(max(0.7, coxa_d * 0.08), axis_len, App.Vector(coxa_len, 0, 0), App.Vector(0, 1, 0))
+    _add_feature(doc, "AxisMarker_Coxa", coxa_axis)
+    _add_feature(doc, "AxisMarker_Trochanter", tro_axis)
+
+    # Datum + compliance/gait telemetry markers
+    marker_r = max(2.0, 0.12 * coxa_d)
+    datum_a = Part.makeSphere(marker_r, App.Vector(coxa_len, trochanter_len, -femur_len - tibia_len))
+    datum_b = Part.makeSphere(marker_r, App.Vector(coxa_len * 0.5, 0, 0))
+    _add_feature(doc, "Datum_A_FootPlane_Marker", datum_a)
+    _add_feature(doc, "Datum_B_CoxaAxis_Marker", datum_b)
+
+    contact_marker_h = max(1.0, p["contact_z_threshold_mm"])
+    contact_marker = Part.makeCylinder(max(0.8, marker_r * 0.35), contact_marker_h, App.Vector(coxa_len + foot_r * 0.2, trochanter_len, -femur_len - tibia_len), App.Vector(0, 0, 1))
+    _add_feature(doc, "Gait_ContactZThreshold_Marker", contact_marker)
+
+    offplane_bar = Part.makeBox(max(6.0, 40.0 * p["offplane_index_limit"]), max(1.2, marker_r * 0.5), max(1.2, marker_r * 0.5), App.Vector(coxa_len - foot_r * 0.5, trochanter_len + foot_r * 0.7, -femur_len * 0.15))
+    _add_feature(doc, "Coupling_OffplaneLimit_Bar", offplane_bar)
+
+
+def main():
+    try:
+        yaml_path = _pick_yaml_path()
+        raw = _load_yaml(yaml_path)
+        p = _normalize(raw)
+
+        App.Console.PrintMessage("Using YAML: {}\n".format(yaml_path))
+        App.Console.PrintMessage("Detected schema: {}\n".format(p["schema"]))
+        App.Console.PrintMessage("TFJ compliance enabled: {} (k={}, c={})\n".format(p["tfj_enabled"], p["tfj_k"], p["tfj_c"]))
+
+        doc = App.ActiveDocument if App.ActiveDocument else App.newDocument("EnhancedWeevilLeg_v03")
+        build(doc, p)
+        doc.recompute()
+
+        try:
+            import FreeCADGui as Gui
+            Gui.SendMsgToActiveView("ViewFit")
+        except Exception:
+            pass
+
+        App.Console.PrintMessage("Enhanced Weevil leg geometry created successfully.\n")
+    except Exception as e:
+        App.Console.PrintError("weevil_leg_build_enhanced failed: {}\n".format(e))
+        raise
+
+
+if __name__ == "__main__":
+    main()
