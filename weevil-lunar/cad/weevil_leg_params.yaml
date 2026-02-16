@@ -39,6 +39,29 @@ foot:
   cleat_rake_lateral_deg: 60.0
   cleat_engage_threshold_N: 50.0
 
+proximal_gimbal:
+  coxa_length_ratio_target: 0.10
+  coxa_length_ratio_max: 0.15
+  trochanter_length_ratio_target: 0.08
+  trochanter_length_ratio_max: 0.10
+  axis_orthogonality_target_deg: 90.0
+  axis_orthogonality_tolerance_deg: 15.0
+
+tfj_compliance:
+  enabled: true
+  torsion_spring_k_Nm_per_rad: 18.0
+  damping_c_Nms_per_rad: 0.9
+  neutral_angle_deg: 0.0
+  reduction_range_deg: 20.0
+
+gait_phase:
+  contact_z_threshold_mm: 2.5
+  min_stance_fraction: 0.45
+  max_stance_fraction: 0.75
+
+coupling:
+  offplane_index_limit: 0.35
+
 urdf_defaults:
   mass_kg:
     coxa: 0.8

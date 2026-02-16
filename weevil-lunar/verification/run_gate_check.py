@@ -10,13 +10,17 @@ from pathlib import Path
 REPORTS = {
     "mobility": [
         "steep_slope_state_machine.csv",
+        "duty_cycle_cadence_envelope.csv",
+        "offplane_impulse_recovery.csv",
     ],
     "foot": [
         "steep_slope_state_machine.csv",
+        "offplane_coupling_index.csv",
     ],
     "autonomy": [
         "steep_slope_state_machine.csv",
         "autonomy_health_planner.csv",
+        "stance_phase_detection.csv",
     ],
     "dust": [
         "dust_ingress_endurance.csv",
@@ -32,6 +36,15 @@ REPORTS = {
     ],
     "comms": [
         "power_comms_profile.csv",
+    ],
+    "gait_phase": [
+        "stance_phase_detection.csv",
+        "duty_cycle_cadence_envelope.csv",
+    ],
+    "coupling": [
+        "offplane_coupling_index.csv",
+        "offplane_impulse_recovery.csv",
+        "axis_orthogonality_sensitivity.csv",
     ],
 }
 
