@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/weevil-lunar/cad/exports/receipt.schema.json",
+  "title": "Weevil Lunar Export Receipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "timestamp_utc",
+    "git_commit_hash",
+    "yaml_version",
+    "interface_version",
+    "params_hash_sha256",
+    "exported_files",
+    "freecad_version",
+    "exporter_tool",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "timestamp_utc": { "type": "string", "format": "date-time" },
+    "git_commit_hash": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "yaml_version": { "type": "string", "pattern": "^v[0-9]+\\.[0-9]+$" },
+    "interface_version": { "type": "string", "pattern": "^v[0-9]+\\.[0-9]+$" },
+    "params_hash_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "exporter_tool": { "type": "string" },
+    "freecad_version": { "type": "string" },
+    "exported_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "format", "sha256"],
+        "properties": {
+          "path": { "type": "string" },
+          "format": { "enum": ["AP242", "STEP", "URDF", "STL", "CSV"] },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "total_artifact_count": { "type": "integer", "minimum": 1 },
+    "total_artifact_size_bytes": { "type": "integer", "minimum": 1 },
+    "notes": { "type": "string", "minLength": 10 }
+  }
+}

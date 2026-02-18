@@ -1,0 +1,60 @@
+name: validate-and-benchmark
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate-and-bench:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate YAML schema/ranges
+        run: python cad/scripts/validate_weevil_leg_params.py
+
+      - name: Regenerate FreeCAD CSVs
+        run: python cad/scripts/generate_csvs_from_yaml.py
+
+      - name: Detect CSV drift
+        run: |
+          git add cad/freecad_spreadsheet_template.csv cad/phase2_template_aliases.csv
+          git diff --cached --quiet || (echo "CSV drift detected: commit regenerated CSVs." && exit 1)
+
+      - name: Run benchmark
+        run: python verification/benchmark_runner.py
+
+      - name: Check benchmark regression
+        run: python verification/check_benchmark_regression.py
+
+      - name: Check export receipt gate (main/tag only)
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+        run: python verification/check_export_receipt.py --receipt cad/exports/latest/export_receipt_v0.4.json --max-age-days 7
+
+      - name: Upload benchmark artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-comparison
+          path: verification/reports/benchmark_comparison.csv
+          retention-days: 7
+
+      - name: Upload export receipt artifact
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+        uses: actions/upload-artifact@v4
+        with:
+          name: export-receipt-v0.4
+          path: |
+            cad/exports/latest/export_receipt_v0.4.json
+            cad/exports/latest/export_receipt_latest.json
+            cad/exports/receipt.schema.json
+          retention-days: 7

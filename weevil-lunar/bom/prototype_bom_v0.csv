@@ -1,0 +1,13 @@
+tier,subsystem,component,qty,unit,vendor_or_source,part_number,alt_part_number,est_lead_time_days,unit_cost_usd,notes
+prototype,structure,coxa housing blank,6,ea,TBD,TBD,TBD,14,0.0,"Machine to 12.0 mm shaft interface"
+prototype,structure,femur link body,6,ea,TBD,TBD,TBD,14,0.0,"Nominal 50 mm center distance"
+prototype,actuation,BLDC actuator (~50W),6,ea,TBD,TBD,TBD,21,0.0,"From coxa suggested motor note"
+prototype,actuation,reduction stage (~80:1),6,ea,TBD,TBD,TBD,21,0.0,"Gear ratio target from params"
+prototype,actuation,helical screw set (13.5 mm/rev),6,ea,TBD,TBD,TBD,21,0.0,"Tibia screw nominal"
+prototype,actuation,recirculating nut carriage,6,ea,TBD,TBD,TBD,21,0.0,"Preferred low-stiction implementation"
+prototype,bearings,dual angular contact pair,6,pair,TBD,TBD,TBD,14,0.0,"Femur bearing type from params"
+prototype,foot,foot pad (80 mm radius),6,ea,TBD,TBD,TBD,10,0.0,"Pad thickness nominal 6 mm"
+prototype,foot,directional cleat insert set,6,set,TBD,TBD,TBD,10,0.0,"Forward/lateral gains 1.5/1.8"
+prototype,fasteners,metric fastener kit (M2/M3),1,kit,TBD,TBD,TBD,7,0.0,"Prototype assortment"
+prototype,sensing,foot preload/slip sensor package,6,ea,TBD,TBD,TBD,14,0.0,"Bench observability"
+prototype,thermal,sealing labyrinth set,6,set,TBD,TBD,TBD,14,0.0,"Dust mitigation for joint ingress"

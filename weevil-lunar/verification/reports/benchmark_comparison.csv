@@ -1,0 +1,4 @@
+scenario,original_traction_n,patched_traction_n,original_success,patched_success
+flat,6.6757,6.7847,True,True
+slope_25deg,6.6757,6.7847,True,True
+sinkage_recovery,6.6757,6.7847,True,True
