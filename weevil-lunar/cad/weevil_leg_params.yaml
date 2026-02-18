@@ -62,6 +62,30 @@ gait_phase:
 coupling:
   offplane_index_limit: 0.35
 
+mobility:
+  mode_default: "quasi_static"
+  virtual_rocker_bogie_enabled: true
+  tilt_warn_deg: 25.0
+  tilt_hard_limit_deg: 30.0
+
+thermal:
+  warm_electronics_core_enabled: true
+  radiator_area_m2: 0.18
+  insulation_stack: "MLI-equivalent + structural conduction spine"
+  dust_thermal_boundary: "labyrinth_or_sealed_pods"
+
+power:
+  hybrid_profile_enabled: true
+  day_energy_available_Wh: 520.0
+  night_survival_load_Wh: 180.0
+  recovery_reserve_Wh: 40.0
+  dust_derate_factor: 0.78
+
+sensing:
+  mast_stereo_nav_enabled: true
+  leg_slip_observability_enabled: true
+  watchdog_enabled: true
+
 urdf_defaults:
   mass_kg:
     coxa: 0.8

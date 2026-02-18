@@ -1,0 +1,4 @@
+artifact,exists,age_hours,fresh_lte_168h,pass
+cad/export/Phase2_Templates.FCStd,True,0.02,True,True
+cad/export/weevil_leg_module_ap242.step,True,0.02,True,True
+cad/export/phase2_export_receipt.md,True,0.02,True,True

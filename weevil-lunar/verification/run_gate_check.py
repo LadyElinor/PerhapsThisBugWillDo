@@ -12,6 +12,7 @@ REPORTS = {
         "steep_slope_state_machine.csv",
         "duty_cycle_cadence_envelope.csv",
         "offplane_impulse_recovery.csv",
+        "rover_informed_profile.csv",
     ],
     "foot": [
         "steep_slope_state_machine.csv",
@@ -27,15 +28,18 @@ REPORTS = {
     ],
     "thermal": [
         "thermal_vac_cycle.csv",
+        "rover_informed_profile.csv",
     ],
     "actuation": [
         "actuation_bench.csv",
     ],
     "power": [
         "power_comms_profile.csv",
+        "rover_informed_profile.csv",
     ],
     "comms": [
         "power_comms_profile.csv",
+        "rover_informed_profile.csv",
     ],
     "gait_phase": [
         "stance_phase_detection.csv",
@@ -45,6 +49,10 @@ REPORTS = {
         "offplane_coupling_index.csv",
         "offplane_impulse_recovery.csv",
         "axis_orthogonality_sensitivity.csv",
+    ],
+    "cad_phase2": [
+        "phase2_cad_artifacts.csv",
+        "phase2_export_bundle.csv",
     ],
 }
 

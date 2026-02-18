@@ -8,6 +8,9 @@ Define baseline power/comms requirements supporting autonomy-first lunar mobilit
 - REQ-PWR-002: Power budgeting shall include thermal survival loads.
 - REQ-COMMS-001: Vehicle shall tolerate delayed/intermittent comms with autonomous continuation.
 - REQ-COMMS-002: Telemetry buffering shall preserve health and mobility logs during dropouts.
+- REQ-PWR-003: Mission budget shall include dust-derated generation and explicit reserve for recovery-mode retries.
+- REQ-PWR-004: Day/night profile shall maintain positive energy margin over configured mission timeline assumptions.
+- REQ-COMMS-003: Health and fault telemetry shall be retained across comm dropouts and surfaced after link restore.
 
 ## Design notes
 - Separate mobility and survival power accounting
