@@ -34,6 +34,8 @@
 - REQ-AUTO-001: Controller shall gate push-off behind anchoring state confirmation for steep slopes.
 - REQ-DUST-001: Interfaces shall be dust-hardened for repeated regolith contact cycles.
 - REQ-THERM-001: Thermal architecture shall keep critical electronics/actuators in operating band.
+- REQ-CAD-001: CAD package shall include parameterized phase-2 fixture integration artifacts and export scaffolding for reproducible AP242/URDF bundle generation.
+- REQ-CAD-002: Export bundle shall include FCStd/AP242/receipt artifacts with freshness evidence for release closeout.
 
 ## 5. Current evidence baseline
 From v0.3 directional rescue sweep:

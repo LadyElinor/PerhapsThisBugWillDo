@@ -13,6 +13,8 @@ Define gait modes, stability targets, and slope behaviors for Weevil-Lunar mobil
 - REQ-LOCO-002: System shall switch to steep-slope mode above slope threshold (default 25°).
 - REQ-LOCO-003: Push-off shall be blocked unless anchoring criteria are satisfied in steep-slope mode.
 - REQ-LOCO-004: Recovery mode shall support at least one-step retreat from failed foothold state.
+- REQ-LOCO-005: Controller shall support a virtual rocker-bogie coordination profile to reduce body pitch/roll during uneven contact.
+- REQ-LOCO-006: Mobility controller shall enforce a hard tilt safety cap of 30° (warn at 25°) during autonomous traverse.
 
 ## Control parameters (initial)
 - duty_factor_nominal: 0.65
