@@ -1,0 +1,87 @@
+# -*- coding: utf-8 -*-
+"""
+Phase2_ViewCleanup.FCMacro
+- Hides scaffold/seed bodies
+- Shows Geo_* parts
+- Applies display mode + colors
+- Fits view
+"""
+
+import FreeCAD as App
+import FreeCADGui as Gui
+
+
+def get_doc():
+    doc = App.ActiveDocument
+    if doc is None:
+        raise RuntimeError("No active document")
+    return doc
+
+
+def set_vis(obj, visible):
+    try:
+        obj.ViewObject.Visibility = visible
+    except Exception:
+        pass
+
+
+def set_style(obj, color=(0.8, 0.8, 0.8), mode="Shaded"):
+    try:
+        vo = obj.ViewObject
+        vo.DisplayMode = mode
+        vo.ShapeColor = color
+        vo.LineColor = (0.15, 0.15, 0.15)
+        vo.PointColor = (0.1, 0.1, 0.1)
+        vo.LineWidth = 1.5
+    except Exception:
+        pass
+
+
+def main():
+    doc = get_doc()
+
+    hide_prefixes = (
+        "Body_",
+        "Datum_",
+        "SeedBox",
+        "Params",
+    )
+
+    # Hide scaffolding
+    for obj in doc.Objects:
+        name = obj.Name
+        if name.startswith(hide_prefixes) or "Datum" in name:
+            set_vis(obj, False)
+
+    # Show and color geometry parts
+    palette = {
+        "Geo_SplineAdapter": (0.88, 0.62, 0.20),
+        "Geo_PivotFlange": (0.50, 0.65, 0.95),
+        "Geo_ServoMount": (0.35, 0.78, 0.45),
+        "Geo_RightAngleMount": (0.92, 0.45, 0.45),
+        "Geo_ActuationLever25": (0.70, 0.55, 0.90),
+    }
+
+    for name, color in palette.items():
+        obj = doc.getObject(name)
+        if obj is not None:
+            set_vis(obj, True)
+            set_style(obj, color=color, mode="Shaded")
+
+    # Optional: transparency for quick inspection
+    # for name in palette:
+    #     obj = doc.getObject(name)
+    #     if obj:
+    #         obj.ViewObject.Transparency = 0
+
+    try:
+        Gui.activeDocument().activeView().viewAxonometric()
+        Gui.SendMsgToActiveView("ViewFit")
+    except Exception:
+        pass
+
+    App.Console.PrintMessage("View cleanup applied: showing Geo_* only.\n")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,68 @@
+# -*- coding: utf-8 -*-
+"""
+Phase2_Export.FCMacro
+Export helper for Phase2 templates and assembly state.
+
+Run in FreeCAD after Phase2_Templates.FCMacro and geometry authoring are complete.
+"""
+
+import os
+import FreeCAD as App
+import ImportGui
+
+EXPORT_DIR = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\export"
+STEP_PATH = os.path.join(EXPORT_DIR, "weevil_leg_module_ap242.step")
+FCSTD_PATH = os.path.join(EXPORT_DIR, "Phase2_Templates.FCStd")
+RECEIPT_PATH = os.path.join(EXPORT_DIR, "phase2_export_receipt.md")
+
+
+def main():
+    doc = App.ActiveDocument
+    if doc is None:
+        raise RuntimeError("No active document. Open/build Phase2_Templates first.")
+
+    os.makedirs(EXPORT_DIR, exist_ok=True)
+
+    # save document snapshot
+    doc.saveAs(FCSTD_PATH)
+
+    # export only objects that have a valid non-null Shape (skip spreadsheet/datums/null bodies)
+    export_objs = []
+    for o in doc.Objects:
+        try:
+            shape = getattr(o, "Shape", None)
+            if shape is None:
+                continue
+            if hasattr(shape, "isNull") and shape.isNull():
+                continue
+            export_objs.append(o)
+        except Exception:
+            continue
+
+    if not export_objs:
+        raise RuntimeError("No valid shaped objects to export. Run Phase2_SeedGeometry.FCMacro or create template solids first.")
+
+    ImportGui.export(export_objs, STEP_PATH)
+
+    lines = [
+        "# Phase 2 Export Receipt",
+        "",
+        f"- document: {doc.Name}",
+        f"- fcstd: {FCSTD_PATH}",
+        f"- step: {STEP_PATH}",
+        f"- object_count: {len(doc.Objects)}",
+        f"- exported_count: {len(export_objs)}",
+        "- step_schema: AP242 target (tool-dependent)",
+        "- urdf: update manually in cad/export/weevil_leg_module.urdf (if kinematics changed)",
+    ]
+
+    with open(RECEIPT_PATH, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+    App.Console.PrintMessage(f"Wrote {FCSTD_PATH}\n")
+    App.Console.PrintMessage(f"Wrote {STEP_PATH}\n")
+    App.Console.PrintMessage(f"Wrote {RECEIPT_PATH}\n")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,66 @@
+# -*- coding: utf-8 -*-
+"""
+Phase2_SeedGeometry.FCMacro
+Creates minimal valid solids in each Phase2 body so STEP export has non-null shapes.
+Run after Phase2_Templates.FCMacro.
+"""
+
+import FreeCAD as App
+
+
+def ensure_doc(name="Phase2_Templates"):
+    doc = App.getDocument(name) if name in [d.Name for d in App.listDocuments().values()] else App.ActiveDocument
+    if doc is None:
+        raise RuntimeError("No active/Phase2_Templates document found")
+    App.setActiveDocument(doc.Name)
+    return doc
+
+
+def get_alias(sheet, alias, default):
+    try:
+        return float(sheet.get(alias))
+    except Exception:
+        return float(default)
+
+
+def make_additive_box(body, name, l, w, h):
+    feat = body.getObject(name)
+    if feat is None:
+        feat = body.newObject("PartDesign::AdditiveBox", name)
+    feat.Length = l
+    feat.Width = w
+    feat.Height = h
+    return feat
+
+
+def main():
+    doc = ensure_doc()
+    sheet = doc.getObject("Params")
+
+    # fallback defaults
+    foot_r = get_alias(sheet, "foot_radius_mm", 80)
+    coxa_d = get_alias(sheet, "coxa_shaft_diameter_mm", 12)
+    lever_len = get_alias(sheet, "lever_length_mm", 25)
+    flange_od = get_alias(sheet, "flange_od_mm", 28)
+
+    seeds = [
+        ("Body_SplineAdapter", "SeedBox", max(8.0, coxa_d), max(8.0, coxa_d), 4.0),
+        ("Body_PivotFlange", "SeedBox", max(12.0, flange_od), max(12.0, flange_od), 4.0),
+        ("Body_ServoMount", "SeedBox", 28.0, 20.0, 3.0),
+        ("Body_RightAngleMount", "SeedBox", 24.0, 24.0, 3.0),
+        ("Body_ActuationLever25", "SeedBox", max(12.0, lever_len), 8.0, 3.0),
+    ]
+
+    for body_name, feat_name, l, w, h in seeds:
+        body = doc.getObject(body_name)
+        if body is None:
+            App.Console.PrintWarning(f"Missing body: {body_name}\n")
+            continue
+        make_additive_box(body, feat_name, l, w, h)
+
+    doc.recompute()
+    App.Console.PrintMessage("Seed geometry created for phase2 bodies.\n")
+
+
+if __name__ == "__main__":
+    main()

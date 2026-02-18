@@ -1,0 +1,49 @@
+phase2_integration:
+  version: v0.1
+  mode: optional_fixtures
+  source_examples:
+    - results/GPT/Robotics/MRover/FreeCAD/20T_spline.FCStd
+    - results/GPT/Robotics/MRover/FreeCAD/makerbeam_end_mount_pivot_flange.FCStd
+    - results/GPT/Robotics/MRover/FreeCAD/makerbeam_end_mount_20T_micro_servo.FCStd
+    - results/GPT/Robotics/MRover/FreeCAD/makerbeam_micro_servo_end_angle_mount.FCStd
+    - results/GPT/Robotics/MRover/FreeCAD/makerbeam_end_mount_20T_micro_servo_25mm_arm.FCStd
+  templates:
+    - name: spline_adapter
+      body: Body_SplineAdapter
+      spec: cad/adapters/spline_20T_adapter_template.md
+      target_file: cad/adapters/spline_20T_adapter.FCStd
+      datums: [Datum_B_SplineAxis]
+    - name: pivot_flange
+      body: Body_PivotFlange
+      spec: cad/interfaces/pivot_flange_template.md
+      target_file: cad/interfaces/pivot_flange_template.FCStd
+      datums: [Datum_B_CoxaAxis, Datum_FlangeMountFace]
+    - name: servo_mount
+      body: Body_ServoMount
+      spec: cad/fixtures/servo_mount_template.md
+      target_file: cad/fixtures/servo_mount_template.FCStd
+      datums: [Datum_B_ServoAxis]
+    - name: right_angle_mount
+      body: Body_RightAngleMount
+      spec: cad/fixtures/right_angle_mount_template.md
+      target_file: cad/fixtures/right_angle_mount_template.FCStd
+      datums: [Datum_RA_OrthogonalityCheck]
+    - name: actuation_lever_25
+      body: Body_ActuationLever25
+      spec: cad/fixtures/actuation_lever_25mm_template.md
+      target_file: cad/fixtures/actuation_lever_25mm_template.FCStd
+      datums: [Datum_B_LeverAxis]
+  assembly_hooks:
+    - leg_module_context: Body_Coxa
+      fixture: pivot_flange
+      relation: align Datum_B_CoxaAxis
+    - leg_module_context: Body_Tibia
+      fixture: spline_adapter
+      relation: concentric with actuator axis
+    - leg_module_context: bench_fixture
+      fixture: servo_mount
+      relation: pattern to test rig datum
+  export_targets:
+    ap242_step: cad/export/weevil_leg_module_ap242.step
+    urdf: cad/export/weevil_leg_module.urdf
+    receipt: cad/export/phase2_export_receipt.md

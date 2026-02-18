@@ -1,0 +1,153 @@
+# -*- coding: utf-8 -*-
+"""
+Phase2_BuildAttempt1Geometry.FCMacro
+Builds non-trivial Attempt1 geometry (beyond seed blocks) from Params aliases.
+
+Run this in FreeCAD with Phase2_Templates document open.
+It creates/updates Part::Feature solids:
+- Geo_SplineAdapter
+- Geo_PivotFlange
+- Geo_ServoMount
+- Geo_RightAngleMount
+- Geo_ActuationLever25
+"""
+
+import FreeCAD as App
+import Part
+
+
+def get_doc(name="Phase2_Templates"):
+    if App.ActiveDocument and App.ActiveDocument.Name == name:
+        return App.ActiveDocument
+    for d in App.listDocuments().values():
+        if d.Name == name:
+            App.setActiveDocument(d.Name)
+            return d
+    raise RuntimeError("Open Phase2_Templates.FCStd first")
+
+
+def alias(sheet, name, default):
+    try:
+        return float(sheet.get(name))
+    except Exception:
+        return float(default)
+
+
+def upsert_shape(doc, name, shape):
+    obj = doc.getObject(name)
+    if obj is None:
+        obj = doc.addObject("Part::Feature", name)
+    obj.Shape = shape
+    return obj
+
+
+def build_spline_adapter(sheet):
+    od = alias(sheet, "spline_adapter_od_mm", 10.0)
+    hub_t = alias(sheet, "spline_hub_thickness_mm", 4.0)
+    bore = alias(sheet, "coxa_shaft_diameter_mm", 12.0) * 0.55
+    bcd = alias(sheet, "spline_bolt_circle_mm", 8.0)
+    hole_d = alias(sheet, "spline_bolt_d_mm", 2.0)
+
+    hub = Part.makeCylinder(od * 0.5, hub_t)
+    bore_c = Part.makeCylinder(max(0.5, bore * 0.5), hub_t + 0.2)
+    shape = hub.cut(bore_c)
+
+    # 4 bolt holes on BCD
+    import math
+    for i in range(4):
+        a = math.radians(i * 90)
+        x = (bcd * 0.5) * math.cos(a)
+        y = (bcd * 0.5) * math.sin(a)
+        h = Part.makeCylinder(hole_d * 0.5, hub_t + 0.2, App.Vector(x, y, -0.1))
+        shape = shape.cut(h)
+    return shape
+
+
+def build_pivot_flange(sheet):
+    od = alias(sheet, "flange_od_mm", 28.0)
+    id_ = alias(sheet, "flange_id_mm", 12.2)
+    t = alias(sheet, "flange_thickness_mm", 4.5)
+    bcd = alias(sheet, "flange_bcd_mm", 22.0)
+    n = int(alias(sheet, "flange_hole_count", 4))
+    hd = alias(sheet, "flange_hole_d_mm", 3.2)
+
+    flange = Part.makeCylinder(od * 0.5, t)
+    bore = Part.makeCylinder(max(0.5, id_ * 0.5), t + 0.2)
+    shape = flange.cut(bore)
+
+    import math
+    for i in range(max(1, n)):
+        a = math.radians((360.0 / max(1, n)) * i)
+        x = (bcd * 0.5) * math.cos(a)
+        y = (bcd * 0.5) * math.sin(a)
+        hole = Part.makeCylinder(hd * 0.5, t + 0.2, App.Vector(x, y, -0.1))
+        shape = shape.cut(hole)
+    return shape
+
+
+def build_servo_mount(sheet):
+    w = alias(sheet, "servo_mount_width_mm", 28.0)
+    h = alias(sheet, "servo_mount_height_mm", 32.0)
+    t = alias(sheet, "servo_mount_thickness_mm", 3.0)
+    px = alias(sheet, "servo_hole_pitch_x_mm", 23.0)
+    py = alias(sheet, "servo_hole_pitch_y_mm", 10.0)
+    hd = alias(sheet, "servo_hole_d_mm", 2.2)
+
+    base = Part.makeBox(w, t, h, App.Vector(-w/2, -t/2, 0))
+    ear_l = Part.makeBox(t, 14, h*0.6, App.Vector(-w/2, -7, h*0.2))
+    ear_r = Part.makeBox(t, 14, h*0.6, App.Vector(w/2 - t, -7, h*0.2))
+    shape = base.fuse(ear_l).fuse(ear_r)
+
+    # Servo bolt pattern through base plane (X/Z pattern, Y through thickness)
+    for sx in (-0.5, 0.5):
+        for sz in (-0.5, 0.5):
+            x = sx * px
+            z = h*0.5 + sz * py
+            hole = Part.makeCylinder(hd*0.5, t+0.4, App.Vector(x, -t/2-0.2, z), App.Vector(0,1,0))
+            shape = shape.cut(hole)
+    return shape
+
+
+def build_right_angle_mount(sheet):
+    a = alias(sheet, "ra_leg_a_mm", 30.0)
+    b = alias(sheet, "ra_leg_b_mm", 24.0)
+    t = alias(sheet, "ra_thickness_mm", 3.0)
+    gt = alias(sheet, "ra_gusset_thickness_mm", 2.5)
+
+    leg1 = Part.makeBox(a, t, b, App.Vector(0, 0, 0))
+    leg2 = Part.makeBox(t, a, b, App.Vector(0, 0, 0))
+    gus = Part.makeBox(a*0.45, a*0.45, gt, App.Vector(t, t, b*0.45))
+    return leg1.fuse(leg2).fuse(gus)
+
+
+def build_actuation_lever(sheet):
+    L = alias(sheet, "lever_length_mm", 25.0)
+    W = alias(sheet, "lever_width_mm", 8.0)
+    T = alias(sheet, "lever_thickness_mm", 3.0)
+    hub_d = alias(sheet, "lever_hub_d_mm", 10.0)
+    hub_t = alias(sheet, "lever_hub_thickness_mm", 4.0)
+    tip_hole = alias(sheet, "lever_tip_hole_d_mm", 2.0)
+
+    hub = Part.makeCylinder(hub_d*0.5, hub_t)
+    arm = Part.makeBox(L, W, T, App.Vector(0, -W/2, (hub_t-T)/2))
+    shape = hub.fuse(arm)
+
+    # tip hole (Z axis)
+    tip = Part.makeCylinder(tip_hole*0.5, T+0.4, App.Vector(L-2.5, 0, (hub_t-T)/2-0.2))
+    return shape.cut(tip)
+
+
+def main():
+    doc = get_doc()
+    sheet = doc.getObject("Params")
+    if sheet is None:
+        raise RuntimeError("Params spreadsheet missing. Run Phase2_Templates.FCMacro first.")
+
+    upsert_shape(doc, "Geo_SplineAdapter", build_spline_adapter(sheet)).Placement.Base = App.Vector(-40, 0, 0)
+    upsert_shape(doc, "Geo_PivotFlange", build_pivot_flange(sheet)).Placement.Base = App.Vector(0, 0, 0)
+    upsert_shape(doc, "Geo_ServoMount", build_servo_mount(sheet)).Placement.Base = App.Vector(45, 0, 0)
+    upsert_shape(doc, "Geo_RightAngleMount", build_right_angle_mount(sheet)).Placement.Base = App.Vector(90, 0, 0)
+    upsert_shape(doc, "Geo_ActuationLever25", build_actuation_lever(sheet)).Placement.Base = App.Vector(135, 0, 0)
+
+    doc.recompute()
+    App.Console.PrintMessage("Attempt1 geometry built/updated.\n")

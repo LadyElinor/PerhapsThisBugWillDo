@@ -1,0 +1,158 @@
+# -*- coding: utf-8 -*-
+"""
+Phase2_Templates.FCMacro
+Scaffold document + Params spreadsheet + template bodies/datums for MRover->Weevil phase 2 work.
+
+Usage:
+- Run inside FreeCAD (Macro -> Macros -> Execute)
+- Optionally edit CSV paths below if your workspace differs.
+"""
+
+import csv
+import os
+
+import FreeCAD as App
+import FreeCADGui as Gui
+
+
+BASE_CSV = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\freecad_spreadsheet_template.csv"
+PHASE2_CSV = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\phase2_template_aliases.csv"
+DOC_NAME = "Phase2_Templates"
+
+
+def ensure_doc(name=DOC_NAME):
+    doc = App.getDocument(name) if name in [d.Name for d in App.listDocuments().values()] else None
+    if doc is None:
+        doc = App.newDocument(name)
+    App.setActiveDocument(doc.Name)
+    return doc
+
+
+def ensure_spreadsheet(doc, name="Params"):
+    obj = doc.getObject(name)
+    if obj is None:
+        obj = doc.addObject("Spreadsheet::Sheet", name)
+    return obj
+
+
+def _read_alias_rows(path):
+    rows = []
+    if not os.path.exists(path):
+        App.Console.PrintWarning(f"CSV not found: {path}\n")
+        return rows
+    with open(path, "r", encoding="utf-8", newline="") as f:
+        rdr = csv.DictReader(f)
+        for r in rdr:
+            alias = (r.get("alias") or "").strip()
+            value = (r.get("value") or "").strip()
+            unit = (r.get("unit") or "").strip()
+            notes = (r.get("notes") or "").strip()
+            if alias:
+                rows.append((alias, value, unit, notes))
+    return rows
+
+
+def write_alias_table(sheet, rows, start_row=1):
+    headers = ["alias", "value", "unit", "notes"]
+    for c, h in enumerate(headers):
+        col = chr(ord("A") + c)
+        sheet.set(f"{col}{start_row}", h)
+
+    row_idx = start_row + 1
+    written = 0
+    for alias, value, unit, notes in rows:
+        sheet.set(f"A{row_idx}", alias)
+        sheet.set(f"B{row_idx}", str(value))
+        sheet.set(f"C{row_idx}", unit)
+        sheet.set(f"D{row_idx}", notes)
+
+        # create spreadsheet alias on value cell
+        try:
+            sheet.setAlias(f"B{row_idx}", alias)
+        except Exception as e:
+            App.Console.PrintWarning(f"Alias skipped {alias}: {e}\n")
+
+        row_idx += 1
+        written += 1
+
+    return written, row_idx
+
+
+def ensure_body(doc, name):
+    body = doc.getObject(name)
+    if body is None:
+        body = doc.addObject("PartDesign::Body", name)
+    return body
+
+
+def ensure_datum_axis(doc, body, name):
+    existing = doc.getObject(name)
+    if existing is not None:
+        return existing
+    axis = body.newObject("PartDesign::Line", name)
+    axis.Length = 10.0
+    axis.Placement.Base = App.Vector(0, 0, 0)
+    axis.Placement.Rotation = App.Rotation(App.Vector(0, 0, 1), 0)
+    return axis
+
+
+def ensure_datum_plane(doc, body, name):
+    existing = doc.getObject(name)
+    if existing is not None:
+        return existing
+    plane = body.newObject("PartDesign::Plane", name)
+    plane.Length = 25.0
+    plane.Width = 25.0
+    plane.Placement.Base = App.Vector(0, 0, 0)
+    plane.Placement.Rotation = App.Rotation(App.Vector(1, 0, 0), 0)
+    return plane
+
+
+def scaffold_template_bodies(doc):
+    # adapter
+    b1 = ensure_body(doc, "Body_SplineAdapter")
+    ensure_datum_axis(doc, b1, "Datum_B_SplineAxis")
+
+    # interface
+    b2 = ensure_body(doc, "Body_PivotFlange")
+    ensure_datum_axis(doc, b2, "Datum_B_CoxaAxis")
+    ensure_datum_plane(doc, b2, "Datum_FlangeMountFace")
+
+    # fixtures
+    b3 = ensure_body(doc, "Body_ServoMount")
+    ensure_datum_axis(doc, b3, "Datum_B_ServoAxis")
+
+    b4 = ensure_body(doc, "Body_RightAngleMount")
+    ensure_datum_plane(doc, b4, "Datum_RA_OrthogonalityCheck")
+
+    b5 = ensure_body(doc, "Body_ActuationLever25")
+    ensure_datum_axis(doc, b5, "Datum_B_LeverAxis")
+
+
+def main():
+    doc = ensure_doc(DOC_NAME)
+    sheet = ensure_spreadsheet(doc, "Params")
+
+    base_rows = _read_alias_rows(BASE_CSV)
+    phase_rows = _read_alias_rows(PHASE2_CSV)
+
+    n1, next_row = write_alias_table(sheet, base_rows, start_row=1)
+    sheet.set(f"A{next_row}", "---")
+    sheet.set(f"B{next_row}", "phase2_aliases")
+    n2, _ = write_alias_table(sheet, phase_rows, start_row=next_row + 1)
+
+    scaffold_template_bodies(doc)
+
+    doc.recompute()
+    try:
+        Gui.activeDocument().activeView().viewAxonometric()
+        Gui.SendMsgToActiveView("ViewFit")
+    except Exception:
+        pass
+
+    App.Console.PrintMessage(f"Phase2 scaffold complete: {DOC_NAME}\n")
+    App.Console.PrintMessage(f"Loaded aliases: base={n1}, phase2={n2}\n")
+
+
+if __name__ == "__main__":
+    main()

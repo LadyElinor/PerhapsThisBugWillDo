@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!-- Placeholder URDF for Phase 2 export bundle.
+     Update links/joints only if template fixtures alter kinematic chain. -->
+<robot name="weevil_leg_module_v03_phase2">
+  <link name="coxa_link"/>
+  <link name="femur_link"/>
+  <link name="tibia_link"/>
+  <link name="foot_link"/>
+
+  <joint name="coxa_yaw" type="revolute">
+    <parent link="coxa_link"/>
+    <child link="femur_link"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <joint name="femur_pitch" type="revolute">
+    <parent link="femur_link"/>
+    <child link="tibia_link"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="tibia_helical_approx_prismatic" type="prismatic">
+    <parent link="tibia_link"/>
+    <child link="foot_link"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+</robot>
