@@ -30,3 +30,12 @@ REQ-PWR-001,specs/power_comms_spec.md,test_power_comms_profile,verification/test
 REQ-PWR-002,specs/power_comms_spec.md,test_power_comms_profile,verification/test_power_comms_profile.py,verification/reports/power_comms_profile.md,pass
 REQ-THERM-002,specs/thermal_spec.md,test_thermal_vac_cycle,verification/test_thermal_vac_cycle.py,verification/reports/thermal_vac_cycle.md,pass
 REQ-THERM-003,specs/thermal_spec.md,test_thermal_vac_cycle,verification/test_thermal_vac_cycle.py,verification/reports/thermal_vac_cycle.md,pass
+REQ-LOCO-005,specs/locomotion_spec.md,test_rover_informed_profile,verification/test_rover_informed_profile.py,verification/reports/rover_informed_profile.md,pass
+REQ-LOCO-006,specs/locomotion_spec.md,test_rover_informed_profile,verification/test_rover_informed_profile.py,verification/reports/rover_informed_profile.md,pass
+REQ-THERM-004,specs/thermal_spec.md,test_rover_informed_profile,verification/test_rover_informed_profile.py,verification/reports/rover_informed_profile.md,pass
+REQ-THERM-005,specs/thermal_spec.md,test_rover_informed_profile,verification/test_rover_informed_profile.py,verification/reports/rover_informed_profile.md,pass
+REQ-PWR-003,specs/power_comms_spec.md,test_rover_informed_profile,verification/test_rover_informed_profile.py,verification/reports/rover_informed_profile.md,pass
+REQ-PWR-004,specs/power_comms_spec.md,test_rover_informed_profile,verification/test_rover_informed_profile.py,verification/reports/rover_informed_profile.md,pass
+REQ-COMMS-003,specs/power_comms_spec.md,test_rover_informed_profile,verification/test_rover_informed_profile.py,verification/reports/rover_informed_profile.md,pass
+REQ-CAD-001,docs/system_spec.md,test_phase2_cad_artifacts,verification/test_phase2_cad_artifacts.py,verification/reports/phase2_cad_artifacts.md,pass
+REQ-CAD-002,docs/system_spec.md,test_phase2_export_bundle,verification/test_phase2_export_bundle.py,verification/reports/phase2_export_bundle.md,pass

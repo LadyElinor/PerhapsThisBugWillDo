@@ -1,0 +1,14 @@
+artifact,pass
+cad/rover_freecad_mapping_phase2.md,True
+cad/reference/mrover_manifest.md,True
+cad/phase2_template_aliases.csv,True
+cad/phase2_freecad_import_rebuild.md,True
+cad/Phase2_Templates.FCMacro,True
+cad/Phase2_Export.FCMacro,True
+cad/phase2_integration_manifest.yaml,True
+cad/adapters/spline_20T_adapter_template.md,True
+cad/interfaces/pivot_flange_template.md,True
+cad/fixtures/servo_mount_template.md,True
+cad/fixtures/right_angle_mount_template.md,True
+cad/fixtures/actuation_lever_25mm_template.md,True
+cad/export/weevil_leg_module.urdf,True

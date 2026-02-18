@@ -1,0 +1,2 @@
+test_id,status,baseline_recovery_time_s,compliant_recovery_time_s,baseline_peak_slip_mm,compliant_peak_slip_mm,pass_time,pass_slip
+WL-VER-IMPULSE-OFFPLANE-001,pass,2.4,1.7,42.0,27.0,True,True

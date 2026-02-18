@@ -1,0 +1,4 @@
+scenario,tilt_deg,virtual_rocker_bogie,traction_margin_down,traction_margin_lat,day_energy_wh,loads_wh,dust_derate_factor,thermal_core_ok,telemetry_retained_after_dropout,tilt_envelope_ok,virtual_rocker_bogie_ok,traction_margin_ok,energy_margin_ok,telemetry_retention_ok,pass
+nominal_mare_day,18.0,True,1.2,1.34,520.0,330.0,0.78,True,True,True,True,True,True,True,True
+steep_slope_recovery,28.0,True,1.08,1.23,520.0,360.0,0.78,True,True,True,True,True,True,True,True
+dropout_night_survival,12.0,True,1.15,1.28,520.0,390.0,0.78,True,True,True,True,True,True,True,True

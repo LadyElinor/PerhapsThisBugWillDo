@@ -6,3 +6,8 @@ REQ-FOOT-002;REQ-FOOT-003,slope_rescue_sweep,mare,45,find feasible geometry+anch
 REQ-FOOT-002;REQ-FOOT-003,slope_rescue_sweep,highland,45,find feasible geometry+anchoring combo,pass,results/GPT/Robotics/weevil_lunar_test_results.md
 REQ-FOOT-002;REQ-FOOT-003,slope_rescue_sweep,mixed,45,find feasible geometry+anchoring combo,pass,results/GPT/Robotics/weevil_lunar_test_results.md
 REQ-FOOT-002;REQ-FOOT-003,slope_rescue_sweep,compacted,45,find feasible geometry+anchoring combo,pass,results/GPT/Robotics/weevil_lunar_test_results.md
+REQ-LOCO-005;REQ-LOCO-006,test_rover_informed_profile,mare,30,virtual_rocker_bogie enabled and tilt<=30deg,pass,verification/reports/rover_informed_profile.md
+REQ-THERM-004;REQ-THERM-005,test_rover_informed_profile,mare,0,warm core + thermal boundary checks true,pass,verification/reports/rover_informed_profile.md
+REQ-PWR-003;REQ-PWR-004;REQ-COMMS-003,test_rover_informed_profile,mare,0,dust-derated energy margin>=0 and telemetry retained,pass,verification/reports/rover_informed_profile.md
+REQ-CAD-001,test_phase2_cad_artifacts,mare,0,all phase2 CAD integration artifacts present,pass,verification/reports/phase2_cad_artifacts.md
+REQ-CAD-002,test_phase2_export_bundle,mare,0,phase2 export bundle exists and is fresh,pass,verification/reports/phase2_export_bundle.md
