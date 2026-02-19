@@ -1,0 +1,44 @@
+meta:
+  version: v0
+  units:
+    force: N
+    displacement: mm
+    angle: deg
+    stiffness: N_per_mm
+    energy: N_mm
+  schema_type: trial_log
+
+trial_params:
+  preload_N: { type: float, min: 0.1, max: 5.0 }
+  strategy: { type: string, enum: [S0, S1, S2] }
+  cleat_variant: { type: string, enum: [baseline, aggressive, custom] }
+  soil_type: { type: string, enum: [frictional, cohesive] }
+  cycle_num: { type: integer, min: 1, max: 10 }
+
+per_phase_metrics:
+  placement:
+    delta_z_init_mm: float
+  engagement:
+    delta_z_engage_mm: float
+  pull:
+    f_peak_N: float
+    k_t_N_per_mm: float
+    x_slip_mm: float
+    e_diss_N_mm: float
+    slip_detected: bool
+
+degradation_ratios:
+  f_peak_ratio_cycle10_vs1: float
+  k_t_ratio_cycle10_vs1: float
+
+notes: string
+
+report_aggregates:
+  avg_per_strategy: [f_peak_N, k_t_N_per_mm, x_slip_mm, e_diss_N_mm]
+  std_per_strategy: [f_peak_N, k_t_N_per_mm, x_slip_mm, e_diss_N_mm]
+  preload_trend_slope: float
+
+acceptance_targets_v0:
+  low_preload_gain_f_peak_s1_over_s0_min: 1.20
+  low_preload_cycle10_retention_f_peak_min: 0.85
+  ranking_target: "S2 >= S1 >= S0 for f_peak_N and k_t_N_per_mm (at least one soil)"

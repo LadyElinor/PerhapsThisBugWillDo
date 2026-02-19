@@ -26,3 +26,6 @@ Primary freeze reference: `cad/interfaces/v0.4_freeze.md`.
 - Thermal expansion effects shall be considered in tolerance stack
 - Proximal axis orthogonality target/tolerance follows `weevil_leg_params.yaml`
 - Helical tibia interface shall remain export-compatible with revolute+prismatic approximation
+
+## v0.4 Bench Test Linkage
+See `verification/bench_test_plan_v0.md` for the minimal hardware de-risk protocol tied to this ICD and interface freeze.

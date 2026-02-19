@@ -1,0 +1,1 @@
+run_id,timestamp_utc,soil_type,strategy,cleat_variant,preload_N,cycle_num,pull_rate_mm_per_s,sample_rate_hz,delta_z_init_mm,delta_z_engage_mm,f_peak_N,k_t_N_per_mm,x_slip_mm,e_diss_N_mm,slip_detected,notes
