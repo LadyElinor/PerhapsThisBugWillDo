@@ -1,0 +1,84 @@
+name: pr-gates
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: pr-gates-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Formatting + lint
+        run: |
+          black --check .
+          ruff check .
+          yamllint .
+          pymarkdown scan .
+
+      - name: Validate YAML + parameter ranges
+        run: python cad/scripts/validate_weevil_leg_params.py
+
+      - name: Regenerate FreeCAD CSVs
+        run: python cad/scripts/generate_csvs_from_yaml.py
+
+      - name: Detect generated CSV drift
+        run: |
+          git add cad/freecad_spreadsheet_template.csv cad/phase2_template_aliases.csv
+          git diff --cached --quiet || (echo "CSV drift detected: run generator and commit outputs." && exit 1)
+
+      - name: README link audit
+        run: python scripts/check_readme_links.py
+
+      - name: Run unit tests + coverage
+        run: pytest
+
+      - name: Run verification harnesses
+        run: |
+          python verification/test_steep_slope_state_machine.py
+          python verification/test_power_comms_profile.py
+          python verification/test_rover_informed_profile.py
+          python verification/test_phase2_cad_artifacts.py
+          python verification/test_phase2_export_bundle.py
+          python verification/run_gate_check.py
+          python verification/sensitivity_sweep.py
+          python verification/benchmark_classical_models.py
+
+      - name: Run benchmark smoke
+        run: python verification/benchmark_runner.py
+
+      - name: Check benchmark regression
+        run: python verification/check_benchmark_regression.py
+
+      - name: Upload verification artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-reports-${{ github.run_id }}
+          path: |
+            verification/reports/**
+            cad/exports/latest/export_receipt_v0.4.json
+            cad/exports/latest/export_receipt_latest.json
+          if-no-files-found: ignore
+          retention-days: 7

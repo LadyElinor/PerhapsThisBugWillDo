@@ -1,0 +1,4 @@
+# Deterministic lock placeholder. Generate/update with:
+#   python -m pip install -r requirements.txt
+#   python -m pip freeze > requirements-lock.txt
+# Kept in-repo to support reproducible environments and CI pinning snapshots.

@@ -7,13 +7,15 @@ Run in FreeCAD after Phase2_Templates.FCMacro and geometry authoring are complet
 """
 
 import os
+from pathlib import Path
 import FreeCAD as App
 import ImportGui
 
-EXPORT_DIR = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\export"
-STEP_PATH = os.path.join(EXPORT_DIR, "weevil_leg_module_ap242.step")
-FCSTD_PATH = os.path.join(EXPORT_DIR, "Phase2_Templates.FCStd")
-RECEIPT_PATH = os.path.join(EXPORT_DIR, "phase2_export_receipt.md")
+# Portable export location: cad/export relative to this macro file.
+EXPORT_DIR = Path(__file__).resolve().parent / "export"
+STEP_PATH = EXPORT_DIR / "weevil_leg_module_ap242.step"
+FCSTD_PATH = EXPORT_DIR / "Phase2_Templates.FCStd"
+RECEIPT_PATH = EXPORT_DIR / "phase2_export_receipt.md"
 
 
 def main():
@@ -21,10 +23,10 @@ def main():
     if doc is None:
         raise RuntimeError("No active document. Open/build Phase2_Templates first.")
 
-    os.makedirs(EXPORT_DIR, exist_ok=True)
+    EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 
     # save document snapshot
-    doc.saveAs(FCSTD_PATH)
+    doc.saveAs(str(FCSTD_PATH))
 
     # export only objects that have a valid non-null Shape (skip spreadsheet/datums/null bodies)
     export_objs = []
@@ -42,7 +44,7 @@ def main():
     if not export_objs:
         raise RuntimeError("No valid shaped objects to export. Run Phase2_SeedGeometry.FCMacro or create template solids first.")
 
-    ImportGui.export(export_objs, STEP_PATH)
+    ImportGui.export(export_objs, str(STEP_PATH))
 
     lines = [
         "# Phase 2 Export Receipt",

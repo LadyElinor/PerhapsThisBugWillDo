@@ -1,0 +1,4 @@
+model,scenario,margin_down,notes
+weevil_reduced_order,45deg_mare_proxy,1.08,directional cleat gain enabled
+bekker_baseline_proxy,45deg_mare_proxy,0.92,"classical pressure-sinkage baseline, no directional cleat gain"
+wong_reece_wheel_proxy,45deg_mare_proxy,0.88,wheel-style shear model proxy for reference

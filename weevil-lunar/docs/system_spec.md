@@ -43,7 +43,14 @@ From v0.3 directional rescue sweep:
   - example feasible point: radius=0.08 m, preload=20 N, gains(fwd/lat)=1.50/1.80
 - Baseline non-anchored directional slope test fails at 45° across terrains (expected for v0 baseline).
 
-## 6. Open items
+## 6. Model fidelity statement
+- **Primary regime:** quasi-static locomotion envelope with reduced-order contact assumptions.
+- **Dynamic regime:** not yet implemented (tracked as `dynamic_placeholder` roadmap item).
+- **Empirical vs heuristic split:** current directional gain and some contact terms are heuristic; calibration to simulant/Apollo-linked ranges is in progress.
+- **Validated vs assumed:** software checks validate internal consistency and requirement gating; hardware validity is currently assumed pending bench/HIL data.
+- **Known failure modes:** ill-conditioned parameter combinations, unmodeled transient dynamics, and distribution shift across regolith classes.
+
+## 7. Open items
 - Validate directional gain assumptions against higher-fidelity contact models/hardware bins.
 - Add extraction/time penalties for anchoring state transitions in gait planner.
 - Add thermal-vac and dust endurance evidence into requirement traceability.

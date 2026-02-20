@@ -1,0 +1,28 @@
+         55150 function calls (54246 primitive calls) in 0.051 seconds
+
+   Ordered by: cumulative time
+   List reduced from 581 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.051    0.051 C:\Users\arren\.openclaw\workspace\weevil-lunar\verification\sensitivity_sweep.py:18(main)
+     29/1    0.000    0.000    0.035    0.035 <frozen importlib._bootstrap>:1349(_find_and_load)
+     29/1    0.000    0.000    0.035    0.035 <frozen importlib._bootstrap>:1304(_find_and_load_unlocked)
+     58/1    0.000    0.000    0.035    0.035 <frozen importlib._bootstrap>:480(_call_with_frames_removed)
+        1    0.000    0.000    0.035    0.035 {built-in method builtins.__import__}
+     28/1    0.000    0.000    0.034    0.034 <frozen importlib._bootstrap>:911(_load_unlocked)
+     24/1    0.000    0.000    0.034    0.034 <frozen importlib._bootstrap_external>:1020(exec_module)
+     29/1    0.002    0.000    0.034    0.034 {built-in method builtins.exec}
+        1    0.000    0.000    0.034    0.034 C:\Users\arren\.openclaw\workspace\weevil-lunar\models\__init__.py:1(<module>)
+        1    0.000    0.000    0.031    0.031 C:\Users\arren\.openclaw\workspace\weevil-lunar\models\lunar_integrated_weevil_leg.py:1(<module>)
+        1    0.000    0.000    0.026    0.026 C:\Users\arren\miniconda3\Lib\site-packages\yaml\__init__.py:1(<module>)
+        1    0.000    0.000    0.017    0.017 C:\Users\arren\miniconda3\Lib\site-packages\yaml\loader.py:1(<module>)
+        1    0.000    0.000    0.013    0.013 C:\Users\arren\.openclaw\workspace\weevil-lunar\models\lunar_integrated_weevil_leg.py:70(load_params)
+        1    0.000    0.000    0.013    0.013 C:\Users\arren\miniconda3\Lib\site-packages\yaml\__init__.py:117(safe_load)
+        1    0.000    0.000    0.013    0.013 C:\Users\arren\miniconda3\Lib\site-packages\yaml\__init__.py:74(load)
+        1    0.000    0.000    0.013    0.013 C:\Users\arren\miniconda3\Lib\site-packages\yaml\constructor.py:47(get_single_data)
+        1    0.000    0.000    0.012    0.012 C:\Users\arren\miniconda3\Lib\site-packages\yaml\composer.py:29(get_single_node)
+        1    0.000    0.000    0.012    0.012 C:\Users\arren\miniconda3\Lib\site-packages\yaml\composer.py:50(compose_document)
+    175/1    0.000    0.000    0.012    0.012 C:\Users\arren\miniconda3\Lib\site-packages\yaml\composer.py:63(compose_node)
+     19/1    0.000    0.000    0.012    0.012 C:\Users\arren\miniconda3\Lib\site-packages\yaml\composer.py:117(compose_mapping_node)
+
+
