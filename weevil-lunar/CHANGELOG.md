@@ -12,3 +12,4 @@
 - Added demo notebook and seeded contributor issue list.
 - Updated CI workflows to install deps, lint, run pytest+coverage, and run verification scripts.
 - Added actuator/drive modeling appendix and drive-train sanity tests (MIT 2.12-aligned reduced-order checks).
+- Added COTS interface map, profile IDs in export receipts, and CI verification for interface completeness.

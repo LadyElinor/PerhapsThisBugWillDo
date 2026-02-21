@@ -1,0 +1,9 @@
+profiles:
+  - id: rm-v1
+    name: RobotMarketplace baseline drivetrain classes
+    scope: Earth-analog prototyping only
+    notes: Uses generic part classes (shaft/bearing/sprocket/gearbox/mount/hub), not vendor lock-in.
+  - id: studica-v1
+    name: Studica educational integration classes
+    scope: Earth-analog prototyping and integration training
+    notes: Emphasizes COTS educational stack for bring-up and repeatable assembly.

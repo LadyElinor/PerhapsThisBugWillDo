@@ -40,6 +40,9 @@ jobs:
       - name: Validate YAML + parameter ranges
         run: python cad/scripts/validate_weevil_leg_params.py
 
+      - name: Validate COTS interface completeness
+        run: python verification/check_cots_interface_map.py
+
       - name: Regenerate FreeCAD CSVs
         run: python cad/scripts/generate_csvs_from_yaml.py
 

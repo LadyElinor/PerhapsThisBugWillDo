@@ -1,0 +1,11 @@
+interface_id,domain,cad_alias_group,market_part_class,nominal_standard,critical_dims,notes
+servo_mount_plate,actuation,servo_mount,servo bracket mount,25T hobby servo class,width/height/hole pitch/axis offset,Primary small-actuator interface
+spline_adapter_20t,actuation,spline,servo horn adapter,20T spline,tooth count/major/minor diameter/hub thickness,Used for lever and adapter coupling
+pivot_flange_4xM3,structure,flange,bearing/flange adapter,pivot flange 4-hole pattern,OD/ID/BCD/hole count/hole diameter,Template in pivot_flange_template.md
+right_angle_mount,structure,ra,motor or fixture angle bracket,L-profile bracket,leg A/leg B/thickness/hole pitch,General purpose fixture interface
+actuation_lever_25mm,mechanism,lever,linkage lever,25 mm lever class,length/width/thickness/hub diameter,Template in fixtures
+shaft_interface_hex,drivetrain,shaft,shaft and axle stock,hex shaft class,across-flats/length/key compatibility,Maps to shafts & axles category
+bearing_seat_standard,drivetrain,bearing,bearing block/flanged bearing,compact radial bearing class,bore/OD/width/seat tolerance,For driveline support
+chain_sprocket_stage,drivetrain,sprocket,#35 chain sprocket,#35 chain stage,tooth count/pitch/bore,Use connecting-link derating note in verification
+gearbox_mount_pattern,drivetrain,motor_mount,gearbox/motor mount plate,reduction gearbox class,mount-hole pattern/standoff/shaft centerline,Supports ratio variant profiles
+hub_to_wheel_interface,drivetrain,hub,wheel hub adapter,clamp or keyed hub class,bore/key/bolt circle,For wheel/coupler integration

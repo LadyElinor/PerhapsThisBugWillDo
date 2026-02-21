@@ -71,8 +71,9 @@ yamllint .
 Deterministic receipt generation for CAD handoff traceability:
 
 ```bash
-python cad/scripts/generate_export_receipt.py --interface-version v0.4 --notes "v0.4 handoff refresh"
+python cad/scripts/generate_export_receipt.py --interface-version v0.4 --cots-profile-id rm-v1 --notes "v0.4 handoff refresh"
 python verification/check_export_receipt.py --receipt cad/exports/latest/export_receipt_v0.4.json --max-age-days 7
+python verification/check_cots_interface_map.py
 ```
 
 Canonical receipt artifacts:

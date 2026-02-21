@@ -20,6 +20,7 @@ REQUIRED_KEYS = {
     "git_commit_hash",
     "yaml_version",
     "interface_version",
+    "cots_profile_id",
     "params_hash_sha256",
     "exporter_tool",
     "freecad_version",
@@ -54,13 +55,17 @@ def main() -> int:
     if not re.fullmatch(r"[0-9a-f]{40}", data["git_commit_hash"]):
         raise SystemExit("git_commit_hash must be full 40-char hex")
 
+    if len(str(data["cots_profile_id"]).strip()) < 3:
+        raise SystemExit("cots_profile_id must be at least 3 characters")
+
     if len(data["notes"].strip()) < 10:
         raise SystemExit("notes must be at least 10 characters")
 
     expected_param_hash = sha256(PARAMS)
     if data["params_hash_sha256"] != expected_param_hash:
         raise SystemExit(
-            f"params_hash_sha256 mismatch: receipt={data['params_hash_sha256']} current={expected_param_hash}"
+            "params_hash_sha256 mismatch: "
+            f"receipt={data['params_hash_sha256']} current={expected_param_hash}"
         )
 
     artifacts = data.get("exported_files", [])

@@ -1,9 +1,10 @@
 {
   "schema_version": "1.1",
-  "timestamp_utc": "2026-02-18T22:38:46Z",
-  "git_commit_hash": "f64949017ff58941b285fd626bd1700dd3bf2959",
+  "timestamp_utc": "2026-02-21T02:50:41Z",
+  "git_commit_hash": "e5d5e82bf3b24877dd8c2a10b47c0f93bb393bda",
   "yaml_version": "v0.3",
   "interface_version": "v0.4",
+  "cots_profile_id": "rm-v1",
   "param_source": "cad/weevil_leg_params.yaml",
   "params_hash_sha256": "d6070967a4bf2ef05f4cd5a80e5d62a233507140f8086760614c0f6bbd1801f7",
   "exporter_tool": "cad/scripts/generate_export_receipt.py + Phase2_Export.FCMacro",
@@ -17,10 +18,10 @@
     {
       "path": "cad/export/weevil_leg_module_ap242.step",
       "format": "STEP",
-      "sha256": "e9b7b1ec08692b6c29d72aa4a7c53c6de19b6c6a887a7119c40ace0575ffbdfe"
+      "sha256": "24e1ef2972d10bd83bfb5d4efad690e3110448bc5ab71571da1bc9acfdcbbab1"
     }
   ],
   "total_artifact_count": 2,
-  "total_artifact_size_bytes": 148996,
-  "notes": "v0.4 interface freeze handoff receipt generated from current export artifacts."
+  "total_artifact_size_bytes": 109811,
+  "notes": "v0.4 COTS-ready handoff refresh"
 }

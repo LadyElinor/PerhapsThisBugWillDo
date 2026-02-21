@@ -32,6 +32,9 @@ jobs:
       - name: README link audit
         run: python scripts/check_readme_links.py
 
+      - name: Validate COTS interface completeness
+        run: python verification/check_cots_interface_map.py
+
       - name: Run tests
         run: |
           pytest

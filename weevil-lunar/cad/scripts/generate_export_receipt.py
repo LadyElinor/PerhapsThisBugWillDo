@@ -69,8 +69,12 @@ def collect_artifacts() -> list[dict[str, str]]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--interface-version", default="v0.4")
+    ap.add_argument("--cots-profile-id", default="rm-v1")
     ap.add_argument("--freecad-version", default="FreeCAD-unknown")
-    ap.add_argument("--notes", default="Auto-generated export receipt for interface freeze handoff.")
+    ap.add_argument(
+        "--notes",
+        default="Auto-generated export receipt for interface freeze handoff.",
+    )
     args = ap.parse_args()
 
     artifacts = collect_artifacts()
@@ -80,10 +84,14 @@ def main() -> int:
     total_bytes = sum((ROOT / a["path"]).stat().st_size for a in artifacts)
     receipt = {
         "schema_version": "1.1",
-        "timestamp_utc": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "timestamp_utc": dt.datetime.now(dt.timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
         "git_commit_hash": git_commit_hash(),
         "yaml_version": parse_yaml_version(),
         "interface_version": args.interface_version,
+        "cots_profile_id": args.cots_profile_id,
         "param_source": "cad/weevil_leg_params.yaml",
         "params_hash_sha256": sha256(PARAMS_PATH),
         "exporter_tool": "cad/scripts/generate_export_receipt.py + Phase2_Export.FCMacro",
