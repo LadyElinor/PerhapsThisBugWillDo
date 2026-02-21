@@ -11,3 +11,4 @@
 - Added multi-leg gait planner scaffold and dynamic-regime flag.
 - Added demo notebook and seeded contributor issue list.
 - Updated CI workflows to install deps, lint, run pytest+coverage, and run verification scripts.
+- Added actuator/drive modeling appendix and drive-train sanity tests (MIT 2.12-aligned reduced-order checks).
