@@ -14,3 +14,8 @@
 1. Multi-leg gait planner from placeholder to executable policy.
 2. Dynamic-regime simulation layer with clear assumptions.
 3. Hardware-in-the-loop traceability hooks for bench datasets.
+
+## external credibility tasks
+1. feat: add Studica resource crosswalk for Earth-analog hardware prototyping (`docs/external_resources/studica.md`).
+2. docs: add evidence-tier table separating integration evidence vs physics evidence in verification reports.
+3. test: create COTS bench protocol using actuator/sensor stack for controller + telemetry de-risking (explicitly non-lunar-physics evidence).
