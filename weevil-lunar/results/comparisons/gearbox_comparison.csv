@@ -1,0 +1,5 @@
+configuration,mode,reachability_margin_pct,reflected_inertia_penalty,energy_per_gait_cycle_j,torque_margin_overall_nm,torque_margin_hip,torque_margin_knee,torque_margin_ankle,status,total_gearbox_mass_proxy_kg
+tapered,proxy,95.32,0.00011701,0.8496,40.9972,239.2778,104.5306,40.9972,PASS,0.7317
+tapered,real_sim,100.0,0.00011701,1.7577,40.7479,238.5654,104.0675,40.7479,PASS,0.7317
+uniform_ae070,proxy,95.68,0.00010792,0.8955,104.2388,104.2388,104.5052,104.7336,PASS,0.7712
+uniform_ae070,real_sim,100.0,0.00010792,1.6522,103.5654,103.5654,104.0675,104.4979,PASS,0.7712

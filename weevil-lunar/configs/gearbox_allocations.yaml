@@ -1,0 +1,78 @@
+meta:
+  version: 0.1
+  evidence_tier: geometry_only
+  note: "APEX AE models appear partial (likely flange/interface-heavy). Treat absolute Y-depth and mass as provisional."
+  generated_from:
+    - cad_assets/manifests/lunar_weevil_candidates/params_apex_AE050_nema23_p1110100002.json
+    - cad_assets/manifests/lunar_weevil_candidates/params_apex_AE070_metric_p1110200001.json
+    - cad_assets/manifests/lunar_weevil_candidates/params_apex_AE090_dt90_px90_p1110300004.json
+
+gearboxes:
+  apex_ae050_nema23:
+    params_json: cad_assets/manifests/lunar_weevil_candidates/params_apex_AE050_nema23_p1110100002.json
+    volume_proxy: 13149.928260064755
+    bounding_box_mm: [57.20000000000036, 8.000000000000052, 57.20000000000031]
+    com_mm: [1.538076985577791e-12, 3.2198178313679864, -2.0675999054590493e-12]
+    inertia_tensor: [[4390081.076701058, -9.733338640785015e-09, -2.7531722878758523e-07], [-9.733338640785015e-09, 8770162.152061006, -4.4159944260282365e-08], [-2.7531722878758523e-07, -4.4159944260282365e-08, 4390081.076701058]]
+    partial_model_suspected: true
+
+  apex_ae070_metric:
+    params_json: cad_assets/manifests/lunar_weevil_candidates/params_apex_AE070_metric_p1110200001.json
+    volume_proxy: 32749.442633965773
+    bounding_box_mm: [80.00000000000091, 11.00000000000007, 80.00000000000088]
+    com_mm: [-6.575133751083415e-13, 4.205501670979142, 6.243918652304087e-13]
+    inertia_tensor: [[22584135.247366715, 1.1338878943015317e-07, -2.0754305296578858e-07], [1.1338878943015317e-07, 44762733.33444997, -1.0898253474345951e-07], [-2.0754305296578858e-07, -1.0898253474345951e-07, 22584135.24736657]]
+    partial_model_suspected: true
+
+  apex_ae060_equiv_blend:
+    params_json: cad_assets/manifests/lunar_weevil_candidates/params_apex_AE060_equiv_blend.json
+    volume_proxy: 22949.685447015264
+    bounding_box_mm: [68.60000000000063, 9.50000000000006, 68.6000000000006]
+    com_mm: [4.402817051347247e-13, 3.7126597511735644, -7.216039880143203e-13]
+    partial_model_suspected: true
+    synthetic: true
+
+  apex_ae090_dt90_px90:
+    params_json: cad_assets/manifests/lunar_weevil_candidates/params_apex_AE090_dt90_px90_p1110300004.json
+    volume_proxy: 47313.88698958812
+    bounding_box_mm: [91.9999999999999, 12.500000000000057, 91.99999999999983]
+    com_mm: [2.1249498549167224e-12, 5.468735052951108, -1.8008281194977751e-12]
+    inertia_tensor: [[46257165.26480298, -9.181562807986182e-08, -3.334067698733999e-07], [-9.181562807986182e-08, 92400187.88551535, 2.513733342290805e-08], [-3.334067698733999e-07, 2.513733342290805e-08, 46371646.91176314]]
+    partial_model_suspected: true
+
+configurations:
+  tapered:
+    hip: apex_ae090_dt90_px90
+    knee: apex_ae070_metric
+    ankle: apex_ae050_nema23
+    expected_tradeoff:
+      torque_margin: high
+      reflected_inertia_penalty: medium
+      energy_per_cycle: lower
+
+  uniform_ae070:
+    hip: apex_ae070_metric
+    knee: apex_ae070_metric
+    ankle: apex_ae070_metric
+    expected_tradeoff:
+      torque_margin: medium_high
+      reflected_inertia_penalty: higher
+      energy_per_cycle: medium
+
+  hybrid_a:
+    hip: apex_ae090_dt90_px90
+    knee: apex_ae070_metric
+    ankle: apex_ae060_equiv_blend
+    expected_tradeoff:
+      torque_margin: high
+      reflected_inertia_penalty: medium
+      energy_per_cycle: between_tapered_and_hybrid_b
+
+  hybrid_b:
+    hip: apex_ae090_dt90_px90
+    knee: apex_ae070_metric
+    ankle: apex_ae070_metric
+    expected_tradeoff:
+      torque_margin: high
+      reflected_inertia_penalty: medium_high
+      energy_per_cycle: medium

@@ -1,0 +1,38 @@
+[
+  {
+    "file": "cad_assets\\normalized_step\\lunar_weevil_candidates\\apex_AE050_nema23_p1110100002.step",
+    "timestamp": "2026-02-21T19:21:53.678405+00:00",
+    "source": "manual_or_script",
+    "evidence_tier": "geometry_only"
+  },
+  {
+    "file": "cad_assets\\normalized_step\\lunar_weevil_candidates\\apex_AE070_metric_p1110200001.step",
+    "timestamp": "2026-02-21T19:21:53.678405+00:00",
+    "source": "manual_or_script",
+    "evidence_tier": "geometry_only"
+  },
+  {
+    "file": "cad_assets\\normalized_step\\lunar_weevil_candidates\\apex_AE090_dt90_px90_p1110300004.step",
+    "timestamp": "2026-02-21T19:21:53.678405+00:00",
+    "source": "manual_or_script",
+    "evidence_tier": "geometry_only"
+  },
+  {
+    "file": "cad_assets\\normalized_step\\lunar_weevil_candidates\\Attempt1_solids.step",
+    "timestamp": "2026-02-21T19:21:53.678405+00:00",
+    "source": "manual_or_script",
+    "evidence_tier": "geometry_only"
+  },
+  {
+    "file": "cad_assets\\normalized_step\\lunar_weevil_candidates\\Phase2_Templates_solids.step",
+    "timestamp": "2026-02-21T19:21:53.678405+00:00",
+    "source": "manual_or_script",
+    "evidence_tier": "geometry_only"
+  },
+  {
+    "file": "cad_assets\\normalized_step\\lunar_weevil_candidates\\weevil_leg_module_ap242.step",
+    "timestamp": "2026-02-21T19:21:53.678405+00:00",
+    "source": "manual_or_script",
+    "evidence_tier": "geometry_only"
+  }
+]
