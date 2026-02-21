@@ -17,5 +17,7 @@
 
 ## external credibility tasks
 1. feat: add Studica resource crosswalk for Earth-analog hardware prototyping (`docs/external_resources/studica.md`).
-2. docs: add evidence-tier table separating integration evidence vs physics evidence in verification reports.
-3. test: create COTS bench protocol using actuator/sensor stack for controller + telemetry de-risking (explicitly non-lunar-physics evidence).
+2. feat: add RobotMarketplace mechanical crosswalk for Earth-analog drivetrain prototyping (`docs/external_resources/robotmarketplace.md`).
+3. docs: add evidence-tier table separating integration evidence vs physics evidence in verification reports.
+4. test: create COTS bench protocol using actuator/sensor stack for controller + telemetry de-risking (explicitly non-lunar-physics evidence).
+5. verification: add chain/sprocket reliability checklist with connecting-link derating and safety-factor assumptions.
