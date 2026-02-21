@@ -1,0 +1,9 @@
+configuration,mode,slope_deg,reachability_margin_pct,reflected_inertia_penalty,energy_per_gait_cycle_j,torque_margin_overall_nm,torque_margin_hip,torque_margin_knee,torque_margin_ankle,status,derate,ankle_demand_mult
+tapered,real_sim,35.0,100.0,0.00011701,1.7577,29.1006,173.8106,75.5769,29.1006,PASS,0.55,1.5
+uniform_ae070,real_sim,35.0,100.0,0.00010792,1.6522,74.8106,74.8106,75.5769,75.8506,PASS,0.55,1.5
+hybrid_a,real_sim,35.0,100.0,0.00013148,1.9258,52.4756,173.8106,75.5769,52.4756,PASS,0.55,1.5
+hybrid_b,real_sim,35.0,100.0,0.00014596,2.0938,75.5769,173.8106,75.5769,75.8506,PASS,0.55,1.5
+tapered,real_sim,45.0,100.0,0.00011701,1.7577,28.75,173.1429,75.1429,28.75,PASS,0.55,1.5
+uniform_ae070,real_sim,45.0,100.0,0.00010792,1.6522,74.1429,74.1429,75.1429,75.5,PASS,0.55,1.5
+hybrid_a,real_sim,45.0,100.0,0.00013148,1.9258,52.125,173.1429,75.1429,52.125,PASS,0.55,1.5
+hybrid_b,real_sim,45.0,100.0,0.00014596,2.0938,75.1429,173.1429,75.1429,75.5,PASS,0.55,1.5

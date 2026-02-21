@@ -1,0 +1,139 @@
+# -*- coding: utf-8 -*-
+"""
+Compile_Rover.FCMacro
+
+One-click macro to compile the current Lunar-Weevil rover model into reproducible
+artifacts (FCStd snapshot + STEP export + receipt).
+
+Usage (FreeCAD GUI):
+1) Open the rover document you want to compile (recommended), or leave none open
+   and the macro will try to open the latest Phase2 template file.
+2) Run this macro.
+3) Outputs are written under: cad/export/
+"""
+
+from pathlib import Path
+from datetime import datetime, timezone
+
+import FreeCAD as App
+import Import
+
+CAD_DIR = Path(__file__).resolve().parent
+EXPORT_DIR = CAD_DIR / "export"
+
+OUT_FCSTD = EXPORT_DIR / "rover_compiled.FCStd"
+OUT_STEP = EXPORT_DIR / "rover_compiled_ap242.step"
+OUT_RECEIPT_MD = EXPORT_DIR / "rover_compile_receipt.md"
+OUT_RECEIPT_JSON = EXPORT_DIR / "rover_compile_receipt.json"
+
+SOURCE_CANDIDATES = [
+    CAD_DIR / "export" / "Phase2_Templates.FCStd",
+    CAD_DIR / "Phase2_Templates.FCStd",
+    CAD_DIR / "export" / "Attempt1.FCStd",
+]
+
+
+def _open_fallback_doc():
+    for p in SOURCE_CANDIDATES:
+        if p.exists():
+            App.Console.PrintMessage(f"[compile] opening fallback source: {p}\n")
+            return App.openDocument(str(p)), str(p)
+    raise RuntimeError("No active document and no fallback FCStd source found.")
+
+
+def _collect_exportable_objects(doc):
+    solids = []
+    non_null_shapes = []
+    for o in doc.Objects:
+        try:
+            shape = getattr(o, "Shape", None)
+            if shape is None:
+                continue
+            if hasattr(shape, "isNull") and shape.isNull():
+                continue
+
+            # Keep any non-null shape as fallback export candidate.
+            non_null_shapes.append(o)
+
+            # Prefer true solids when available.
+            if hasattr(shape, "Solids") and len(shape.Solids) > 0:
+                solids.append(o)
+        except Exception:
+            continue
+
+    # First choice: solid-bearing objects.
+    if solids:
+        return solids, "solids"
+
+    # Fallback: export non-null shapes (surfaces/wires/compounds) if no solids exist.
+    if non_null_shapes:
+        return non_null_shapes, "non_null_shapes"
+
+    return [], "none"
+
+
+def main():
+    EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+
+    doc = App.ActiveDocument
+    source_path = "active_document"
+    opened_here = False
+
+    if doc is None:
+        doc, source_path = _open_fallback_doc()
+        opened_here = True
+
+    doc.recompute()
+
+    export_objs, export_mode = _collect_exportable_objects(doc)
+    if not export_objs:
+        raise RuntimeError("No exportable shapes found (solids or non-null shapes).")
+
+    doc.saveAs(str(OUT_FCSTD))
+    Import.export(export_objs, str(OUT_STEP))
+
+    ts = datetime.now(timezone.utc).isoformat()
+    receipt = {
+        "timestamp_utc": ts,
+        "document": doc.Name,
+        "source": source_path,
+        "out_fcstd": str(OUT_FCSTD),
+        "out_step": str(OUT_STEP),
+        "object_count": len(doc.Objects),
+        "exported_object_count": len(export_objs),
+        "export_mode": export_mode,
+        "notes": [
+            "STEP exported from solids when available; otherwise from non-null shapes",
+            "Compile macro is deterministic for same source geometry",
+        ],
+    }
+
+    lines = [
+        "# Rover Compile Receipt",
+        "",
+        f"- timestamp_utc: {receipt['timestamp_utc']}",
+        f"- document: {receipt['document']}",
+        f"- source: {receipt['source']}",
+        f"- out_fcstd: {receipt['out_fcstd']}",
+        f"- out_step: {receipt['out_step']}",
+        f"- object_count: {receipt['object_count']}",
+        f"- exported_object_count: {receipt['exported_object_count']}",
+        f"- export_mode: {receipt['export_mode']}",
+    ]
+
+    OUT_RECEIPT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    import json
+    OUT_RECEIPT_JSON.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
+
+    App.Console.PrintMessage(f"[compile] wrote {OUT_FCSTD}\n")
+    App.Console.PrintMessage(f"[compile] wrote {OUT_STEP}\n")
+    App.Console.PrintMessage(f"[compile] wrote {OUT_RECEIPT_MD}\n")
+    App.Console.PrintMessage(f"[compile] wrote {OUT_RECEIPT_JSON}\n")
+
+    # Keep document open if user had one already open.
+    if opened_here:
+        App.Console.PrintMessage("[compile] fallback source document was opened for this run.\n")
+
+
+if __name__ == "__main__":
+    main()
