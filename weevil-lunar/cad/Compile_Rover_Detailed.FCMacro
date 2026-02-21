@@ -1,0 +1,140 @@
+# -*- coding: utf-8 -*-
+"""
+Compile_Rover_Detailed.FCMacro
+
+Build a detailed rover assembly document from normalized STEP candidates,
+then export FCStd + AP242 STEP + compile receipts.
+
+Inputs (auto-discovered):
+  cad_assets/normalized_step/lunar_weevil_candidates/*.step
+
+Outputs:
+  weevil-lunar/cad/export/rover_detailed_compiled.FCStd
+  weevil-lunar/cad/export/rover_detailed_compiled_ap242.step
+  weevil-lunar/cad/export/rover_detailed_compile_receipt.md
+  weevil-lunar/cad/export/rover_detailed_compile_receipt.json
+"""
+
+from pathlib import Path
+from datetime import datetime, timezone
+import json
+
+import FreeCAD as App
+import Import
+
+CAD_DIR = Path(__file__).resolve().parent
+WORKSPACE = CAD_DIR.parent.parent
+STEP_DIR = WORKSPACE / "cad_assets" / "normalized_step" / "lunar_weevil_candidates"
+EXPORT_DIR = CAD_DIR / "export"
+
+OUT_FCSTD = EXPORT_DIR / "rover_detailed_compiled.FCStd"
+OUT_STEP = EXPORT_DIR / "rover_detailed_compiled_ap242.step"
+OUT_RECEIPT_MD = EXPORT_DIR / "rover_detailed_compile_receipt.md"
+OUT_RECEIPT_JSON = EXPORT_DIR / "rover_detailed_compile_receipt.json"
+
+
+def collect_step_files():
+    if not STEP_DIR.exists():
+        return []
+    files = sorted([p for p in STEP_DIR.glob("*.step")])
+    return files
+
+
+def collect_exportable_objects(doc):
+    objs = []
+    for o in doc.Objects:
+        try:
+            shape = getattr(o, "Shape", None)
+            if shape is None:
+                continue
+            if hasattr(shape, "isNull") and shape.isNull():
+                continue
+            objs.append(o)
+        except Exception:
+            continue
+    return objs
+
+
+def main():
+    EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+
+    step_files = collect_step_files()
+    if not step_files:
+        raise RuntimeError(f"No STEP files found in: {STEP_DIR}")
+
+    doc_name = "RoverDetailedCompile"
+    # close existing doc with same name to avoid stale state
+    if doc_name in App.listDocuments():
+        App.closeDocument(doc_name)
+
+    doc = App.newDocument(doc_name)
+
+    imported = []
+    failures = []
+
+    for sf in step_files:
+        try:
+            Import.insert(str(sf), doc.Name)
+            imported.append(str(sf))
+            App.Console.PrintMessage(f"[detailed] imported: {sf}\n")
+        except Exception as e:
+            failures.append({"file": str(sf), "error": str(e)})
+            App.Console.PrintMessage(f"[detailed] failed import: {sf} :: {e}\n")
+
+    doc.recompute()
+
+    export_objs = collect_exportable_objects(doc)
+    if not export_objs:
+        raise RuntimeError("Imported files but no exportable shapes found.")
+
+    doc.saveAs(str(OUT_FCSTD))
+    Import.export(export_objs, str(OUT_STEP))
+
+    receipt = {
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "document": doc.Name,
+        "step_input_dir": str(STEP_DIR),
+        "step_input_count": len(step_files),
+        "imported_count": len(imported),
+        "failed_count": len(failures),
+        "failed": failures,
+        "out_fcstd": str(OUT_FCSTD),
+        "out_step": str(OUT_STEP),
+        "object_count": len(doc.Objects),
+        "exported_object_count": len(export_objs),
+        "inputs": imported,
+    }
+
+    md_lines = [
+        "# Rover Detailed Compile Receipt",
+        "",
+        f"- timestamp_utc: {receipt['timestamp_utc']}",
+        f"- document: {receipt['document']}",
+        f"- step_input_dir: {receipt['step_input_dir']}",
+        f"- step_input_count: {receipt['step_input_count']}",
+        f"- imported_count: {receipt['imported_count']}",
+        f"- failed_count: {receipt['failed_count']}",
+        f"- out_fcstd: {receipt['out_fcstd']}",
+        f"- out_step: {receipt['out_step']}",
+        f"- object_count: {receipt['object_count']}",
+        f"- exported_object_count: {receipt['exported_object_count']}",
+        "",
+        "## Inputs",
+    ]
+    md_lines.extend([f"- {p}" for p in imported])
+
+    if failures:
+        md_lines.extend(["", "## Failed Imports"])
+        md_lines.extend([f"- {f['file']}: {f['error']}" for f in failures])
+
+    OUT_RECEIPT_MD.write_text("\n".join(md_lines) + "\n", encoding="utf-8")
+    OUT_RECEIPT_JSON.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
+
+    App.Console.PrintMessage(f"[detailed] wrote {OUT_FCSTD}\n")
+    App.Console.PrintMessage(f"[detailed] wrote {OUT_STEP}\n")
+    App.Console.PrintMessage(f"[detailed] wrote {OUT_RECEIPT_MD}\n")
+    App.Console.PrintMessage(f"[detailed] wrote {OUT_RECEIPT_JSON}\n")
+
+
+if __name__ == "__main__":
+    main()
