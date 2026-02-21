@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Weevil Lunar v0.2 Run Config",
+  "type": "object",
+  "required": [
+    "run_id",
+    "soil",
+    "preload_n",
+    "strategy",
+    "cycles",
+    "sampling_hz",
+    "calibration_versions",
+    "hardware_id"
+  ],
+  "properties": {
+    "run_id": { "type": "string", "minLength": 3 },
+    "soil": { "type": "string", "enum": ["mare_analog", "highland_analog", "mixed_analog"] },
+    "preload_n": { "type": "number", "minimum": 0 },
+    "strategy": { "type": "string", "enum": ["press", "press_twist", "press_twist_vibe"] },
+    "cycles": { "type": "integer", "minimum": 1 },
+    "sampling_hz": { "type": "number", "minimum": 50 },
+    "calibration_versions": {
+      "type": "object",
+      "required": ["force_t", "twist", "z_ref"],
+      "properties": {
+        "force_t": { "type": "string" },
+        "twist": { "type": "string" },
+        "z_ref": { "type": "string" }
+      }
+    },
+    "hardware_id": { "type": "string" },
+    "notes": { "type": "string" }
+  }
+}

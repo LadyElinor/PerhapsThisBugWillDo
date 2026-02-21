@@ -1,0 +1,42 @@
+meta:
+  version: v0.2-alpha
+  evidence_tier_target: B
+  frozen: false
+
+matrix:
+  soils:
+    - mare_analog
+    - highland_analog
+  preload_n:
+    - 20
+    - 35
+    - 50
+  strategies:
+    - press
+    - press_twist
+    - press_twist_vibe
+  cycles_per_condition: 10
+  sampling_hz: 100
+
+calibration_versions:
+  force_t: calib-force-t-v0.2
+  twist: calib-twist-v0.2
+  z_ref: calib-zref-v0.2
+
+hardware:
+  bench_id: bench-rig-v0.2
+  foot_id: weevil-foot-v0.2
+
+outputs:
+  root: results/bench/v0.2-alpha
+  require_receipts: true
+  include_git_sha: true
+
+acceptance_targets:
+  repeatability_cv_max: 0.15
+  lockin_signature_required: true
+  degradation_floor_ratio: 0.85
+
+notes: |
+  This matrix is for Earth-analog comparative experiments only.
+  Lunar mission claims are out-of-scope at this stage.
