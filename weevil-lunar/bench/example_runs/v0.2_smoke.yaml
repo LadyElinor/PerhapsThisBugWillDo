@@ -1,0 +1,12 @@
+run_id: v0.2-smoke-001
+soil: mare_analog
+preload_n: 35
+strategy: press_twist
+cycles: 5
+sampling_hz: 100
+calibration_versions:
+  force_t: calib-force-t-v0.2
+  twist: calib-twist-v0.2
+  z_ref: calib-zref-v0.2
+hardware_id: bench-rig-v0.2
+notes: Smoke validation run config for schema checks.

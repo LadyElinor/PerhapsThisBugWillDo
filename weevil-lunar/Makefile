@@ -4,6 +4,7 @@ PYTHON ?= python
 
 bringup:
 	@echo "[bringup] validate run schema + COTS map"
+	$(PYTHON) bench/validate_run_config.py bench/example_runs/v0.2_smoke.yaml
 	$(PYTHON) verification/check_cots_interface_map.py
 	@echo "[bringup] done"
 
