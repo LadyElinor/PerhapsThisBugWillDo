@@ -40,6 +40,16 @@ gearboxes:
     inertia_tensor: [[46257165.26480298, -9.181562807986182e-08, -3.334067698733999e-07], [-9.181562807986182e-08, 92400187.88551535, 2.513733342290805e-08], [-3.334067698733999e-07, 2.513733342290805e-08, 46371646.91176314]]
     partial_model_suspected: true
 
+lumped_body:
+  enabled: true
+  mass_kg: 10.5
+  com_offset_from_foot_plane_mm: [0.0, 0.0, 150.0]
+  inertia_add_diagonal_kg_m2:
+    ixx: 0.45
+    iyy: 0.70
+    izz: 0.50
+  note: "Added to total rover dynamics; keep leg stack CAD-derived."
+
 configurations:
   tapered:
     hip: apex_ae090_dt90_px90

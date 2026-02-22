@@ -55,6 +55,22 @@ Principal moments ≈ [8.73×10⁶, 4.41×10⁶, 4.41×10⁶] kg·mm² → Domin
   1. Redefine coordinate frame at hip pivot or foot contact plane → re-express COM/inertia relative to that frame.
   2. Keep CAD-derived leg stack as-is → add explicit lumped body/chassis mass + inertia terms in sim config (avoids distorting local dynamics).
 
+## Post-Foot-Plane Reframe Update (v0.4.1)
+
+- Reframe complete: Z=0 at lowest foot contact plane (`Zmin ≈ -3.8e-7 mm`, numerical noise)
+- New bounding box: 92.0 × 12.5 × 92.0 mm
+- New COM (foot-plane frame): X ≈ 0.0000 mm, Y = 4.7076 mm, Z = 41.4373 mm
+- Inertia tensor unchanged under rigid translation (at COM):
+
+```text
+[[4414261.8023, -7.18e-08, 0.006111],
+ [-7.18e-08, 8731814.5721, 1.09e-07],
+ [0.006111, 1.09e-07, 4414261.7990]]
+```
+
+- Scaled proxy mass: 0.7317 kg (`ρ = 7.85e-6 kg/mm³`, upper-mid mixed-material estimate)
+- Interpretation: COM Z is now physically meaningful height above ground and usable for sinkage/preload/stability calculations.
+
 ## 5. Discrepancies vs. Simulation Assumptions (Preliminary)
 
 - Sim mass proxy (from manifest JSON): [fill from current manifest] kg
