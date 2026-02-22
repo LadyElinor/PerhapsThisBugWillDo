@@ -30,12 +30,13 @@
 
 Principal moments ≈ [8.73×10⁶, 4.41×10⁶, 4.41×10⁶] kg·mm² → Dominant Iyy (vertical axis ~2× larger), off-diagonals near zero (principal axes well aligned).
 
-## 2. Collision / Interference Report (Pending)
+## 2. Collision / Interference Report
 
-- **Method Used:** Assembly workbench → Check collisions (to be run)
-- **Colliding pairs found:** [Pending – run check]
-- **Interfering components (if any):** [Pending]
-- **Minimum clearance issues:** [Pending]
+- **Method Used:** Assembly validity/interference pass in FreeCAD
+- **Invalid shapes found:** 0
+- **Colliding pairs found:** 0 (no collisions reported in this pass)
+- **Interfering components (if any):** None detected
+- **Minimum clearance issues:** None flagged in current check
 - **Visual verification notes:** Solid count = 63 (healthy, real geometry present). Bounding box = 92.0 × 28.0 × 92.0 mm (compact, consistent with AE-series gearbox flange scale).
 
 ## 3. Model Integrity & Import Summary
