@@ -1,0 +1,4 @@
+timestamp_ms,mode,command_value,measured_position_deg,measured_velocity_deg_s,measured_torque_Nm,command_current_A,measured_current_A,motor_temp_C,controller_temp_C,notes
+0,torque,0.0,0.0,0.0,0.0,0.0,0.0,22.5,35.0,startup baseline
+1000,torque,2.0,,,0.0,4.0,,22.6,35.2,step to 2 Nm
+2000,torque,2.0,,,1.95,4.0,3.98,23.0,35.5,hold
