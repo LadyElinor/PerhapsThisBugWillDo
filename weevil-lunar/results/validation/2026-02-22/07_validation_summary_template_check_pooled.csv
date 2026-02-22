@@ -1,0 +1,2 @@
+candidate_id,runs,pooled_mean_slip_pct,pooled_mean_current_a,pooled_mean_eff_mm_per_wh,damage_rate,nonpositive_progress_count
+CLEAT-C1,1,0.0,0.0,0.0,0.0,1

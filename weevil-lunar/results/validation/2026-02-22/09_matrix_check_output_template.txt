@@ -1,0 +1,7 @@
+﻿=== Matrix completeness ===
+CLEAT-C1 @ 35░: 1 runs (MISSING)
+CLEAT-C1 @ 45░: 0 runs (MISSING)
+CLEAT-C2 @ 35░: 0 runs (MISSING)
+CLEAT-C2 @ 45░: 0 runs (MISSING)
+
+RESULT: NOT_READY

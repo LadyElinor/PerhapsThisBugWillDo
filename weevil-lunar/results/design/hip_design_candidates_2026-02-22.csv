@@ -1,0 +1,3 @@
+candidate_id,hip_gearbox,paired_configs,why,tradeoff,recommendation
+HIP-C1,apex_ae070_metric,"uniform_ae070","Best robust-efficiency score in integrated sweep; keeps system energy minimum","Slightly lower absolute torque margin than AE090 hip options",PRIMARY
+HIP-C2,apex_ae090_dt90_px90,"hybrid_a|hybrid_b|tapered","Highest hip-only margin reserve for shock/uncertainty","Energy and mass/inertia penalty",FALLBACK_HIGH_HEADROOM

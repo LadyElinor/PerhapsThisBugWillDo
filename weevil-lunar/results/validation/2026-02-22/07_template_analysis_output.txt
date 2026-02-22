@@ -1,0 +1,11 @@
+﻿
+=== By slope summary ===
+candidate_id  slope_deg  runs  mean_slip_pct  mean_current_a  mean_eff_mm_per_wh  damage_rate  nonpositive_progress_rate
+    CLEAT-C1         35     1            0.0             0.0                 0.0          0.0                        1.0
+
+=== Pooled summary ===
+candidate_id  runs  pooled_mean_slip_pct  pooled_mean_current_a  pooled_mean_eff_mm_per_wh  damage_rate  nonpositive_progress_count
+    CLEAT-C1     1                   0.0                    0.0                        0.0          0.0                           1
+
+=== Decision ===
+INSUFFICIENT_DATA: need both CLEAT-C1 and CLEAT-C2 runs.

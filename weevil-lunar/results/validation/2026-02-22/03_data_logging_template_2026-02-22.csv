@@ -1,0 +1,2 @@
+date,tester,rig_id,firmware_hash,run_id,candidate_id,slope_deg,replicate,ballast_kg,supply_voltage_v,run_time_s,commanded_distance_mm,progress_distance_mm,slip_distance_mm,slip_ratio_pct,mean_current_a,peak_current_a,input_energy_wh,progress_eff_mm_per_wh,stall_events,overcurrent_events,damage_flag,damage_notes,surface_notes,video_file,raw_current_file,comments
+2026-02-22,initials,RIG-01,abc123,35_C1_01,CLEAT-C1,35,1,0.00,24.0,120,0,0,0,0,0,0,0,0,0,0,N,,uniform prep,video_35deg_C1_01.mp4,run_35deg_C1_01.csv,

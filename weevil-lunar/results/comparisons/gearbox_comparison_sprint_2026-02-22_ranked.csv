@@ -1,0 +1,5 @@
+configuration,min_margin_nm,mean_margin_nm,mean_energy_j,max_energy_j,all_pass,robust_eff_score
+uniform_ae070,75.5429,75.8768,1.6522,1.6522,True,59.0209
+hybrid_b,76.5,76.7473,2.0938,2.0938,True,55.562
+hybrid_a,49.775,50.1737,1.9258,1.9258,True,30.517
+tapered,25.6,25.9987,1.7577,1.7577,True,8.023

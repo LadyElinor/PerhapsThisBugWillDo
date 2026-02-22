@@ -1,0 +1,2 @@
+candidate_id,slope_deg,runs,mean_slip_pct,mean_current_a,mean_eff_mm_per_wh,damage_rate,nonpositive_progress_rate
+CLEAT-C1,35,1,0.0,0.0,0.0,0.0,1.0

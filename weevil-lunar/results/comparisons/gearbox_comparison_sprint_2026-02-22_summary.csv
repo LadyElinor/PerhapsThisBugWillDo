@@ -1,0 +1,7 @@
+slope_deg,ankle_demand_mult,recommended_cfg,status,torque_margin_overall_nm,energy_per_gait_cycle_j
+35.0,1.5,hybrid_b,PASS,76.9769,2.0938
+35.0,1.7,hybrid_b,PASS,76.9769,2.0938
+35.0,1.9,hybrid_b,PASS,76.944,2.0938
+45.0,1.5,hybrid_b,PASS,76.5429,2.0938
+45.0,1.7,hybrid_b,PASS,76.5429,2.0938
+45.0,1.9,hybrid_b,PASS,76.5,2.0938

@@ -1,0 +1,4 @@
+candidate_id,hip,knee,ankle,source_config,min_overall_margin_nm,mean_energy_j,score,notes,recommendation
+LEG-C1,AE070,AE070,AE070,uniform_ae070,75.5429,1.6522,59.0209,Best robust-efficiency balance under 35/45 deg and ankle 1.5-1.9,PRIMARY
+LEG-C2,AE090,AE070,AE070,hybrid_b,76.5,2.0938,55.562,Highest margin floor with energy penalty,ROBUSTNESS_FALLBACK
+LEG-C3,AE090,AE070,AE060,hybrid_a,49.775,1.9258,30.517,Mid option but ankle-limited under stronger ankle multipliers,HOLD

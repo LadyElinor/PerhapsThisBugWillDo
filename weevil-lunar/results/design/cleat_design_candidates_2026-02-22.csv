@@ -1,0 +1,4 @@
+candidate_id,concept,geometry_intent,test_hypothesis,risk,cost_speed,recommendation
+CLEAT-C1,Asymmetric chevron paddle,"20-25 mm pitch, 6-8 mm protrusion, slight rearward rake",Improves uphill shear capture at 45 deg without excessive sinkage,Moderate print wear,Very cheap and fast (printable in <6h),PRIMARY
+CLEAT-C2,Split V + center keel,"Dual V lugs with narrow center stabilizer",Reduces yaw slip while preserving climb traction,May clog in simulant with high fines,Cheap and fast (printable in <6h),SECONDARY
+CLEAT-C3,Helical micro-rib wrap,"Shallow helical ribs around contact arc",May improve multi-direction bite and self-cleaning,High uncertainty and prior kill-risk concern,Cheap prototype but high technical risk,HOLD_ONLY_IF_C1_FAILS
