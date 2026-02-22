@@ -1,0 +1,30 @@
+meta:
+  version: v0.6
+  date: 2026-02-22
+  purpose: geometry presets for compact vs scaled full-cleat rover builds
+  default_recommended: scaled_full_cleat
+
+variants:
+  compact_auto_clamped:
+    description: compact chassis footprint with automatic foot-radius clamp to avoid cleat overlap
+    body_length_mm: 260.0
+    body_width_mm: 170.0
+    body_height_mm: 55.0
+    side_leg_x_positions_mm: [95.0, 0.0, -95.0]
+    requested_foot_radius_mm: 80.0
+    auto_clamp_foot_radius: true
+    expected_foot_radius_used_mm: 39.9
+    expected_pitch_mm: 95.0
+    expected_clearance_pitch_minus_2r_mm: 15.2
+
+  scaled_full_cleat:
+    description: scaled rover geometry preserving full 80 mm foot/cleat radius with no same-side overlap
+    body_length_mm: 420.0
+    body_width_mm: 230.0
+    body_height_mm: 60.0
+    side_leg_x_positions_mm: [170.0, 0.0, -170.0]
+    requested_foot_radius_mm: 80.0
+    auto_clamp_foot_radius: false
+    expected_foot_radius_used_mm: 80.0
+    expected_pitch_mm: 170.0
+    expected_clearance_pitch_minus_2r_mm: 10.0

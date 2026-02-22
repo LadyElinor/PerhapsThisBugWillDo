@@ -1,0 +1,3 @@
+variant,body_length_mm,body_width_mm,side_pitch_mm,foot_radius_used_mm,clearance_pitch_minus_2r_mm,auto_clamp_foot_radius,recommended_use
+compact_auto_clamped,260,170,95,39.9,15.2,true,packaging_and_fixture_checks
+scaled_full_cleat,420,230,170,80.0,10.0,false,default_for_cleat_and_mobility_eval

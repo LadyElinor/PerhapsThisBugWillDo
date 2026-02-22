@@ -1,0 +1,266 @@
+# -*- coding: utf-8 -*-
+"""
+weevil_rover_detailed_build.FCMacro
+
+Builds a detailed FreeCAD rover model with selectable geometry variants:
+- compact_auto_clamped: compact packaging, auto-clamps foot radius to avoid overlap
+- scaled_full_cleat: enlarged chassis/leg spacing preserving full 80 mm foot radius
+
+Also supports drivetrain profile selection:
+- baseline: uniform_ae070 + CLEAT-C1
+- fallback: hybrid_b + CLEAT-C2
+"""
+
+import os
+import math
+import FreeCAD as App
+import Part
+
+try:
+    import yaml
+except Exception:
+    yaml = None
+
+# -----------------------------
+# User-configurable build mode
+# -----------------------------
+BUILD_PROFILE = "baseline"   # "baseline" or "fallback"
+GEOMETRY_VARIANT = "scaled_full_cleat"  # "compact_auto_clamped" or "scaled_full_cleat"
+DOC_NAME = "WeevilRover_Detailed"
+
+YAML_CANDIDATES = [
+    r"C:/Users/arren/.openclaw/workspace/weevil-lunar/cad/weevil_leg_params.yaml",
+    r"C:/Users/arren/.openclaw/workspace/weevil-lunar/configs/rover_geometry_variants_2026-02-22.yaml",
+]
+
+
+def pick_yaml_path():
+    for p in YAML_CANDIDATES:
+        if os.path.exists(p):
+            return p
+    return None
+
+
+def load_params(path):
+    if not path or not yaml:
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f) or {}
+
+
+def get_num(d, path, default):
+    cur = d
+    try:
+        for k in path.split('.'):
+            cur = cur[k]
+        return float(cur)
+    except Exception:
+        return float(default)
+
+
+def add_feature(doc, name, shape):
+    obj = doc.addObject("Part::Feature", name)
+    obj.Shape = shape
+    return obj
+
+
+def make_box_centered(l, w, h, center=App.Vector(0, 0, 0)):
+    origin = App.Vector(center.x - l / 2.0, center.y - w / 2.0, center.z - h / 2.0)
+    return Part.makeBox(l, w, h, origin)
+
+
+def make_leg_module(origin, side_sign, cfg):
+    coxa_d = cfg['coxa_d']
+    coxa_len = cfg['coxa_len']
+    femur_len = cfg['femur_len']
+    tibia_len = cfg['tibia_len']
+    foot_r = cfg['foot_r']
+    foot_t = cfg['foot_t']
+
+    coxa_dir = App.Vector(0, side_sign, 0)
+    coxa = Part.makeCylinder(coxa_d * 0.5, coxa_len, origin, coxa_dir)
+
+    femur_root = origin + coxa_dir.multiply(coxa_len)
+    femur_r = max(5.0, coxa_d * 0.42)
+    femur = Part.makeCylinder(femur_r, femur_len, femur_root, App.Vector(0, 0, -1))
+
+    tibia_root = femur_root + App.Vector(0, 0, -femur_len)
+    tibia_r = max(4.0, coxa_d * 0.33)
+    tibia_dir = App.Vector(0.18, 0, -0.98)
+    tibia = Part.makeCylinder(tibia_r, tibia_len, tibia_root, tibia_dir)
+
+    foot_center = tibia_root + tibia_dir.multiply(tibia_len)
+    foot = Part.makeCylinder(foot_r, foot_t, foot_center + App.Vector(0, 0, -foot_t), App.Vector(0, 0, 1))
+
+    cleats = make_cleats(foot_center, cfg)
+    return coxa, femur, tibia, foot, cleats
+
+
+def make_cleats(foot_center, cfg):
+    cleat_type = cfg['cleat_type']
+    tooth_h = cfg['cleat_h']
+    tooth_l = cfg['cleat_l']
+    tooth_w = cfg['cleat_w']
+
+    teeth = []
+    for i in range(8):
+        ang = math.radians(-70 + i * 20)
+        r = cfg['foot_r'] * 0.82
+        x = foot_center.x + r * math.cos(ang)
+        y = foot_center.y + r * math.sin(ang)
+        z = foot_center.z - 0.2
+
+        if cleat_type == "C1":
+            t = Part.makeBox(tooth_l, tooth_w, tooth_h, App.Vector(x, y, z - tooth_h))
+            t.rotate(App.Vector(x, y, z), App.Vector(0, 0, 1), math.degrees(ang) + 18)
+        else:
+            t = Part.makeBox(tooth_l * 0.8, tooth_w, tooth_h * 0.9, App.Vector(x, y, z - tooth_h * 0.9))
+            t.rotate(App.Vector(x, y, z), App.Vector(0, 0, 1), math.degrees(ang) + 8)
+        teeth.append(t)
+
+    comp = teeth[0]
+    for t in teeth[1:]:
+        comp = comp.fuse(t)
+    return comp
+
+
+def variant_overrides(variant):
+    variants = {
+        "compact_auto_clamped": {
+            "body_l": 260.0,
+            "body_w": 170.0,
+            "body_h": 55.0,
+            "x_positions": [95.0, 0.0, -95.0],
+            "auto_clamp_foot": True,
+        },
+        "scaled_full_cleat": {
+            "body_l": 420.0,
+            "body_w": 230.0,
+            "body_h": 60.0,
+            "x_positions": [170.0, 0.0, -170.0],
+            "auto_clamp_foot": False,
+        },
+    }
+    return variants.get(variant, variants["compact_auto_clamped"])
+
+
+def build_config(params, profile, variant):
+    coxa_d = get_num(params, "coxa.shaft_diameter_mm", 12.0)
+    femur_len = get_num(params, "femur.link_length_mm", 50.0)
+    tibia_stroke = get_num(params, "tibia_screw.stroke_mm", 35.0)
+    foot_r_yaml = get_num(params, "foot.radius_mm", 80.0)
+    foot_t = get_num(params, "foot.pad_thickness_mm", 6.0)
+    stance_h = get_num(params, "body.stance_height_mm", 180.0)
+
+    if profile == "fallback":
+        coxa_len = 30.0
+        cleat_type = "C2"
+        hip_housing_d = 38.0
+    else:
+        coxa_len = 26.0
+        cleat_type = "C1"
+        hip_housing_d = 32.0
+
+    vo = variant_overrides(variant)
+
+    cfg = {
+        'coxa_d': coxa_d,
+        'coxa_len': coxa_len,
+        'femur_len': femur_len,
+        'tibia_len': max(25.0, tibia_stroke),
+        'foot_r_yaml': foot_r_yaml,
+        'foot_t': foot_t,
+        'stance_h': stance_h,
+        'cleat_type': cleat_type,
+        'cleat_h': 5.0 if cleat_type == "C1" else 4.0,
+        'cleat_l': 8.0 if cleat_type == "C1" else 7.0,
+        'cleat_w': 3.0,
+        'hip_housing_d': hip_housing_d,
+        'body_l': vo['body_l'],
+        'body_w': vo['body_w'],
+        'body_h': vo['body_h'],
+        'x_positions': vo['x_positions'],
+        'auto_clamp_foot': vo['auto_clamp_foot'],
+    }
+
+    min_pitch = min(abs(cfg['x_positions'][i] - cfg['x_positions'][i + 1]) for i in range(len(cfg['x_positions']) - 1))
+    if cfg['auto_clamp_foot']:
+        max_non_overlap_r = 0.42 * min_pitch
+        cfg['foot_r'] = max(18.0, min(cfg['foot_r_yaml'], max_non_overlap_r))
+    else:
+        cfg['foot_r'] = cfg['foot_r_yaml']
+
+    cfg['side_clearance_mm'] = min_pitch - 2.0 * cfg['foot_r']
+    cfg['min_pitch_mm'] = min_pitch
+    return cfg
+
+
+def main():
+    ppath = pick_yaml_path()
+    params = load_params(ppath)
+    cfg = build_config(params, BUILD_PROFILE, GEOMETRY_VARIANT)
+
+    if App.ActiveDocument is None or App.ActiveDocument.Name != DOC_NAME:
+        doc = App.newDocument(DOC_NAME)
+    else:
+        doc = App.ActiveDocument
+
+    chassis = make_box_centered(cfg['body_l'], cfg['body_w'], cfg['body_h'], App.Vector(0, 0, cfg['stance_h'] - 20.0))
+    add_feature(doc, "ChassisEnvelope", chassis)
+
+    battery = make_box_centered(120, 60, 28, App.Vector(0, 0, cfg['stance_h'] - 10.0))
+    add_feature(doc, "BatteryEnvelope", battery)
+    controller = make_box_centered(80, 55, 20, App.Vector(-55, 0, cfg['stance_h'] - 5.0))
+    add_feature(doc, "ControllerEnvelope", controller)
+
+    y_offset = cfg['body_w'] / 2.0
+    z_anchor = cfg['stance_h'] - cfg['body_h'] / 2.0
+
+    leg_index = 1
+    for side_sign, side_name in [(1, "L"), (-1, "R")]:
+        for xp in cfg['x_positions']:
+            hip_root = App.Vector(xp, side_sign * y_offset, z_anchor)
+            coxa, femur, tibia, foot, cleats = make_leg_module(hip_root, side_sign, cfg)
+            hip_housing = Part.makeSphere(cfg['hip_housing_d'] * 0.5, hip_root)
+
+            prefix = "Leg{}_{}".format(leg_index, side_name)
+            add_feature(doc, prefix + "_HipHousing", hip_housing)
+            add_feature(doc, prefix + "_Coxa", coxa)
+            add_feature(doc, prefix + "_Femur", femur)
+            add_feature(doc, prefix + "_Tibia", tibia)
+            add_feature(doc, prefix + "_Foot", foot)
+            add_feature(doc, prefix + "_Cleats_" + cfg['cleat_type'], cleats)
+            leg_index += 1
+
+    gp_l = max(520, cfg['body_l'] * 1.9)
+    gp_w = max(420, cfg['body_w'] * 1.9)
+    ground = Part.makePlane(gp_l, gp_w, App.Vector(-gp_l / 2.0, -gp_w / 2.0, 0), App.Vector(0, 0, 1))
+    add_feature(doc, "GroundPlaneRef", ground)
+
+    doc.recompute()
+
+    App.Console.PrintMessage("\nWeevil rover detailed model built.\n")
+    App.Console.PrintMessage("Profile: {}\n".format(BUILD_PROFILE))
+    App.Console.PrintMessage("Geometry variant: {}\n".format(GEOMETRY_VARIANT))
+    App.Console.PrintMessage("Cleat: {}\n".format(cfg['cleat_type']))
+    App.Console.PrintMessage("Foot radius used: {:.1f} mm (YAML requested: {:.1f} mm)\n".format(cfg['foot_r'], cfg['foot_r_yaml']))
+    App.Console.PrintMessage("Side min pitch: {:.1f} mm, clearance (pitch-2R): {:.1f} mm\n".format(cfg['min_pitch_mm'], cfg['side_clearance_mm']))
+    if cfg['foot_r'] < cfg['foot_r_yaml']:
+        App.Console.PrintWarning("Foot radius auto-clamped for non-overlap in compact mode.\n")
+    if cfg['side_clearance_mm'] < 0:
+        App.Console.PrintWarning("Foot overlap remains; increase x_positions spacing.\n")
+    if ppath:
+        App.Console.PrintMessage("YAML: {}\n".format(ppath))
+    else:
+        App.Console.PrintMessage("YAML: not found, used defaults\n")
+
+    try:
+        import FreeCADGui as Gui
+        Gui.SendMsgToActiveView("ViewFit")
+        Gui.activeDocument().activeView().viewIsometric()
+    except Exception:
+        pass
+
+
+if __name__ == "__main__":
+    main()

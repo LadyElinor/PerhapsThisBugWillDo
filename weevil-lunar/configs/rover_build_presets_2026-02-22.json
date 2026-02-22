@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "version": "v0.6",
+    "date": "2026-02-22",
+    "default_recommended": "scaled_full_cleat_baseline",
+    "macro": "cad/scripts/weevil_rover_detailed_build.FCMacro"
+  },
+  "presets": {
+    "compact_auto_clamped_baseline": {
+      "build_profile": "baseline",
+      "geometry_variant": "compact_auto_clamped"
+    },
+    "scaled_full_cleat_baseline": {
+      "build_profile": "baseline",
+      "geometry_variant": "scaled_full_cleat"
+    },
+    "compact_auto_clamped_fallback": {
+      "build_profile": "fallback",
+      "geometry_variant": "compact_auto_clamped"
+    },
+    "scaled_full_cleat_fallback": {
+      "build_profile": "fallback",
+      "geometry_variant": "scaled_full_cleat"
+    }
+  }
+}
