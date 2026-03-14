@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: bringup run_matrix report burrow_process gate
+.PHONY: bringup run_matrix report burrow_process bench_ingest gate
 
 bringup:
 	@echo "[bringup] validate run schema + COTS map"
@@ -27,7 +27,13 @@ burrow_process:
 	$(PYTHON) verification/scripts/retrieve_regolith_variant.py
 	@echo "[burrow_process] done"
 
-gate: burrow_process
+bench_ingest:
+	@echo "[bench_ingest] ingest minimal hardware trial template"
+	$(PYTHON) verification/scripts/ingest_minimal_hardware_trials.py
+	@echo "[bench_ingest] done"
+
+gate: burrow_process bench_ingest
 	@echo "[gate] integrated gate check"
+	$(PYTHON) verification/check_traceability_namespace.py
 	$(PYTHON) verification/run_gate_check.py
 	@echo "[gate] done"

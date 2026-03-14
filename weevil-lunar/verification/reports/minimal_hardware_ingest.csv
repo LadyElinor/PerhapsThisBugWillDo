@@ -1,0 +1,4 @@
+strategy_id,trial_count,avg_preload_N,pass
+S0,2,5.0,True
+S1,2,5.0,True
+S2,2,5.0,True

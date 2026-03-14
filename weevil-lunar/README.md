@@ -22,8 +22,10 @@ python -m venv .venv
 . .venv/Scripts/Activate.ps1
 pip install -r requirements.txt
 pytest
-python verification/run_gate_check.py
+make gate
 ```
+
+> If `make` is unavailable locally, run the equivalent Python commands in `Makefile` (`burrow_process`, `bench_ingest`, then gate checks).
 
 ## Verification and reproducibility
 Core checks:
@@ -83,6 +85,12 @@ Canonical receipt artifacts:
 
 ## Suggested first issues
 See `docs/open_issues_seed.md`.
+
+## Traceability + bench-data policy
+- Requirement namespace policy: `docs/requirements_namespace.md`
+- Legacy aliases: `verification/requirement_aliases.csv`
+- Minimal bench data protocol: `docs/bench_data_protocol.md`
+- Bench contract schema: `icd/bench_foot_anchor_contract.schema.json`
 
 ## License
 MIT (`LICENSE`)

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bench Foot Anchoring Trial Record",
+  "type": "object",
+  "required": [
+    "run_id",
+    "timestamp_utc",
+    "soil_id",
+    "strategy_id",
+    "preload_N",
+    "cycle_index",
+    "pull_rate_mm_per_s",
+    "sample_rate_hz"
+  ],
+  "properties": {
+    "run_id": {"type": "string", "minLength": 1},
+    "timestamp_utc": {"type": "string", "format": "date-time"},
+    "soil_id": {"type": "string", "minLength": 1},
+    "strategy_id": {"type": "string", "minLength": 1},
+    "preload_N": {"type": "number", "minimum": 0},
+    "cycle_index": {"type": "integer", "minimum": 1},
+    "pull_rate_mm_per_s": {"type": "number", "exclusiveMinimum": 0},
+    "sample_rate_hz": {"type": "number", "exclusiveMinimum": 0},
+    "F_peak_N": {"type": ["number", "null"]},
+    "k_t_N_per_mm": {"type": ["number", "null"]},
+    "x_slip_mm": {"type": ["number", "null"]},
+    "E_diss_Nmm": {"type": ["number", "null"]},
+    "sinkage_delta_mm": {"type": ["number", "null"]},
+    "notes": {"type": ["string", "null"]}
+  }
+}

@@ -1,0 +1,7 @@
+run_id,timestamp_utc,soil_id,strategy_id,preload_N,cycle_index,pull_rate_mm_per_s,sample_rate_hz,F_peak_N,k_t_N_per_mm,x_slip_mm,E_diss_Nmm,sinkage_delta_mm,notes
+MHDR-001,2026-02-18T22:59:00Z,SOIL_A,S0,5.0,1,2.0,200.0,,,,,,baseline press-only
+MHDR-002,2026-02-18T23:00:00Z,SOIL_A,S1,5.0,1,2.0,200.0,,,,,,press+twist
+MHDR-003,2026-02-18T23:01:00Z,SOIL_A,S2,5.0,1,2.0,200.0,,,,,,press+twist+vibration
+MHDR-004,2026-02-18T23:02:00Z,SOIL_B,S0,5.0,1,2.0,200.0,,,,,,baseline press-only
+MHDR-005,2026-02-18T23:03:00Z,SOIL_B,S1,5.0,1,2.0,200.0,,,,,,press+twist
+MHDR-006,2026-02-18T23:04:00Z,SOIL_B,S2,5.0,1,2.0,200.0,,,,,,press+twist+vibration

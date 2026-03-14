@@ -1,0 +1,3 @@
+legacy_requirement_id,canonical_requirement_id,notes
+REQ-MOB-001,REQ-LOCO-001,legacy mobility namespace retained for historical references
+REQ-MOB-002,REQ-LOCO-002,legacy mobility namespace retained for historical references

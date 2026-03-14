@@ -61,6 +61,12 @@ REPORTS = {
         "regolith_burrow_threshold_sweep.csv",
         "regolith_variant_retrieval.csv",
     ],
+    "traceability_namespace": [
+        "traceability_namespace_check.csv",
+    ],
+    "bench_data_ingest": [
+        "minimal_hardware_ingest.csv",
+    ],
 }
 
 
