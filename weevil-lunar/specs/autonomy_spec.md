@@ -9,12 +9,17 @@ Define onboard autonomy behaviors for delayed-communication lunar operations.
 - REQ-AUTO-003: Planner shall adapt gait/footholds on slip and margin violations.
 - REQ-AUTO-004: Health-aware planning shall reduce risk when torque/thermal margins degrade.
 - REQ-AUTO-005: System shall provide safe posture and recovery policy under comm delay/dropout.
+- REQ-AUTO-006: In subsurface-burrow mode, planner shall run phase-aware policy (entry, translate, resurfacing) with abort hooks per phase.
+- REQ-AUTO-007: Controller shall fuse in-medium sensing (e.g., temperature/volatile proxies and pressure/load trends) to detect hotspots, jams, and collapse risk.
+- REQ-AUTO-008: Subsurface mission logic shall prioritize low-disturbance path updates over shortest-path routing when collapse risk rises.
 
 ## Core policies
 - Slip response: reduce tangential demand, increase preload (bounded), re-anchor, replan
 - Margin response: if downslope<1.05 or lateral<1.20, block push-off
 - Fault response: enter recovery mode and attempt controlled retreat
+- Burrow response: if disturbance index exceeds threshold, reduce propulsion aggressiveness, switch to low-collapse maneuver set, or abort/resurface
 
 ## Verification
 - Latency/dropout simulation with waypoint completion criteria
 - Fault injection (degraded leg/joint model) with graceful degradation checks
+- Subsurface autonomy simulation with collapse-risk injection and phase abort/resurface checks

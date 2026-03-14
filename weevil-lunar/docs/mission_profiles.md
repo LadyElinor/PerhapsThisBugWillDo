@@ -14,3 +14,8 @@
 - Goal: operate with delayed comms and degraded conditions
 - Priority: autonomy safety modes and health-aware planning
 - Success: complete mission segment under comm dropouts and injected faults
+
+## Profile D: Subsurface Pocket Scout (Concept)
+- Goal: low-disturbance entry/translate/resurface reconnaissance in loose regolith pockets
+- Priority: disturbance budget, collapse-risk abort policy, resurfacing reliability
+- Success: phase completion with disturbance/collapse thresholds respected and retained energy reserve

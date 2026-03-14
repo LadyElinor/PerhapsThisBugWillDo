@@ -6,6 +6,7 @@ Define gait modes, stability targets, and slope behaviors for Weevil-Lunar mobil
 ## Modes
 - **Nominal:** quasi-static traverse on mild terrain
 - **Steep-slope:** enforced anchoring sequence, reduced speed, higher duty factor
+- **Subsurface-burrow (new):** low-disturbance penetration/translation in loose granular media using shape-coupled propulsion and bounded substrate disturbance
 - **Recovery:** stuck escape / retreat behavior
 
 ## Requirements
@@ -15,6 +16,9 @@ Define gait modes, stability targets, and slope behaviors for Weevil-Lunar mobil
 - REQ-LOCO-004: Recovery mode shall support at least one-step retreat from failed foothold state.
 - REQ-LOCO-005: Controller shall support a virtual rocker-bogie coordination profile to reduce body pitch/roll during uneven contact.
 - REQ-LOCO-006: Mobility controller shall enforce a hard tilt safety cap of 30° (warn at 25°) during autonomous traverse.
+- REQ-LOCO-007: Subsurface mode shall support explicit phase separation: entry/submerging, in-medium translation, and resurfacing.
+- REQ-LOCO-008: Subsurface mode shall maintain a bounded disturbance index (to avoid large radial-collapse-style media failure) against a configurable mission threshold.
+- REQ-LOCO-009: Burrowing tip geometry shall be wedge/shovel-class or equivalent low-drag profile for granular penetration.
 
 ## Control parameters (initial)
 - duty_factor_nominal: 0.65
@@ -26,3 +30,5 @@ Define gait modes, stability targets, and slope behaviors for Weevil-Lunar mobil
 - Flat-bed low-slip traverse test
 - Slope progression test up to 45° with directional margin checks
 - Disturbance recovery test with bounded slip and no tip-over
+- Subsurface phase test: entry -> in-medium translation -> resurfacing with completion criteria per phase
+- Disturbance-budget test: compare local void/collapse signature to configured threshold in representative simulant bins

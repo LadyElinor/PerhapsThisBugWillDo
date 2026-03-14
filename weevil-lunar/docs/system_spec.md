@@ -20,6 +20,7 @@
 ## 3. Architecture summary
 - Platform: weevil/beetle-inspired hexapod
 - Mobility mode: quasi-static first, dynamic later
+- Extended mobility concept: optional Crover-inspired subsurface-burrow profile for loose regolith volumes (entry/translate/resurface phases)
 - Foot strategy: directional cleats + twist-settle anchoring + preload scheduling
 - Autonomy: onboard foothold scoring and slip-aware gait adaptation
 
@@ -32,6 +33,8 @@
 - REQ-FOOT-003: On 45° slope, lateral margin shall be >= 1.20.
 - REQ-FOOT-004: Sinkage shall remain under configured limit in validation tests.
 - REQ-AUTO-001: Controller shall gate push-off behind anchoring state confirmation for steep slopes.
+- REQ-BURROW-001: System shall support phase-aware subsurface operation (entry, in-medium translation, resurfacing) in loose granular media mission profiles.
+- REQ-BURROW-002: Subsurface operation shall enforce bounded substrate-disturbance behavior and collapse-risk abort policy.
 - REQ-DUST-001: Interfaces shall be dust-hardened for repeated regolith contact cycles.
 - REQ-THERM-001: Thermal architecture shall keep critical electronics/actuators in operating band.
 - REQ-CAD-001: CAD package shall include parameterized phase-2 fixture integration artifacts and export scaffolding for reproducible AP242/URDF bundle generation.
@@ -54,3 +57,6 @@ From v0.3 directional rescue sweep:
 - Validate directional gain assumptions against higher-fidelity contact models/hardware bins.
 - Add extraction/time penalties for anchoring state transitions in gait planner.
 - Add thermal-vac and dust endurance evidence into requirement traceability.
+- Define and calibrate a regolith disturbance index for subsurface mode (linked to collapse-risk triggers).
+- Build and validate a wedge/shovel tip candidate set for low-drag granular entry.
+- Establish in-medium sensing stack and mission-level data products for subsurface scouting.
