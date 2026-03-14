@@ -6,7 +6,6 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
-
 REPORTS = {
     "mobility": [
         "steep_slope_state_machine.csv",
@@ -54,6 +53,14 @@ REPORTS = {
         "phase2_cad_artifacts.csv",
         "phase2_export_bundle.csv",
     ],
+    "burrow_profile": [
+        "regolith_burrow_profile.csv",
+    ],
+    "burrow_process": [
+        "regolith_variant_schema_validation.csv",
+        "regolith_burrow_threshold_sweep.csv",
+        "regolith_variant_retrieval.csv",
+    ],
 }
 
 
@@ -88,7 +95,8 @@ def main() -> None:
             cls_status = "partial"
         else:
             cls_status = "unknown"
-        out_rows.append({"class": cls, "status": cls_status, "details": "; ".join([f"{f}:{s}" for f, s in file_statuses])})
+        details = "; ".join([f"{f}:{s}" for f, s in file_statuses])
+        out_rows.append({"class": cls, "status": cls_status, "details": details})
 
     csv_path = report_dir / "gate_check.csv"
     with csv_path.open("w", newline="", encoding="utf-8") as f:

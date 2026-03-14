@@ -11,3 +11,4 @@ REQ-THERM-004;REQ-THERM-005,test_rover_informed_profile,mare,0,warm core + therm
 REQ-PWR-003;REQ-PWR-004;REQ-COMMS-003,test_rover_informed_profile,mare,0,dust-derated energy margin>=0 and telemetry retained,pass,verification/reports/rover_informed_profile.md
 REQ-CAD-001,test_phase2_cad_artifacts,mare,0,all phase2 CAD integration artifacts present,pass,verification/reports/phase2_cad_artifacts.md
 REQ-CAD-002,test_phase2_export_bundle,mare,0,phase2 export bundle exists and is fresh,pass,verification/reports/phase2_export_bundle.md
+REQ-LOCO-007;REQ-LOCO-008;REQ-LOCO-009;REQ-AUTO-006;REQ-AUTO-007;REQ-AUTO-008;REQ-BURROW-001;REQ-BURROW-002,test_regolith_burrow_profile,loose_regolith_pocket,0,phase-aware config + disturbance/collapse/resurface/energy checks pass,pass,verification/reports/regolith_burrow_profile.md

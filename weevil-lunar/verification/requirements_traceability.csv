@@ -39,3 +39,11 @@ REQ-PWR-004,specs/power_comms_spec.md,test_rover_informed_profile,verification/t
 REQ-COMMS-003,specs/power_comms_spec.md,test_rover_informed_profile,verification/test_rover_informed_profile.py,verification/reports/rover_informed_profile.md,pass
 REQ-CAD-001,docs/system_spec.md,test_phase2_cad_artifacts,verification/test_phase2_cad_artifacts.py,verification/reports/phase2_cad_artifacts.md,pass
 REQ-CAD-002,docs/system_spec.md,test_phase2_export_bundle,verification/test_phase2_export_bundle.py,verification/reports/phase2_export_bundle.md,pass
+REQ-LOCO-007,specs/locomotion_spec.md,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
+REQ-LOCO-008,specs/locomotion_spec.md,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
+REQ-LOCO-009,specs/locomotion_spec.md,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
+REQ-AUTO-006,specs/autonomy_spec.md,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
+REQ-AUTO-007,specs/autonomy_spec.md,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
+REQ-AUTO-008,specs/autonomy_spec.md,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
+REQ-BURROW-001,docs/system_spec.md#4,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
+REQ-BURROW-002,docs/system_spec.md#4,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass

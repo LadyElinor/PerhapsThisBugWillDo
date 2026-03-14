@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: bringup run_matrix report
+.PHONY: bringup run_matrix report burrow_process gate
 
 bringup:
 	@echo "[bringup] validate run schema + COTS map"
@@ -19,3 +19,15 @@ report:
 	$(PYTHON) verification/check_export_receipt.py --receipt cad/exports/latest/export_receipt_v0.4.json --max-age-days 30
 	$(PYTHON) verification/check_cots_interface_map.py
 	@echo "[report] done"
+
+burrow_process:
+	@echo "[burrow_process] schema validation + threshold sweep + retrieval"
+	$(PYTHON) verification/scripts/validate_regolith_burrow_variants.py
+	$(PYTHON) verification/scripts/sweep_regolith_burrow_thresholds.py
+	$(PYTHON) verification/scripts/retrieve_regolith_variant.py
+	@echo "[burrow_process] done"
+
+gate: burrow_process
+	@echo "[gate] integrated gate check"
+	$(PYTHON) verification/run_gate_check.py
+	@echo "[gate] done"

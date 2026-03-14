@@ -43,6 +43,7 @@ jobs:
           python verification/test_rover_informed_profile.py
           python verification/test_phase2_cad_artifacts.py
           python verification/test_phase2_export_bundle.py
+          make burrow_process
           python verification/run_gate_check.py
           python verification/sensitivity_sweep.py
           python verification/benchmark_classical_models.py

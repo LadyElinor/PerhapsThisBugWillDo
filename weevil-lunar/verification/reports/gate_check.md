@@ -13,3 +13,5 @@
 | gait_phase | pass | stance_phase_detection.csv:pass; duty_cycle_cadence_envelope.csv:pass |
 | coupling | partial | offplane_coupling_index.csv:pass; offplane_impulse_recovery.csv:fail; axis_orthogonality_sensitivity.csv:fail |
 | cad_phase2 | pass | phase2_cad_artifacts.csv:pass; phase2_export_bundle.csv:pass |
+| burrow_profile | pass | regolith_burrow_profile.csv:pass |
+| burrow_process | partial | regolith_variant_schema_validation.csv:pass; regolith_burrow_threshold_sweep.csv:partial; regolith_variant_retrieval.csv:pass |

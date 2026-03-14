@@ -1,0 +1,75 @@
+meta:
+  version: v0.1
+  date: 2026-03-14
+  purpose: Crover-like subsurface regolith navigation concept presets
+  default_recommended: regolith_swimmer_v1
+
+variants:
+  regolith_swimmer_v1:
+    description: low-disturbance subsurface scouting profile for loose regolith pockets
+
+    # geometry
+    leading_profile: wedge_shovel
+    body_form: elongated_ovoid
+    propulsion_mode: rotational_coupled_translation
+
+    # control phases
+    phases: [entry, translate, resurface]
+
+    # safety + mission constraints
+    max_target_depth_m: 0.35
+    disturbance_index_cap: 0.40
+    collapse_risk_abort_threshold: 0.70
+    resurfacing_margin_min: 1.10
+
+    # power + thermal reserve policy
+    min_energy_reserve_fraction: 0.25
+    max_component_temp_c: 70
+
+    # sensing profile
+    sensing:
+      thermal: true
+      volatile_proxy: true
+      load_trend: true
+
+    # integration intent
+    integration_mode: optional_subsystem
+    notes: "Surface hexapod mode remains primary; this variant is a mission-conditional extension."
+
+  regolith_swimmer_conservative:
+    description: reduced-depth, lower-disturbance profile with larger abort margin
+    leading_profile: wedge_shovel
+    body_form: elongated_ovoid
+    propulsion_mode: rotational_coupled_translation
+    phases: [entry, translate, resurface]
+    max_target_depth_m: 0.22
+    disturbance_index_cap: 0.30
+    collapse_risk_abort_threshold: 0.62
+    resurfacing_margin_min: 1.18
+    min_energy_reserve_fraction: 0.30
+    max_component_temp_c: 65
+    sensing:
+      thermal: true
+      volatile_proxy: true
+      load_trend: true
+    integration_mode: optional_subsystem
+    notes: "Prefer for uncertain media characterization and tight risk posture."
+
+  regolith_swimmer_aggressive:
+    description: deeper scouting profile with looser disturbance budget and tighter reserves
+    leading_profile: wedge_shovel
+    body_form: elongated_ovoid
+    propulsion_mode: rotational_coupled_translation
+    phases: [entry, translate, resurface]
+    max_target_depth_m: 0.50
+    disturbance_index_cap: 0.50
+    collapse_risk_abort_threshold: 0.78
+    resurfacing_margin_min: 1.05
+    min_energy_reserve_fraction: 0.20
+    max_component_temp_c: 75
+    sensing:
+      thermal: true
+      volatile_proxy: true
+      load_trend: true
+    integration_mode: optional_subsystem
+    notes: "Use only when mission requires deeper in-medium coverage and risk budget allows."

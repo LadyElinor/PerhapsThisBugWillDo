@@ -1,0 +1,2 @@
+variant,leading_profile,propulsion_mode,phases,max_target_depth_m,disturbance_index_cap,collapse_risk_abort_threshold,resurfacing_margin_min,min_energy_reserve_fraction,max_component_temp_c,leading_profile_ok,propulsion_mode_ok,phase_sequence_ok,depth_budget_ok,disturbance_cap_ok,collapse_abort_ok,resurfacing_margin_ok,energy_reserve_ok,thermal_cap_ok,sensing_stack_ok,pass
+regolith_swimmer_v1,wedge_shovel,rotational_coupled_translation,entry|translate|resurface,0.35,0.4,0.7,1.1,0.25,70,True,True,True,True,True,True,True,True,True,True,True
