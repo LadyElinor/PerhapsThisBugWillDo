@@ -1,0 +1,10 @@
+run_id,timestamp_utc,regolith_class,strategy_id,preload_N,pull_rate_mm_per_s,sample_rate_hz,temperature_C,F_peak_N,k_t_N_per_mm,x_slip_mm,sinkage_delta_mm,notes
+B2M-001,2026-03-14T15:00:00Z,R1,S0,4.0,2.0,200,18.0,14.2,2.2,2.9,0.9,baseline
+B2M-002,2026-03-14T15:05:00Z,R1,S0,6.0,2.0,200,18.3,17.8,2.5,2.4,0.8,baseline
+B2M-003,2026-03-14T15:10:00Z,R1,S0,8.0,2.0,200,18.1,21.5,2.9,1.8,0.7,baseline
+B2M-004,2026-03-14T15:15:00Z,R1,S1,4.0,2.0,200,18.4,15.7,2.5,2.4,0.8,press+twist
+B2M-005,2026-03-14T15:20:00Z,R1,S1,6.0,2.0,200,18.7,19.6,3.0,1.9,0.7,press+twist
+B2M-006,2026-03-14T15:25:00Z,R1,S1,8.0,2.0,200,18.5,23.4,3.4,1.5,0.6,press+twist
+B2M-007,2026-03-14T15:30:00Z,R2,S2,4.0,2.0,200,19.0,16.3,2.8,2.2,0.8,press+twist+vibe
+B2M-008,2026-03-14T15:35:00Z,R2,S2,6.0,2.0,200,19.2,20.6,3.3,1.7,0.6,press+twist+vibe
+B2M-009,2026-03-14T15:40:00Z,R2,S2,8.0,2.0,200,19.5,24.8,3.9,1.2,0.5,press+twist+vibe

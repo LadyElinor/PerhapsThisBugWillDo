@@ -1,0 +1,3 @@
+timestamp_utc,total_findings,high,medium,low,weighted_score,max_weighted_score,pass
+2026-03-14T20:58:27.043697+00:00,0,0,0,0,0,10,True
+2026-03-14T21:27:55.626017+00:00,0,0,0,0,0,10,True

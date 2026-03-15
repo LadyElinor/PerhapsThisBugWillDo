@@ -60,12 +60,27 @@ REPORTS = {
         "regolith_variant_schema_validation.csv",
         "regolith_burrow_threshold_sweep.csv",
         "regolith_variant_retrieval.csv",
+        "regolith_variant_evaluation.csv",
+        "regolith_variant_selection.csv",
     ],
     "traceability_namespace": [
         "traceability_namespace_check.csv",
     ],
     "bench_data_ingest": [
         "minimal_hardware_ingest.csv",
+    ],
+    "bench_calibration": [
+        "bench_model_error.csv",
+        "bench_model_error_trend_check.csv",
+        "bench_model_threshold_tuning.csv",
+    ],
+    "reasoning_rigor": [
+        "competing_hypotheses_check.csv",
+        "uncertainty_ledger_check.csv",
+    ],
+    "copilot": [
+        "copilot_status.csv",
+        "copilot_trend_check.csv",
     ],
 }
 

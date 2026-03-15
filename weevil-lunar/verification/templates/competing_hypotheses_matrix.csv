@@ -1,0 +1,4 @@
+risk_id,observation,hypothesis_id,hypothesis,predicted_signature,disconfirming_test,current_confidence,owner,status
+RISK-TRACTION-001,Intermittent slip spikes on fine regolith,H1,Insufficient preload at contact,F_peak_N scales weakly with preload and slip remains high,Increase preload sweep and check if slip drops monotonically,0.45,unassigned,open
+RISK-TRACTION-001,Intermittent slip spikes on fine regolith,H2,Shear band formation in local grain pack,Slip events cluster after repeated cycles at same location,Alternate contact loci and compare slip clustering,0.35,unassigned,open
+RISK-TRACTION-001,Intermittent slip spikes on fine regolith,H3,Foot geometry resonance with grain size,Slip peaks at specific grain-size bins independent of preload,Run controlled grain-size bins with fixed preload,0.20,unassigned,open

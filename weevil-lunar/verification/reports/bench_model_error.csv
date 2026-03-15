@@ -1,0 +1,4 @@
+group_key,strategy_id,regolith_class,temperature_bucket,n_samples,force_mae_N,slip_mae_mm,stiffness_mae_N_per_mm,force_ci95_N,slip_ci95_mm,stiffness_ci95_N_per_mm,pass
+S0|R1|T_NOMINAL,S0,R1,T_NOMINAL,3,0.022222,0.022222,0.244444,0.032667,0.032667,0.397407,True
+S1|R1|T_NOMINAL,S1,R1,T_NOMINAL,3,0.022222,0.022222,0.311111,0.032667,0.032667,0.51027,True
+S2|R2|T_NOMINAL,S2,R2,T_NOMINAL,3,0.022222,0.0,0.377778,0.032667,0.0,0.62324,True

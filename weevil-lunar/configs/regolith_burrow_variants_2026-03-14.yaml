@@ -1,8 +1,8 @@
 meta:
-  version: v0.1
+  version: v0.2
   date: 2026-03-14
   purpose: Crover-like subsurface regolith navigation concept presets
-  default_recommended: regolith_swimmer_v1
+  default_recommended: regolith_swimmer_balanced_r2
 
 variants:
   regolith_swimmer_v1:
@@ -73,3 +73,60 @@ variants:
       load_trend: true
     integration_mode: optional_subsystem
     notes: "Use only when mission requires deeper in-medium coverage and risk budget allows."
+
+  regolith_swimmer_balanced_r2:
+    description: balanced production-candidate profile tuned for stable margin and moderate depth
+    leading_profile: wedge_shovel
+    body_form: elongated_ovoid
+    propulsion_mode: rotational_coupled_translation
+    phases: [entry, translate, resurface]
+    max_target_depth_m: 0.32
+    disturbance_index_cap: 0.38
+    collapse_risk_abort_threshold: 0.71
+    resurfacing_margin_min: 1.12
+    min_energy_reserve_fraction: 0.26
+    max_component_temp_c: 69
+    sensing:
+      thermal: true
+      volatile_proxy: true
+      load_trend: true
+    integration_mode: optional_subsystem
+    notes: "Recommended for baseline lunar-weevil prototype iteration with guardrails."
+
+  regolith_swimmer_deep_scout_r1:
+    description: deep-pocket scouting variant with tightened thermal guard despite depth push
+    leading_profile: wedge_shovel
+    body_form: elongated_ovoid
+    propulsion_mode: rotational_coupled_translation
+    phases: [entry, translate, resurface]
+    max_target_depth_m: 0.58
+    disturbance_index_cap: 0.46
+    collapse_risk_abort_threshold: 0.83
+    resurfacing_margin_min: 1.08
+    min_energy_reserve_fraction: 0.23
+    max_component_temp_c: 67
+    sensing:
+      thermal: true
+      volatile_proxy: true
+      load_trend: true
+    integration_mode: optional_subsystem
+    notes: "For targeted deep volatile proxy passes; requires stricter autonomy watchdogs."
+
+  regolith_swimmer_low_energy_guard_r1:
+    description: energy-constrained fallback profile for end-of-sol contingency operations
+    leading_profile: wedge_shovel
+    body_form: elongated_ovoid
+    propulsion_mode: rotational_coupled_translation
+    phases: [entry, translate, resurface]
+    max_target_depth_m: 0.24
+    disturbance_index_cap: 0.31
+    collapse_risk_abort_threshold: 0.66
+    resurfacing_margin_min: 1.16
+    min_energy_reserve_fraction: 0.34
+    max_component_temp_c: 64
+    sensing:
+      thermal: true
+      volatile_proxy: true
+      load_trend: true
+    integration_mode: optional_subsystem
+    notes: "Prioritizes survivability and guaranteed resurface under low-energy budget."

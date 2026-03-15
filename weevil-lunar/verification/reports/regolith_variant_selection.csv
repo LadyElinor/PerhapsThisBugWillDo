@@ -1,0 +1,2 @@
+mission_intent,runtime_energy_reserve,runtime_component_temp_c,selected_variant,risk_posture,depth_m,reserve,runtime_feasible,resurfacing_margin,synthetic_success_score,pass
+adaptive,0.24,69.0,regolith_swimmer_conservative,conservative,0.22,0.3,False,1.18,0.306,True

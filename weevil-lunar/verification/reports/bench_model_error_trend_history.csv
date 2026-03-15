@@ -1,0 +1,5 @@
+sample_index,strategy_count,mean_force_mae_N,mean_slip_mae_mm,mean_stiffness_mae_N_per_mm,fail_count
+1,3,0.022222,0.014815,0.311111,3
+2,3,0.022222,0.014815,0.311111,1
+3,3,0.022222,0.014815,0.311111,0
+4,3,0.022222,0.014815,0.311111,0

@@ -1,0 +1,2 @@
+risk_id,hypothesis_count,has_predicted_signatures,has_disconfirming_tests,enforced,pass
+RISK-TRACTION-001,3,True,True,True,True

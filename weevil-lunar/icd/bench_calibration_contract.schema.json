@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bench-to-Model Calibration Trial Contract",
+  "type": "object",
+  "required": [
+    "run_id",
+    "timestamp_utc",
+    "regolith_class",
+    "strategy_id",
+    "preload_N",
+    "pull_rate_mm_per_s",
+    "sample_rate_hz",
+    "temperature_C",
+    "F_peak_N",
+    "k_t_N_per_mm",
+    "x_slip_mm"
+  ],
+  "properties": {
+    "run_id": {"type": "string"},
+    "timestamp_utc": {"type": "string"},
+    "regolith_class": {"type": "string"},
+    "strategy_id": {"type": "string"},
+    "preload_N": {"type": "number", "minimum": 0},
+    "pull_rate_mm_per_s": {"type": "number", "minimum": 0},
+    "sample_rate_hz": {"type": "number", "exclusiveMinimum": 0},
+    "temperature_C": {"type": "number"},
+    "F_peak_N": {"type": "number", "minimum": 0},
+    "k_t_N_per_mm": {"type": "number", "minimum": 0},
+    "x_slip_mm": {"type": "number", "minimum": 0},
+    "sinkage_delta_mm": {"type": ["number", "string"]},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": true
+}

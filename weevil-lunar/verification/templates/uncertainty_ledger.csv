@@ -1,0 +1,4 @@
+item_id,area,bucket,impact,statement,owner,next_measurement,deadline_utc,last_updated_utc,status
+UNC-001,traction_model,known,medium,Preload positively correlates with peak pull force in current bench template,calibration,Expand preload sweep to 3 additional regolith classes,2026-03-28T00:00:00Z,2026-03-14T22:06:00Z,active
+UNC-002,traction_model,uncertain,high,Temperature sensitivity slope across regolith classes is not yet robustly estimated,calibration,Add low/high temp controlled repeats for each strategy,2026-03-28T00:00:00Z,2026-03-14T22:06:00Z,active
+UNC-003,traction_model,unknown,high,Vacuum-conditioned granular cohesion effect on slip regime transitions is unmeasured,calibration,Define vacuum test fixture and first pilot protocol,2026-04-04T00:00:00Z,2026-03-14T22:06:00Z,open

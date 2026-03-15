@@ -49,3 +49,13 @@ Expected refreshed artifacts:
 ## 6) Commit hygiene
 - Keep scoped commits only.
 - Separate process wiring, model/spec changes, and docs where practical.
+
+## 7) One-command clean pause (optional)
+From workspace root:
+```powershell
+powershell -ExecutionPolicy Bypass -File weevil-lunar/tools/clean_pause_workflow.ps1 -RepoPath . -Scope weevil-lunar -Message "cleanup: park local weevil-lunar workspace noise"
+```
+This will:
+1) stash scoped tracked+untracked changes,
+2) reset/checkout scoped tracked files,
+3) clean scoped untracked files.

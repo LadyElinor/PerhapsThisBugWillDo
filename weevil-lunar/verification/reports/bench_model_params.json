@@ -1,0 +1,131 @@
+{
+  "source": "verification\\templates\\bench_calibration_trials.csv",
+  "grouping": "strategy_id + regolith_class + temperature_bucket",
+  "models": {
+    "S0|R1|T_NOMINAL": {
+      "strategy_id": "S0",
+      "regolith_class": "R1",
+      "temperature_bucket": "T_NOMINAL",
+      "n": 3,
+      "force_model": {
+        "alpha": 1.8250000000000002,
+        "beta": 6.883333333333331
+      },
+      "slip_model": {
+        "alpha": -0.27499999999999997,
+        "beta": 4.016666666666667
+      },
+      "stiffness_model": {
+        "mean_k_t_N_per_mm": 2.533333333333333
+      },
+      "fit_error": {
+        "force_mae_N": 0.02222222222222155,
+        "slip_mae_mm": 0.022222222222222365,
+        "stiffness_mae_N_per_mm": 0.24444444444444433
+      },
+      "confidence_95": {
+        "force_ci95_N": 0.03266666666666539,
+        "slip_ci95_mm": 0.03266666666666677,
+        "stiffness_ci95_N_per_mm": 0.39740715197948356
+      }
+    },
+    "S1|R1|T_NOMINAL": {
+      "strategy_id": "S1",
+      "regolith_class": "R1",
+      "temperature_bucket": "T_NOMINAL",
+      "n": 3,
+      "force_model": {
+        "alpha": 1.9249999999999998,
+        "beta": 8.016666666666667
+      },
+      "slip_model": {
+        "alpha": -0.22499999999999998,
+        "beta": 3.283333333333333
+      },
+      "stiffness_model": {
+        "mean_k_t_N_per_mm": 2.966666666666667
+      },
+      "fit_error": {
+        "force_mae_N": 0.022222222222222737,
+        "slip_mae_mm": 0.022222222222222216,
+        "stiffness_mae_N_per_mm": 0.31111111111111106
+      },
+      "confidence_95": {
+        "force_ci95_N": 0.03266666666666772,
+        "slip_ci95_mm": 0.0326666666666667,
+        "stiffness_ci95_N_per_mm": 0.510269645492568
+      }
+    },
+    "S2|R2|T_NOMINAL": {
+      "strategy_id": "S2",
+      "regolith_class": "R2",
+      "temperature_bucket": "T_NOMINAL",
+      "n": 3,
+      "force_model": {
+        "alpha": 2.125,
+        "beta": 7.816666666666666
+      },
+      "slip_model": {
+        "alpha": -0.25000000000000006,
+        "beta": 3.2
+      },
+      "stiffness_model": {
+        "mean_k_t_N_per_mm": 3.3333333333333335
+      },
+      "fit_error": {
+        "force_mae_N": 0.022222222222222143,
+        "slip_mae_mm": 1.4802973661668753e-16,
+        "stiffness_mae_N_per_mm": 0.37777777777777793
+      },
+      "confidence_95": {
+        "force_ci95_N": 0.03266666666666713,
+        "slip_ci95_mm": 1.450691418843538e-16,
+        "stiffness_ci95_N_per_mm": 0.6232402782590712
+      }
+    }
+  },
+  "global_by_strategy": {
+    "S0": {
+      "n": 3,
+      "force_model": {
+        "alpha": 1.8250000000000002,
+        "beta": 6.883333333333331
+      },
+      "slip_model": {
+        "alpha": -0.27499999999999997,
+        "beta": 4.016666666666667
+      },
+      "stiffness_model": {
+        "mean_k_t_N_per_mm": 2.533333333333333
+      }
+    },
+    "S1": {
+      "n": 3,
+      "force_model": {
+        "alpha": 1.9249999999999998,
+        "beta": 8.016666666666667
+      },
+      "slip_model": {
+        "alpha": -0.22499999999999998,
+        "beta": 3.283333333333333
+      },
+      "stiffness_model": {
+        "mean_k_t_N_per_mm": 2.966666666666667
+      }
+    },
+    "S2": {
+      "n": 3,
+      "force_model": {
+        "alpha": 2.125,
+        "beta": 7.816666666666666
+      },
+      "slip_model": {
+        "alpha": -0.25000000000000006,
+        "beta": 3.2
+      },
+      "stiffness_model": {
+        "mean_k_t_N_per_mm": 3.3333333333333335
+      }
+    }
+  }
+}

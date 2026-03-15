@@ -1,0 +1,14 @@
+version: 1
+notes: >-
+  Suppression policy for known legacy artifacts and accepted transitional statuses.
+  Goal: reduce noise while preserving visibility for actionable gaps.
+
+suppress_missing_report_prefixes:
+  - results/GPT/Robotics/
+
+suppress_status_contains:
+  - baseline-fail
+  - partial-pass
+
+suppress_stale_report_prefixes:
+  - verification/reports/

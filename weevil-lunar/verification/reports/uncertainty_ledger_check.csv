@@ -1,0 +1,4 @@
+item_id,bucket,impact,high_impact_unknown,owner_ok,next_measurement_ok,stale,pass
+UNC-001,known,medium,False,True,True,False,True
+UNC-002,uncertain,high,False,True,True,False,True
+UNC-003,unknown,high,True,True,True,False,True

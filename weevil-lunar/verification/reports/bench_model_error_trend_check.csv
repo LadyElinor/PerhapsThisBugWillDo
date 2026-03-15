@@ -1,0 +1,2 @@
+sample_index,delta_force_mae_N,delta_slip_mae_mm,delta_stiffness_mae_N_per_mm,delta_fail_count,pass
+4,0.0,0.0,0.0,0,True
