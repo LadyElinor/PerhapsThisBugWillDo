@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: bringup run_matrix report burrow_process bench_ingest bench_calibrate reasoning_rigor governance_artifacts copilot gate
+.PHONY: bringup run_matrix report burrow_process bench_ingest bench_calibrate reasoning_rigor governance_artifacts precommit_sanity copilot gate gate_py governance_py
 
 bringup:
 	@echo "[bringup] validate run schema + COTS map"
@@ -50,11 +50,13 @@ reasoning_rigor:
 
 governance_artifacts:
 	@echo "[governance_artifacts] validate ICD contracts, receipt schema/template, perception bins, and NASA-JPL retry queue"
-	$(PYTHON) verification/scripts/validate_icd_contract_catalog.py
-	$(PYTHON) verification/scripts/validate_build_gate_receipt_template.py
-	$(PYTHON) verification/scripts/validate_perception_eval_protocol_bins.py
-	$(PYTHON) verification/scripts/check_nasa_jpl_retry_queue.py
+	$(PYTHON) scripts/run_governance_checks.py
 	@echo "[governance_artifacts] done"
+
+precommit_sanity:
+	@echo "[precommit_sanity] check staged file hygiene"
+	$(PYTHON) scripts/precommit_sanity.py
+	@echo "[precommit_sanity] done"
 
 copilot:
 	@echo "[copilot] run verification copilot scan + trend update"
@@ -68,3 +70,9 @@ gate: burrow_process bench_ingest bench_calibrate reasoning_rigor governance_art
 	$(PYTHON) verification/check_traceability_namespace.py
 	$(PYTHON) verification/run_gate_check.py
 	@echo "[gate] done"
+
+governance_py:
+	$(PYTHON) scripts/run_governance_checks.py
+
+gate_py:
+	$(PYTHON) scripts/run_gate.py

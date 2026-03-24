@@ -49,7 +49,13 @@ If `make` is available:
 make governance_artifacts
 ```
 
-Fallback (no `make`):
+Cross-platform runner (recommended):
+
+```bash
+python scripts/run_governance_checks.py
+```
+
+Direct validators:
 
 ```bash
 python verification/scripts/validate_icd_contract_catalog.py

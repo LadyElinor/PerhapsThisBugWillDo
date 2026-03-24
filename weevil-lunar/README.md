@@ -25,7 +25,11 @@ pytest
 make gate
 ```
 
-> If `make` is unavailable locally, run the equivalent Python commands in `Makefile` (`burrow_process`, `bench_ingest`, then gate checks).
+Cross-platform Python alternatives (no `make` required):
+```bash
+python scripts/run_governance_checks.py
+python scripts/run_gate.py
+```
 
 ## Verification and reproducibility
 Core checks:
@@ -46,13 +50,19 @@ yamllint .
 ## Governance checks (CI-wired)
 Governance artifact checks are documented in:
 - `docs/CI_GOVERNANCE_CHECKS.md`
+- `docs/ARTIFACT_POLICY.md`
 
 Run locally:
 ```bash
 make governance_artifacts
+# or
+python scripts/run_governance_checks.py
 ```
 
-If `make` is unavailable, run the Python validators listed in that doc.
+Optional pre-commit hygiene check (mixed workspace safety):
+```bash
+python scripts/precommit_sanity.py
+```
 
 ## Included now
 - `docs/system_spec.md`
