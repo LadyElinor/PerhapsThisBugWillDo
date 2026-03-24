@@ -1,0 +1,80 @@
+repo,priority,priority_reason,status,last_error,suggested_action
+nasa-jpl/ION-DTN,3,critical:ion-dtn,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/ion-core,3,critical:ion-core,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/ROSCO,3,critical:rosco,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/lunasynth,3,critical:lunasynth,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/martian,3,critical:martian,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/mbl_mars,3,critical:mbl_mars,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/motor_model,3,critical:motor_model,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/ros2-ion,3,critical:ros2-ion,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/rosa,3,critical:rosa,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/rosa-isaacsim,3,critical:rosa,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/tasksat,3,critical:tasksat,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/visual-perception-engine,3,critical:visual-perception-engine,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/landmark_tools,2,high:landmark,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/Blackbird,2,high:blackbird,recovered,HTTP Error 403: rate limit exceeded,defer (already recovered)
+nasa-jpl/ACI-colorization,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/CouchbaseSync,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/DataDrive-Frontend,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/DataDrive-Middleware,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/DataDrive-Notification-Lambdas,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/DataDrive-Thumbnail-Generator,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/LLM_Exploration_Workflows,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/MACOS_resources,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/MonteCop,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/SAAS,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/SAWSCS-SBC,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/ScrubView,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/Space-Balls-MST,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/SpaceImages-iOS,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/TetherCAD,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/ViewCubeHelper,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/auto_SAR_Ocean_Contrast,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/biostar,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/cgi-eetc,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/cgi-howfsc,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/cortex,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/drive-primer,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/dtest,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/fcat_msgs,0,low:generic,pending_retry,[Errno 2] No such file or directory: 'docs\\external\\fcat_msgs\\MANIFEST.json',retry_when_rate_limit_resets
+nasa-jpl/guiss,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/honeycomb,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/honeycomb-caspian-assets,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/hwo-slaps,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/image-data,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/ion-config-tool,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/ion-network-model,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/itslive-ieee,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/jplTime,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/jpl_time,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/jsd-fix-output-index-issue,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/mango-docs,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/mango-ingest,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/mango-project-management,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/mango-ui,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/memhold,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/meta-jpl-versal,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/neat_tnp,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/nebula2-wildos,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/patch-version,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/proper-models,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/pyion,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/spac-kit-europa-clipper,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/svelte-stellar,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/test-patch-version,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/tnet-docs,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/tos2ca-anomaly-detection,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/tos2ca-aux-geoir,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/tos2ca-containerization,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/tos2ca-data-access-server,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/tos2ca-data-dictionaries,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/tos2ca-documentation,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/tos2ca-fortracc-module,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/tos2ca-user-interface,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/uavsar-wildfire,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/uavsar-wildfire-rtc,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/versal-manifest,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/versal-sar-backprojection-design,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/versal-yocto-build,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/vic2png,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets
+nasa-jpl/wagtail-non-admin-draftail,0,low:generic,pending_retry,HTTP Error 403: rate limit exceeded,retry_when_rate_limit_resets

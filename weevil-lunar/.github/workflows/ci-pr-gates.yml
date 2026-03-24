@@ -68,6 +68,7 @@ jobs:
           make bench_ingest
           make bench_calibrate
           make reasoning_rigor
+          make governance_artifacts
           make copilot
           python verification/check_traceability_namespace.py
           python verification/run_gate_check.py

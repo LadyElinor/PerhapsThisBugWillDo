@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: bringup run_matrix report burrow_process bench_ingest bench_calibrate reasoning_rigor copilot gate
+.PHONY: bringup run_matrix report burrow_process bench_ingest bench_calibrate reasoning_rigor governance_artifacts copilot gate
 
 bringup:
 	@echo "[bringup] validate run schema + COTS map"
@@ -48,6 +48,14 @@ reasoning_rigor:
 	$(PYTHON) verification/scripts/check_uncertainty_ledger.py
 	@echo "[reasoning_rigor] done"
 
+governance_artifacts:
+	@echo "[governance_artifacts] validate ICD contracts, receipt schema/template, perception bins, and NASA-JPL retry queue"
+	$(PYTHON) verification/scripts/validate_icd_contract_catalog.py
+	$(PYTHON) verification/scripts/validate_build_gate_receipt_template.py
+	$(PYTHON) verification/scripts/validate_perception_eval_protocol_bins.py
+	$(PYTHON) verification/scripts/check_nasa_jpl_retry_queue.py
+	@echo "[governance_artifacts] done"
+
 copilot:
 	@echo "[copilot] run verification copilot scan + trend update"
 	$(PYTHON) verification/copilot/run_copilot.py --stale-days 14 --max-weighted-score 10 --suppressions verification/copilot/suppressions.yaml
@@ -55,7 +63,7 @@ copilot:
 	$(PYTHON) verification/copilot/check_trend.py
 	@echo "[copilot] done"
 
-gate: burrow_process bench_ingest bench_calibrate reasoning_rigor copilot
+gate: burrow_process bench_ingest bench_calibrate reasoning_rigor governance_artifacts copilot
 	@echo "[gate] integrated gate check"
 	$(PYTHON) verification/check_traceability_namespace.py
 	$(PYTHON) verification/run_gate_check.py

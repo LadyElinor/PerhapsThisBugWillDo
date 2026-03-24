@@ -43,6 +43,17 @@ ruff check . --fix
 yamllint .
 ```
 
+## Governance checks (CI-wired)
+Governance artifact checks are documented in:
+- `docs/CI_GOVERNANCE_CHECKS.md`
+
+Run locally:
+```bash
+make governance_artifacts
+```
+
+If `make` is unavailable, run the Python validators listed in that doc.
+
 ## Included now
 - `docs/system_spec.md`
 - `specs/foot_anchoring_spec.md`

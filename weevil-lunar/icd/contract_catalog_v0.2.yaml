@@ -1,0 +1,126 @@
+catalog_version: "0.2"
+owner: "weevil-lunar-systems"
+last_updated: "2026-03-23"
+contracts:
+  - message: foot_state
+    direction: mobility->planning
+    qos: high_rate_best_effort
+    max_latency_ms: 80
+    idempotent: true
+    fields:
+      - name: foot_id
+        type: string
+        required: true
+        description: Logical limb/foot identifier.
+        example: front_left
+      - name: anchored
+        type: boolean
+        required: true
+        description: True when contact is judged load-bearing and stable.
+      - name: preload_N
+        type: number
+        required: true
+        units: N
+        min: 0
+        max: 500
+      - name: slip_ratio
+        type: number
+        required: true
+        min: 0
+        max: 1
+      - name: penetration_depth_cm
+        type: number
+        required: true
+        units: cm
+        min: 0
+        max: 30
+      - name: margin_downslope
+        type: number
+        required: true
+        units: "(0-1)"
+        min: 0
+        max: 1
+      - name: margin_lateral
+        type: number
+        required: true
+        units: "(0-1)"
+        min: 0
+        max: 1
+
+  - message: terrain_patch
+    direction: perception->planning
+    qos: medium_rate_reliable
+    max_latency_ms: 150
+    idempotent: true
+    fields:
+      - name: regolith_class
+        type: string
+        required: true
+        enum: [mare, highland, mixed, compacted]
+      - name: slope_deg
+        type: number
+        required: true
+        units: deg
+        min: 0
+        max: 45
+      - name: confidence
+        type: number
+        required: true
+        min: 0
+        max: 1
+
+  - message: health_state
+    direction: mobility->planning
+    qos: medium_rate_reliable
+    max_latency_ms: 200
+    idempotent: true
+    fields:
+      - name: joint_torque_margin
+        type: number
+        required: true
+        units: "(0-1)"
+        min: 0
+        max: 1
+      - name: thermal_margin
+        type: number
+        required: true
+        units: "(0-1)"
+        min: 0
+        max: 1
+      - name: actuator_friction_index
+        type: number
+        required: true
+        min: 0
+      - name: degraded_mode
+        type: boolean
+        required: true
+
+  - message: locomotion_command
+    direction: planning->mobility
+    qos: command_reliable
+    max_latency_ms: 120
+    idempotent: false
+    fields:
+      - name: gait_mode
+        type: string
+        required: true
+        enum: [nominal, steep_slope, recovery]
+      - name: target_velocity_mps
+        type: number
+        required: true
+        units: m/s
+        min: 0
+        max: 0.25
+      - name: duty_factor
+        type: number
+        required: true
+        min: 0.2
+        max: 0.95
+      - name: preload_schedule
+        type: object
+        required: true
+        description: Structured phase->preload command map.
+        additional_properties: true
+        example:
+          stance: 120
+          transfer: 35

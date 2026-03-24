@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Weevil-Lunar Build Gate Receipt",
+  "type": "object",
+  "required": [
+    "receipt_version",
+    "gate_id",
+    "project",
+    "timestamp_utc",
+    "decision",
+    "repo",
+    "traceability",
+    "validators",
+    "evidence",
+    "safety"
+  ],
+  "properties": {
+    "receipt_version": { "type": "string" },
+    "gate_id": { "type": "string", "pattern": "^G[0-5]$" },
+    "project": { "const": "weevil-lunar" },
+    "timestamp_utc": { "type": "string" },
+    "decision": { "type": "string", "enum": ["pass", "pass_with_waiver", "fail", "blocked"] },
+    "decision_rationale": { "type": "string" },
+    "repo": {
+      "type": "object",
+      "required": ["commit_sha", "branch", "dirty"],
+      "properties": {
+        "commit_sha": { "type": "string" },
+        "branch": { "type": "string" },
+        "dirty": { "type": "boolean" }
+      }
+    },
+    "traceability": {
+      "type": "object",
+      "required": ["requirements", "icd_catalog", "icd_schema"],
+      "properties": {
+        "requirements": { "type": "array", "items": { "type": "string" } },
+        "icd_catalog": { "type": "string" },
+        "icd_schema": { "type": "string" }
+      }
+    },
+    "validators": {
+      "type": "object",
+      "required": ["operator", "reviewer", "approver"],
+      "properties": {
+        "operator": { "type": "string" },
+        "reviewer": { "type": "string" },
+        "approver": { "type": "string" }
+      }
+    },
+    "environment": { "type": "object" },
+    "commands": { "type": "array", "items": { "type": "string" } },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256", "role"],
+        "properties": {
+          "path": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+          "role": { "type": "string" }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": ["safety_critical_pass", "waivers", "bohmian_scope_touched"],
+      "properties": {
+        "safety_critical_pass": { "type": "boolean" },
+        "waivers": { "type": "array", "items": { "type": "string" } },
+        "bohmian_scope_touched": { "const": false }
+      }
+    },
+    "reproducibility": { "type": "object" },
+    "followups": { "type": "array", "items": { "type": "string" } }
+  }
+}

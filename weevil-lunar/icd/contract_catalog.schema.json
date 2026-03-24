@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Weevil-Lunar ICD Contract Catalog v0.2",
+  "type": "object",
+  "required": ["catalog_version", "contracts"],
+  "properties": {
+    "catalog_version": { "type": "string" },
+    "owner": { "type": "string" },
+    "last_updated": { "type": "string" },
+    "contracts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/contract" }
+    }
+  },
+  "$defs": {
+    "contract": {
+      "type": "object",
+      "required": [
+        "message",
+        "direction",
+        "qos",
+        "max_latency_ms",
+        "idempotent",
+        "fields"
+      ],
+      "properties": {
+        "message": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "mobility->perception",
+            "perception->mobility",
+            "perception->planning",
+            "planning->perception",
+            "planning->mobility",
+            "mobility->planning",
+            "planning->comms",
+            "comms->planning",
+            "planning->operator",
+            "operator->planning"
+          ]
+        },
+        "qos": { "type": "string" },
+        "max_latency_ms": { "type": "integer", "minimum": 1, "maximum": 5000 },
+        "idempotent": { "type": "boolean" },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/field" }
+        }
+      }
+    },
+    "field": {
+      "type": "object",
+      "required": ["name", "type", "required"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$" },
+        "type": {
+          "type": "string",
+          "enum": ["string", "number", "integer", "boolean", "object", "array"]
+        },
+        "required": { "type": "boolean" },
+        "description": { "type": "string" },
+        "units": { "type": "string" },
+        "enum": {
+          "type": "array",
+          "items": { "type": ["string", "number", "integer", "boolean"] }
+        },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "additional_properties": { "type": "boolean" },
+        "example": {}
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "number" } }, "required": ["type"] },
+          "then": {
+            "properties": {
+              "min": { "type": "number" },
+              "max": { "type": "number" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

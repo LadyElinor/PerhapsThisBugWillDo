@@ -1,0 +1,58 @@
+{
+  "receipt_version": "0.1",
+  "gate_id": "G4",
+  "project": "weevil-lunar",
+  "timestamp_utc": "2026-03-23T00:00:00Z",
+  "decision": "pass",
+  "decision_rationale": "All required checks passed with no safety waivers.",
+  "repo": {
+    "commit_sha": "<git-sha>",
+    "branch": "<branch>",
+    "dirty": false
+  },
+  "traceability": {
+    "requirements": ["REQ-LOCO-001", "REQ-AUTO-004"],
+    "icd_catalog": "icd/contract_catalog_v0.2.yaml",
+    "icd_schema": "icd/contract_catalog.schema.json"
+  },
+  "validators": {
+    "operator": "<name>",
+    "reviewer": "<name>",
+    "approver": "<name>"
+  },
+  "environment": {
+    "os": "Windows_NT",
+    "python": "3.11.x",
+    "tool_versions": {
+      "jsonschema": "<version>",
+      "pytest": "<version>"
+    }
+  },
+  "commands": [
+    "python verification/run_gate_check.py"
+  ],
+  "evidence": [
+    {
+      "path": "verification/reports/gate_check.csv",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "role": "gate_summary"
+    }
+  ],
+  "safety": {
+    "safety_critical_pass": true,
+    "waivers": [],
+    "bohmian_scope_touched": false
+  },
+  "reproducibility": {
+    "seeded": true,
+    "seeds": {
+      "sim_seed": 42
+    },
+    "config_paths": [
+      "configs/regolith_burrow_variants_2026-03-14.yaml"
+    ]
+  },
+  "followups": [
+    "<none>"
+  ]
+}
