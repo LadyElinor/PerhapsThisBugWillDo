@@ -11,6 +11,8 @@ Define baseline power/comms requirements supporting autonomy-first lunar mobilit
 - REQ-PWR-003: Mission budget shall include dust-derated generation and explicit reserve for recovery-mode retries.
 - REQ-PWR-004: Day/night profile shall maintain positive energy margin over configured mission timeline assumptions.
 - REQ-COMMS-003: Health and fault telemetry shall be retained across comm dropouts and surfaced after link restore.
+- REQ-PWR-005: Fresh-crater mission profiles shall maintain explicit egress reserve for retreat after edge inspection or guarded partial descent.
+- REQ-COMMS-004: Fresh-crater mission profiles shall maintain buffered telemetry continuity through line-of-sight occlusion windows.
 
 ## Design notes
 - Separate mobility and survival power accounting
@@ -20,3 +22,4 @@ Define baseline power/comms requirements supporting autonomy-first lunar mobilit
 ## Verification
 - Mission-profile power budget check against mode timeline
 - Comms dropout simulation with telemetry continuity validation
+- Fresh-crater profile check against retreat reserve and telemetry buffer requirements

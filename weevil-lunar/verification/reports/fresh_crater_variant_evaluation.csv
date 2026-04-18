@@ -1,0 +1,4 @@
+variant,terrain,approach_slope_limit_deg,edge_standoff_m,reserve,telemetry_buffer_effective_s,effective_disturbance_index,effective_slip_ratio,traction_proxy,synthetic_success_score,risk_posture,default_recommended,recommended_actuator,recommended_geometry_profile,pass
+rim_scout_conservative,ejecta_blockfield,18.0,2.5,0.32,165.0,0.2359,0.1188,0.8812,0.6046,conservative,False,apex_AE050_nema23_p1110100002,weevil_leg_module_ap242,True
+partial_descent_guarded,inner_wall_loose,24.0,1.2,0.3,165.0,0.2681,0.118,0.882,0.5164,aggressive,False,apex_AE090_dt90_px90_p1110300004,Phase2_Templates_solids,True
+rim_scout_balanced,rim_transition,22.0,1.8,0.28,125.0,0.2599,0.1412,0.8588,0.5109,aggressive,True,apex_AE070_metric_p1110200001,weevil_leg_module_ap242,True

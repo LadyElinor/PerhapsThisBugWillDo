@@ -12,3 +12,5 @@ REQ-PWR-003;REQ-PWR-004;REQ-COMMS-003,test_rover_informed_profile,mare,0,dust-de
 REQ-CAD-001,test_phase2_cad_artifacts,mare,0,all phase2 CAD integration artifacts present,pass,verification/reports/phase2_cad_artifacts.md
 REQ-CAD-002,test_phase2_export_bundle,mare,0,phase2 export bundle exists and is fresh,pass,verification/reports/phase2_export_bundle.md
 REQ-LOCO-007;REQ-LOCO-008;REQ-LOCO-009;REQ-AUTO-006;REQ-AUTO-007;REQ-AUTO-008;REQ-BURROW-001;REQ-BURROW-002,test_regolith_burrow_profile,loose_regolith_pocket,0,phase-aware config + disturbance/collapse/resurface/energy checks pass,pass,verification/reports/regolith_burrow_profile.md
+REQ-CRATER-001;REQ-CRATER-002;REQ-CRATER-003;REQ-LOCO-010;REQ-LOCO-011;REQ-AUTO-009;REQ-AUTO-010;REQ-PWR-005;REQ-COMMS-004,test_fresh_crater_profile,rim_transition,24,bounded slope/standoff/disturbance/slip plus telemetry and retreat reserve,pass,verification/reports/fresh_crater_profile.md
+REQ-CAD-003,test_fresh_crater_cad_assets,mare,0,all admitted fresh-crater CAD candidates declared with correct presence and synthetic governance,pass,verification/reports/fresh_crater_cad_assets.md

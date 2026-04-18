@@ -1,0 +1,19 @@
+meta:
+  version: v0.1
+  date: '2026-04-18'
+  base_file: cad/weevil_leg_params.yaml
+  source_variant: rim_scout_balanced
+fresh_crater_overlay:
+  mobility:
+    tilt_warn_deg: 20.0
+    tilt_hard_limit_deg: 22.0
+  power:
+    fresh_crater_egress_reserve_fraction: 0.28
+  sensing:
+    fresh_crater_telemetry_buffer_min_s: 150.0
+  foot:
+    fresh_crater_disturbance_index_cap: 0.34
+    fresh_crater_slip_abort_threshold: 0.22
+  integration:
+    recommended_actuator: apex_AE070_metric_p1110200001
+    recommended_geometry_profile: weevil_leg_module_ap242

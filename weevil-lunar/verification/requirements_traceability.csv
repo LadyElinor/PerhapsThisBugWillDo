@@ -47,3 +47,13 @@ REQ-AUTO-007,specs/autonomy_spec.md,test_regolith_burrow_profile,verification/te
 REQ-AUTO-008,specs/autonomy_spec.md,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
 REQ-BURROW-001,docs/system_spec.md#4,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
 REQ-BURROW-002,docs/system_spec.md#4,test_regolith_burrow_profile,verification/test_regolith_burrow_profile.py,verification/reports/regolith_burrow_profile.md,pass
+REQ-CRATER-001,docs/system_spec.md#4,test_fresh_crater_profile,verification/test_fresh_crater_profile.py,verification/reports/fresh_crater_profile.md,pass
+REQ-CRATER-002,docs/system_spec.md#4,test_fresh_crater_profile,verification/test_fresh_crater_profile.py,verification/reports/fresh_crater_profile.md,pass
+REQ-CRATER-003,docs/system_spec.md#4,test_fresh_crater_profile,verification/test_fresh_crater_profile.py,verification/reports/fresh_crater_profile.md,pass
+REQ-CAD-003,docs/system_spec.md#4,test_fresh_crater_cad_assets,verification/test_fresh_crater_cad_assets.py,verification/reports/fresh_crater_cad_assets.md,pass
+REQ-LOCO-010,specs/locomotion_spec.md,test_fresh_crater_profile,verification/test_fresh_crater_profile.py,verification/reports/fresh_crater_profile.md,pass
+REQ-LOCO-011,specs/locomotion_spec.md,test_fresh_crater_profile,verification/test_fresh_crater_profile.py,verification/reports/fresh_crater_profile.md,pass
+REQ-AUTO-009,specs/autonomy_spec.md,test_fresh_crater_profile,verification/test_fresh_crater_profile.py,verification/reports/fresh_crater_profile.md,pass
+REQ-AUTO-010,specs/autonomy_spec.md,test_fresh_crater_profile,verification/test_fresh_crater_profile.py,verification/reports/fresh_crater_profile.md,pass
+REQ-PWR-005,specs/power_comms_spec.md,test_fresh_crater_profile,verification/test_fresh_crater_profile.py,verification/reports/fresh_crater_profile.md,pass
+REQ-COMMS-004,specs/power_comms_spec.md,test_fresh_crater_profile,verification/test_fresh_crater_profile.py,verification/reports/fresh_crater_profile.md,pass

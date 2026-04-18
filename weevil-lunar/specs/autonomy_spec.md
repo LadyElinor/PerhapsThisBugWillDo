@@ -12,14 +12,18 @@ Define onboard autonomy behaviors for delayed-communication lunar operations.
 - REQ-AUTO-006: In subsurface-burrow mode, planner shall run phase-aware policy (entry, translate, resurfacing) with abort hooks per phase.
 - REQ-AUTO-007: Controller shall fuse in-medium sensing (e.g., temperature/volatile proxies and pressure/load trends) to detect hotspots, jams, and collapse risk.
 - REQ-AUTO-008: Subsurface mission logic shall prioritize low-disturbance path updates over shortest-path routing when collapse risk rises.
+- REQ-AUTO-009: Fresh-crater mission logic shall trigger retreat when slip, disturbance, or reserve thresholds exceed the active profile limits.
+- REQ-AUTO-010: Edge inspection and guarded partial descent shall preserve telemetry continuity assumptions for delayed or occluded communications.
 
 ## Core policies
 - Slip response: reduce tangential demand, increase preload (bounded), re-anchor, replan
 - Margin response: if downslope<1.05 or lateral<1.20, block push-off
 - Fault response: enter recovery mode and attempt controlled retreat
 - Burrow response: if disturbance index exceeds threshold, reduce propulsion aggressiveness, switch to low-collapse maneuver set, or abort/resurface
+- Fresh-crater response: hold edge standoff, buffer telemetry, and transition to retreat if slip/load anomaly or reserve violation appears
 
 ## Verification
 - Latency/dropout simulation with waypoint completion criteria
 - Fault injection (degraded leg/joint model) with graceful degradation checks
 - Subsurface autonomy simulation with collapse-risk injection and phase abort/resurface checks
+- Fresh-crater mission-profile simulation with retreat trigger and telemetry-buffer continuity checks

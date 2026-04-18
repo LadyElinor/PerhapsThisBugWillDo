@@ -63,6 +63,17 @@ REPORTS = {
         "regolith_variant_evaluation.csv",
         "regolith_variant_selection.csv",
     ],
+    "fresh_crater_profile": [
+        "fresh_crater_profile.csv",
+        "fresh_crater_cad_assets.csv",
+    ],
+    "fresh_crater_process": [
+        "fresh_crater_variant_validation.csv",
+        "fresh_crater_variant_retrieval.csv",
+        "fresh_crater_variant_evaluation.csv",
+        "fresh_crater_variant_selection.csv",
+        "fresh_crater_preset_integrity.csv",
+    ],
     "traceability_namespace": [
         "traceability_namespace_check.csv",
     ],

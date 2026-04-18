@@ -39,6 +39,10 @@
 - REQ-THERM-001: Thermal architecture shall keep critical electronics/actuators in operating band.
 - REQ-CAD-001: CAD package shall include parameterized phase-2 fixture integration artifacts and export scaffolding for reproducible AP242/URDF bundle generation.
 - REQ-CAD-002: Export bundle shall include FCStd/AP242/receipt artifacts with freshness evidence for release closeout.
+- REQ-CRATER-001: System shall support fresh-crater rim approach and edge inspection with bounded slip and maintained standoff discipline.
+- REQ-CRATER-002: Fresh-crater mission profiles shall enforce a bounded disturbance index and slip abort threshold near rim and partial-descent operations.
+- REQ-CRATER-003: Fresh-crater mission profiles shall preserve explicit egress reserve and telemetry buffering through retreat after occluded or delayed communications.
+- REQ-CAD-003: Fresh-crater CAD candidate assets shall be admitted through a traceable manifest with evidence tier and synthetic-asset labeling.
 
 ## 5. Current evidence baseline
 From v0.3 directional rescue sweep:
@@ -60,3 +64,5 @@ From v0.3 directional rescue sweep:
 - Define and calibrate a regolith disturbance index for subsurface mode (linked to collapse-risk triggers).
 - Build and validate a wedge/shovel tip candidate set for low-drag granular entry.
 - Establish in-medium sensing stack and mission-level data products for subsurface scouting.
+- Extend mixed-terrain evaluation with fresh-crater rim, ejecta, and guarded partial-descent terrain bins.
+- Promote admitted fresh-crater CAD candidates from geometry-only to higher evidence tiers only after explicit validation artifacts are attached.

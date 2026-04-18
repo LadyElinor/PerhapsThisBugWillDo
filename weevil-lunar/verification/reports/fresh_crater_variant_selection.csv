@@ -1,0 +1,2 @@
+mission_intent,runtime_energy_reserve,runtime_telemetry_buffer_s,selected_variant,recommended_actuator,recommended_actuator_role,recommended_geometry_profile,distance,pass
+baseline,0.3,180.0,rim_scout_balanced,apex_AE070_metric_p1110200001,actuator,weevil_leg_module_ap242,0.5109,True

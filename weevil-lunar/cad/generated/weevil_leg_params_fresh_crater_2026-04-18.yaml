@@ -1,0 +1,99 @@
+meta:
+  version: v0.3
+  units: mm
+  frame:
+    convention: right-handed
+    x: forward
+    y: left
+    z: up
+  materialized_profile: fresh_crater
+  source_base: cad/weevil_leg_params.yaml
+  source_overlay: cad/fresh_crater_leg_params_overlay_2026-04-18.yaml
+body:
+  stance_height_mm: 180.0
+  mass_total_kg: 30.0
+  leg_count: 6
+coxa:
+  shaft_diameter_mm: 12.0
+  yaw_range_deg:
+  - -60.0
+  - 60.0
+  mount_hole_pattern: to_be_defined
+  suggested_motor: 50W BLDC or harmonic drive
+  gear_ratio: 80.0
+femur:
+  link_length_mm: 50.0
+  pitch_range_deg:
+  - -90.0
+  - 45.0
+  bearing_type: dual angular contact
+tibia_screw:
+  pitch_mm_per_rev: 13.5
+  stroke_mm: 35.0
+  rotation_range_deg: 120.0
+  joint_type_suggestion: helical (recirculating ball nut preferred for low stiction)
+foot:
+  radius_mm: 80.0
+  pad_thickness_mm: 6.0
+  cleat_forward_gain: 1.5
+  cleat_lateral_gain: 1.8
+  cleat_rake_forward_deg: 38.0
+  cleat_rake_lateral_deg: 60.0
+  cleat_engage_threshold_N: 50.0
+  fresh_crater_disturbance_index_cap: 0.34
+  fresh_crater_slip_abort_threshold: 0.22
+proximal_gimbal:
+  coxa_length_ratio_target: 0.1
+  coxa_length_ratio_max: 0.15
+  trochanter_length_ratio_target: 0.08
+  trochanter_length_ratio_max: 0.1
+  axis_orthogonality_target_deg: 90.0
+  axis_orthogonality_tolerance_deg: 15.0
+tfj_compliance:
+  enabled: true
+  torsion_spring_k_Nm_per_rad: 18.0
+  damping_c_Nms_per_rad: 0.9
+  neutral_angle_deg: 0.0
+  reduction_range_deg: 20.0
+gait_phase:
+  contact_z_threshold_mm: 2.5
+  min_stance_fraction: 0.45
+  max_stance_fraction: 0.75
+coupling:
+  offplane_index_limit: 0.35
+mobility:
+  mode_default: quasi_static
+  virtual_rocker_bogie_enabled: true
+  tilt_warn_deg: 20.0
+  tilt_hard_limit_deg: 22.0
+thermal:
+  warm_electronics_core_enabled: true
+  radiator_area_m2: 0.18
+  insulation_stack: MLI-equivalent + structural conduction spine
+  dust_thermal_boundary: labyrinth_or_sealed_pods
+power:
+  hybrid_profile_enabled: true
+  day_energy_available_Wh: 520.0
+  night_survival_load_Wh: 180.0
+  recovery_reserve_Wh: 40.0
+  dust_derate_factor: 0.78
+  fresh_crater_egress_reserve_fraction: 0.28
+sensing:
+  mast_stereo_nav_enabled: true
+  leg_slip_observability_enabled: true
+  watchdog_enabled: true
+  fresh_crater_telemetry_buffer_min_s: 150.0
+urdf_defaults:
+  mass_kg:
+    coxa: 0.8
+    femur: 0.6
+    tibia_assembly: 1.2
+    foot: 0.4
+  inertia_mode: box_approx_v0
+  joint_approximation:
+    coxa: revolute
+    femur: revolute
+    tibia: prismatic + revolute combo (macro for helical)
+integration:
+  recommended_actuator: apex_AE070_metric_p1110200001
+  recommended_geometry_profile: weevil_leg_module_ap242

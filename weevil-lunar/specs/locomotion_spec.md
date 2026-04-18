@@ -19,6 +19,8 @@ Define gait modes, stability targets, and slope behaviors for Weevil-Lunar mobil
 - REQ-LOCO-007: Subsurface mode shall support explicit phase separation: entry/submerging, in-medium translation, and resurfacing.
 - REQ-LOCO-008: Subsurface mode shall maintain a bounded disturbance index (to avoid large radial-collapse-style media failure) against a configurable mission threshold.
 - REQ-LOCO-009: Burrowing tip geometry shall be wedge/shovel-class or equivalent low-drag profile for granular penetration.
+- REQ-LOCO-010: Fresh-crater mission profiles shall enforce rim-approach slope limits and minimum edge standoff during approach and inspection.
+- REQ-LOCO-011: Guarded partial-descent mode shall remain disabled unless the mission profile explicitly permits it.
 
 ## Control parameters (initial)
 - duty_factor_nominal: 0.65
@@ -32,3 +34,4 @@ Define gait modes, stability targets, and slope behaviors for Weevil-Lunar mobil
 - Disturbance recovery test with bounded slip and no tip-over
 - Subsurface phase test: entry -> in-medium translation -> resurfacing with completion criteria per phase
 - Disturbance-budget test: compare local void/collapse signature to configured threshold in representative simulant bins
+- Fresh-crater profile test: rim approach / edge inspection / guarded partial descent with slope, standoff, disturbance, and slip checks

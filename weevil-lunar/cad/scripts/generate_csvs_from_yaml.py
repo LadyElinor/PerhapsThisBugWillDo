@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Generate FreeCAD parameter CSVs from cad/weevil_leg_params.yaml.
+"""Generate FreeCAD parameter CSVs from a YAML parameter file.
 
-Outputs:
+Outputs by default:
 - cad/freecad_spreadsheet_template.csv
 - cad/phase2_template_aliases.csv
 """
 
 from __future__ import annotations
 
+import argparse
 import csv
 from pathlib import Path
 from typing import Any
@@ -21,9 +22,9 @@ from simple_yaml import load_yaml_text
 
 ROOT = Path(__file__).resolve().parents[2]
 CAD_DIR = ROOT / "cad"
-YAML_PATH = CAD_DIR / "weevil_leg_params.yaml"
-BASE_CSV_PATH = CAD_DIR / "freecad_spreadsheet_template.csv"
-PHASE2_CSV_PATH = CAD_DIR / "phase2_template_aliases.csv"
+DEFAULT_YAML_PATH = CAD_DIR / "weevil_leg_params.yaml"
+DEFAULT_BASE_CSV_PATH = CAD_DIR / "freecad_spreadsheet_template.csv"
+DEFAULT_PHASE2_CSV_PATH = CAD_DIR / "phase2_template_aliases.csv"
 
 BASE_FIELDS = ["alias", "value", "unit", "notes"]
 
@@ -83,7 +84,7 @@ def flatten(prefix: str, obj: Any, rows: list[dict[str, Any]]) -> None:
             "alias": prefix,
             "value": obj,
             "unit": unit_for(prefix, obj),
-            "notes": "Auto-generated from cad/weevil_leg_params.yaml",
+            "notes": "Auto-generated from YAML parameter source",
         }
     )
 
@@ -96,6 +97,7 @@ def read_yaml(path: Path) -> dict[str, Any]:
 
 
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=BASE_FIELDS)
         writer.writeheader()
@@ -141,13 +143,23 @@ def phase2_defaults() -> list[dict[str, Any]]:
 
 
 def main() -> None:
-    params = read_yaml(YAML_PATH)
+    p = argparse.ArgumentParser()
+    p.add_argument("--yaml", default=str(DEFAULT_YAML_PATH), help="Path to YAML parameter source")
+    p.add_argument("--base-csv", default=str(DEFAULT_BASE_CSV_PATH), help="Output path for FreeCAD spreadsheet CSV")
+    p.add_argument("--phase2-csv", default=str(DEFAULT_PHASE2_CSV_PATH), help="Output path for phase2 aliases CSV")
+    args = p.parse_args()
+
+    yaml_path = Path(args.yaml)
+    base_csv_path = Path(args.base_csv)
+    phase2_csv_path = Path(args.phase2_csv)
+
+    params = read_yaml(yaml_path)
     rows: list[dict[str, Any]] = []
     flatten("", params, rows)
-    write_csv(BASE_CSV_PATH, rows)
-    write_csv(PHASE2_CSV_PATH, phase2_defaults())
-    print(f"Wrote {BASE_CSV_PATH}")
-    print(f"Wrote {PHASE2_CSV_PATH}")
+    write_csv(base_csv_path, rows)
+    write_csv(phase2_csv_path, phase2_defaults())
+    print(f"Wrote {base_csv_path}")
+    print(f"Wrote {phase2_csv_path}")
 
 
 if __name__ == "__main__":

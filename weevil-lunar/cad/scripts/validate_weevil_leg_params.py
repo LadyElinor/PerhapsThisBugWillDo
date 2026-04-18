@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 from typing import Any
 
@@ -14,7 +15,7 @@ except Exception:  # pragma: no cover
 from simple_yaml import load_yaml_text
 
 ROOT = Path(__file__).resolve().parents[2]
-YAML_PATH = ROOT / "cad" / "weevil_leg_params.yaml"
+DEFAULT_YAML_PATH = ROOT / "cad" / "weevil_leg_params.yaml"
 
 
 class ValidationError(Exception):
@@ -74,10 +75,15 @@ def validate(data: dict[str, Any]) -> None:
 
 
 def main() -> int:
-    text = YAML_PATH.read_text(encoding="utf-8")
+    p = argparse.ArgumentParser()
+    p.add_argument("--path", default=str(DEFAULT_YAML_PATH), help="Path to YAML file to validate")
+    args = p.parse_args()
+
+    yaml_path = Path(args.path)
+    text = yaml_path.read_text(encoding="utf-8")
     data = yaml.safe_load(text) if yaml is not None else load_yaml_text(text)
     validate(data)
-    print(f"OK: {YAML_PATH}")
+    print(f"OK: {yaml_path}")
     return 0
 
 

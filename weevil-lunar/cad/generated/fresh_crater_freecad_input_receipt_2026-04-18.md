@@ -1,0 +1,13 @@
+# Fresh Crater FreeCAD Input Receipt
+
+- timestamp_utc: 2026-04-18T16:17:58.162687+00:00
+- generated_yaml: `C:\Users\arren\.openclaw\workspace\tmp\PerhapsThisBugWillDo-rover-informed-upgrade\weevil-lunar\cad\generated\weevil_leg_params_fresh_crater_2026-04-18.yaml`
+- freecad_spreadsheet_csv: `C:\Users\arren\.openclaw\workspace\tmp\PerhapsThisBugWillDo-rover-informed-upgrade\weevil-lunar\cad\generated\freecad_spreadsheet_template_fresh_crater_2026-04-18.csv`
+- phase2_alias_csv: `C:\Users\arren\.openclaw\workspace\tmp\PerhapsThisBugWillDo-rover-informed-upgrade\weevil-lunar\cad\generated\phase2_template_aliases_fresh_crater_2026-04-18.csv`
+- freecad_cmd_available: `False`
+- next_macro: `cad/Phase2_Templates.FCMacro`
+- macro_csv_override_required: `True`
+
+## Notes
+- FreeCADCmd was not available on PATH during this run.
+- These crater-specific CSVs are ready to feed into `Phase2_Templates.FCMacro` after swapping or parameterizing its CSV paths.

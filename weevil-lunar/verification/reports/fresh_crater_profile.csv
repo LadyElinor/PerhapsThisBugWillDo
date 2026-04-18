@@ -1,0 +1,4 @@
+variant,phase,terrain,slope_deg,edge_standoff_m,egress_reserve_fraction,telemetry_buffer_min_s,disturbance_index,slip_ratio,phase_declared_ok,slope_limit_ok,edge_standoff_ok,egress_reserve_ok,telemetry_buffer_ok,disturbance_cap_ok,slip_abort_ok,effective_slip_ratio,effective_disturbance_index,telemetry_buffer_effective_s,pass
+rim_scout_conservative,rim_approach,ejecta_blockfield,16.0,2.8,0.36,240.0,0.18,0.1,True,True,True,True,True,True,True,0.1178,0.229,225.0,True
+rim_scout_balanced,edge_inspection,rim_transition,20.0,2.0,0.3,210.0,0.22,0.14,True,True,True,True,True,True,True,0.1604,0.2541,185.0,True
+partial_descent_guarded,partial_descent,inner_wall_loose,18.0,1.5,0.34,270.0,0.18,0.09,True,True,True,True,True,True,True,0.1185,0.243,225.0,True

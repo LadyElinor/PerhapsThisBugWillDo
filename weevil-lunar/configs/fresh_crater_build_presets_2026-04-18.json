@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "version": "v0.1",
+    "date": "2026-04-18",
+    "source_selection": "verification\\reports\\fresh_crater_variant_selection.csv",
+    "default_recommended": "rim_scout_balanced"
+  },
+  "presets": {
+    "rim_scout_balanced": {
+      "mission_thread": "fresh_crater_explorer",
+      "selected_variant": "rim_scout_balanced",
+      "recommended_actuator": "apex_AE070_metric_p1110200001",
+      "recommended_geometry_profile": "weevil_leg_module_ap242",
+      "build_profile": "fresh_crater",
+      "approach_slope_limit_deg": 22.0,
+      "edge_standoff_m": 1.8,
+      "partial_descent_limit_deg": 0.0,
+      "egress_reserve_fraction": 0.28,
+      "telemetry_buffer_min_s": 150.0,
+      "disturbance_index_cap": 0.34,
+      "slip_abort_threshold": 0.22
+    }
+  }
+}

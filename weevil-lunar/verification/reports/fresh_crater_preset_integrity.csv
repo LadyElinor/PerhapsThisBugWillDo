@@ -1,0 +1,9 @@
+check,pass
+preset_selected_variant_ok,True
+preset_actuator_ok,True
+preset_geometry_ok,True
+overlay_actuator_ok,True
+overlay_geometry_ok,True
+materialized_actuator_ok,True
+materialized_geometry_ok,True
+materialized_profile_ok,True

@@ -11,7 +11,7 @@ Markdown-first, test-traceable blueprint for a lunar weevil-class mobility platf
 - **Validation status:** simulation-first; no hardware validation in-repo yet
 - **Intended use:** design-space exploration, requirement shaping, and verification scaffolding
 
-See also: `docs/modeling_assumptions.md` and `docs/system_spec.md`.
+See also: `docs/modeling_assumptions.md`, `docs/system_spec.md`, and `docs/fresh_crater_explorer_plan.md`.
 
 ## Quick Start (30 seconds)
 ```bash
@@ -36,6 +36,33 @@ Core checks:
 ```bash
 python verification/test_steep_slope_state_machine.py
 python verification/test_rover_informed_profile.py
+python verification/scripts/validate_fresh_crater_variants.py
+python verification/scripts/retrieve_fresh_crater_variant.py
+python verification/scripts/evaluate_fresh_crater_variants.py
+python verification/scripts/select_fresh_crater_variant.py --mission-intent baseline --runtime-energy-reserve 0.30 --runtime-telemetry-buffer-s 180
+python verification/scripts/generate_fresh_crater_build_preset.py
+python verification/scripts/materialize_fresh_crater_leg_params.py
+python cad/scripts/validate_weevil_leg_params.py --path cad/generated/weevil_leg_params_fresh_crater_2026-04-18.yaml
+python verification/test_fresh_crater_profile.py
+python verification/test_fresh_crater_cad_assets.py
+python verification/test_fresh_crater_preset_integrity.py
+
+One-shot pipeline:
+```bash
+python verification/scripts/run_fresh_crater_build_pipeline.py
+```
+
+FreeCAD input preparation for fresh-crater generated params:
+```bash
+python verification/scripts/prepare_fresh_crater_freecad_inputs.py
+```
+
+Macro handoff for crater-specific FreeCAD inputs:
+```powershell
+powershell -ExecutionPolicy Bypass -File verification/scripts/emit_fresh_crater_freecad_macro_env.ps1
+```
+Then launch FreeCAD from that shell and run:
+- `cad/Phase2_Templates.FCMacro`
 python verification/test_phase2_export_bundle.py
 python verification/run_gate_check.py
 ```

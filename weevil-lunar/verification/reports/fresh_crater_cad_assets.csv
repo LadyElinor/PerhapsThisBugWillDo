@@ -1,0 +1,8 @@
+asset_id,intended_role,synthetic,exists,role_ok,evidence_ok,synthetic_contract_ok,pass
+weevil_leg_module_ap242,leg_module,False,True,True,True,True,True
+apex_AE050_nema23_p1110100002,actuator,False,True,True,True,True,True
+apex_AE070_metric_p1110200001,actuator,False,True,True,True,True,True
+apex_AE090_dt90_px90_p1110300004,actuator,False,True,True,True,True,True
+Attempt1_solids,assembly_snapshot,False,True,True,True,True,True
+Phase2_Templates_solids,assembly_snapshot,False,True,True,True,True,True
+apex_AE060_equiv_blend,analysis_only,True,True,True,True,True,True

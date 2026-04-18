@@ -5,7 +5,8 @@ Scaffold document + Params spreadsheet + template bodies/datums for MRover->Weev
 
 Usage:
 - Run inside FreeCAD (Macro -> Macros -> Execute)
-- Optionally edit CSV paths below if your workspace differs.
+- Optionally set environment variables `WEEVIL_BASE_CSV` and `WEEVIL_PHASE2_CSV`
+  to override the default CSV inputs without editing this macro.
 """
 
 import csv
@@ -15,8 +16,10 @@ import FreeCAD as App
 import FreeCADGui as Gui
 
 
-BASE_CSV = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\freecad_spreadsheet_template.csv"
-PHASE2_CSV = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\phase2_template_aliases.csv"
+DEFAULT_BASE_CSV = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\freecad_spreadsheet_template.csv"
+DEFAULT_PHASE2_CSV = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\phase2_template_aliases.csv"
+BASE_CSV = os.environ.get("WEEVIL_BASE_CSV", DEFAULT_BASE_CSV)
+PHASE2_CSV = os.environ.get("WEEVIL_PHASE2_CSV", DEFAULT_PHASE2_CSV)
 DOC_NAME = "Phase2_Templates"
 
 
@@ -152,6 +155,8 @@ def main():
 
     App.Console.PrintMessage(f"Phase2 scaffold complete: {DOC_NAME}\n")
     App.Console.PrintMessage(f"Loaded aliases: base={n1}, phase2={n2}\n")
+    App.Console.PrintMessage(f"Base CSV: {BASE_CSV}\n")
+    App.Console.PrintMessage(f"Phase2 CSV: {PHASE2_CSV}\n")
 
 
 if __name__ == "__main__":

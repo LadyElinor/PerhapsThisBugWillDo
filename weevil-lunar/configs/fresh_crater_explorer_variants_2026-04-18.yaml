@@ -1,0 +1,51 @@
+meta:
+  version: v0.1
+  date: 2026-04-18
+  purpose: Fresh-crater rim approach, inspection, and guarded partial-descent mission presets
+  default_recommended: rim_scout_balanced
+
+variants:
+  rim_scout_conservative:
+    description: Conservative rim-approach profile prioritizing egress reserve and low disturbance
+    mission_phases: [traverse, rim_approach, edge_inspection, retreat]
+    approach_slope_limit_deg: 18
+    edge_standoff_m: 2.5
+    partial_descent_limit_deg: 0
+    egress_reserve_fraction: 0.32
+    telemetry_buffer_min_s: 180
+    disturbance_index_cap: 0.28
+    slip_abort_threshold: 0.18
+    preferred_actuator_candidate: apex_AE050_nema23_p1110100002
+    leg_module_profile: weevil_leg_module_ap242
+    evidence_tier: geometry_only
+    notes: Prefer for first crater-rim scouting passes under uncertain substrate conditions.
+
+  rim_scout_balanced:
+    description: Balanced crater-rim scouting profile with moderate slope and reserve posture
+    mission_phases: [traverse, rim_approach, edge_inspection, retreat]
+    approach_slope_limit_deg: 22
+    edge_standoff_m: 1.8
+    partial_descent_limit_deg: 0
+    egress_reserve_fraction: 0.28
+    telemetry_buffer_min_s: 150
+    disturbance_index_cap: 0.34
+    slip_abort_threshold: 0.22
+    preferred_actuator_candidate: apex_AE070_metric_p1110200001
+    leg_module_profile: weevil_leg_module_ap242
+    evidence_tier: geometry_only
+    notes: Recommended baseline profile for fresh-crater mission studies.
+
+  partial_descent_guarded:
+    description: Guarded limited-descent profile with stricter abort and reserve rules
+    mission_phases: [traverse, rim_approach, edge_inspection, partial_descent, retreat]
+    approach_slope_limit_deg: 24
+    edge_standoff_m: 1.2
+    partial_descent_limit_deg: 20
+    egress_reserve_fraction: 0.30
+    telemetry_buffer_min_s: 210
+    disturbance_index_cap: 0.30
+    slip_abort_threshold: 0.16
+    preferred_actuator_candidate: apex_AE090_dt90_px90_p1110300004
+    leg_module_profile: Phase2_Templates_solids
+    evidence_tier: geometry_only
+    notes: Use only for limited descent after edge inspection confirms traction and reserve margins.

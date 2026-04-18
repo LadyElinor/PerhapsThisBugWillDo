@@ -1,0 +1,4 @@
+variant,distance,approach_slope_limit_deg,edge_standoff_m,egress_reserve_fraction,telemetry_buffer_min_s,disturbance_index_cap,pass
+rim_scout_conservative,3.0,18.0,2.5,0.32,180.0,0.28,True
+rim_scout_balanced,3.8,22.0,1.8,0.28,150.0,0.34,True
+partial_descent_guarded,6.6,24.0,1.2,0.3,210.0,0.3,True

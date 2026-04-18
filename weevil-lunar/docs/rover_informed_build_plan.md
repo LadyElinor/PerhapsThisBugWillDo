@@ -44,3 +44,9 @@ Apply proven Mars-rover design patterns (Perseverance + MER heritage) to strengt
 - Updated config template (`cad/weevil_leg_params.yaml`)
 - New verification harness (`verification/test_rover_informed_profile.py`)
 - Traceability + matrix updates linking new requirements to evidence
+
+## Fresh-crater extension path (next thread)
+- Add a named mission thread for rim approach, edge inspection, guarded partial descent, and retreat
+- Introduce fresh-crater variant presets under `configs/`
+- Admit fresh-crater CAD candidates through manifest-first governance under `cad/assets/`
+- Add executable fresh-crater profile and CAD asset checks under `verification/`
