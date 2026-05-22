@@ -28,7 +28,6 @@ sys.path.append(str(ROOT / "cad" / "scripts"))
 from simple_yaml import load_yaml_text  # type: ignore
 
 EARTH_G = 9.81
-LUNAR_G = 1.62
 
 
 @dataclass(frozen=True)
@@ -102,7 +101,7 @@ def evaluate_leg_state(state: LegState, params: LegParams, contact: ContactModel
     femur_rad = math.radians(state.femur_pitch_deg)
     ext_mm = helical_displacement_mm(state.tibia_theta_deg, params.tibia_pitch_mm_per_rev)
     ext_mm = max(-params.tibia_stroke_mm / 2.0, min(params.tibia_stroke_mm / 2.0, ext_mm))
-    tibia_effective_mm = params.tibia_stroke_mm + ext_mm
+    tibia_effective_mm = params.tibia_stroke_mm / 2.0 + ext_mm
 
     tip_x = params.femur_link_mm * math.cos(femur_rad) + tibia_effective_mm * math.cos(femur_rad)
     tip_z = params.femur_link_mm * math.sin(femur_rad) + tibia_effective_mm * math.sin(femur_rad)
@@ -110,8 +109,7 @@ def evaluate_leg_state(state: LegState, params: LegParams, contact: ContactModel
     normal_n = params.preload_n
     terrain_term = max(0.0, contact.regolith_mu * normal_n * params.cleat_forward_gain)
     efficiency = max(0.0, 1.0 - contact.internal_mu)
-    lunar_scale = LUNAR_G / EARTH_G
-    traction_n = terrain_term * efficiency * lunar_scale
+    traction_n = terrain_term * efficiency
 
     return EvalResult(
         reachable=reachable,
@@ -134,7 +132,7 @@ def main() -> int:
     contact = ContactModel()
 
     # sanity check for proximal axis assumptions (orthogonal by design)
-    if not axis_is_within_tolerance(90.0, params.axis_target_deg, params.axis_tol_deg):
+    if not axis_is_within_tolerance(params.axis_target_deg, 90.0, params.axis_tol_deg):
         raise SystemExit("Axis orthogonality sanity check failed")
 
     for state in sample_states(params):

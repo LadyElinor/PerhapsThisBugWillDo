@@ -9,7 +9,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "verification" / "reports" / "benchmark_comparison.csv"
 BASELINE = ROOT / "verification" / "baselines" / "benchmark_baseline.csv"
-MAX_DROP_FRACTION = 0.10  # 10%
+MAX_DROP_FRACTION = 0.10   # 10%
+MAX_DRIFT_FRACTION = 0.10  # 10%
 
 
 def load_rows(path: Path) -> dict[str, dict[str, float]]:
@@ -40,18 +41,26 @@ def main() -> int:
                 f"< allowed floor {floor:.4f} ({MAX_DROP_FRACTION:.0%} below original)"
             )
 
-    # Guard 2: if baseline exists, patched should not drop >10% below baseline patched.
+    # Guard 2: if baseline exists, patched should remain within drift bounds
+    # of the reviewed baseline in either direction.
     if BASELINE.exists():
         baseline_rows = load_rows(BASELINE)
         for scenario, vals in report_rows.items():
             if scenario not in baseline_rows:
                 continue
             baseline_patched = baseline_rows[scenario]["patched"]
-            floor = baseline_patched * (1.0 - MAX_DROP_FRACTION)
+            floor = baseline_patched * (1.0 - MAX_DRIFT_FRACTION)
+            ceil = baseline_patched * (1.0 + MAX_DRIFT_FRACTION)
             if vals["patched"] < floor:
                 raise SystemExit(
                     f"Regression vs baseline: scenario '{scenario}' patched={vals['patched']:.4f} "
                     f"< baseline floor {floor:.4f}"
+                )
+            if vals["patched"] > ceil:
+                raise SystemExit(
+                    f"Unexpected jump vs baseline: scenario '{scenario}' patched={vals['patched']:.4f} "
+                    f"> baseline ceiling {ceil:.4f}. If intentional, regenerate "
+                    f"verification/baselines/benchmark_baseline.csv as a reviewed change."
                 )
 
     print("Benchmark regression checks passed.")

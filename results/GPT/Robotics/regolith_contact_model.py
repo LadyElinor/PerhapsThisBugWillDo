@@ -107,7 +107,7 @@ class RegolithContactModel:
     def __init__(self, regolith: RegolithProperties, foot: FootGeometry, gravity: float = 1.62):
         self.regolith = regolith
         self.foot = foot
-        self.gravity = gravity
+        self.gravity = gravity  # Stored only for future weight-from-mass helpers; current APIs require pre-computed normal loads in Newtons.
 
     def bearing_capacity(self, depth: float) -> float:
         """Bekker pressure–sinkage: p = (k_c/b + k_phi) * z^n  (kPa)."""

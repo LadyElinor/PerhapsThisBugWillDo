@@ -67,6 +67,8 @@ def validate(data: dict[str, Any]) -> None:
     in_range("foot.radius_mm", float(foot["radius_mm"]), 70.0, 90.0)
     in_range("foot.pad_thickness_mm", float(foot["pad_thickness_mm"]), 5.0, 8.0)
     in_range("foot.cleat_engage_threshold_N", float(foot["cleat_engage_threshold_N"]), 10.0, 200.0)
+    in_range("foot.cleat_forward_gain", float(foot["cleat_forward_gain"]), 0.1, 5.0)
+    in_range("foot.cleat_lateral_gain", float(foot["cleat_lateral_gain"]), 0.1, 5.0)
 
     gimbal = data["proximal_gimbal"]
     in_range("proximal_gimbal.axis_orthogonality_target_deg", float(gimbal["axis_orthogonality_target_deg"]), 70.0, 110.0)
