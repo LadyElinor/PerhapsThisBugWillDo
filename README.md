@@ -8,9 +8,9 @@ This repo is the working lab notebook + executable scaffold for comparing arthro
 
 ## What’s here
 
-### Runnable analysis
-- `results/GPT/Robotics/lunar_integrated_weevil_leg.py`
-  - generates workspace/force/mission-feasibility outputs
+### Runnable analysis / package surface
+- `weevil-lunar/models/lunar_integrated_weevil_leg.py`
+  - reduced-order leg model for reachability + traction checks
 - `results/GPT/Robotics/regolith_contact_model.py`
   - Bekker-Wong pressure–sinkage
   - Mohr-Coulomb shear envelope
@@ -38,22 +38,27 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-### 2) Run lunar integrated analysis
+### 2) Run reduced-order leg model
 ```bash
-python results/GPT/Robotics/lunar_integrated_weevil_leg.py
+python weevil-lunar/models/lunar_integrated_weevil_leg.py
 ```
-Expected outputs:
-- `results/GPT/Robotics/workspace_lunar_vs_earth.png`
-- `results/GPT/Robotics/force_capacity_terrain.png`
-- `results/GPT/Robotics/mission_feasibility_map.png`
+This prints sampled leg states and traction estimates from the current canonical model location.
 
-### 3) Run Weevil-Lunar tests
+### 3) Run legacy robotics analysis outputs
 ```bash
 python results/GPT/Robotics/weevil_lunar_tests.py
 ```
 Expected outputs:
 - `results/GPT/Robotics/weevil_lunar_test_results.md`
 - `results/GPT/Robotics/mare_rescue_profile.md`
+
+### 4) Run Weevil-Lunar verification package
+```bash
+cd weevil-lunar
+python -m pytest verification/tests -q
+python verification/benchmark_runner.py
+python verification/check_benchmark_regression.py
+```
 
 ## Core idea
 
@@ -86,4 +91,5 @@ These parameters drive directional traction envelopes and mare rescue feasibilit
 ## Repo hygiene
 - `requirements.txt` is authoritative for Python deps.
 - Keep generated outputs under their existing results folders.
+- CI and most package-local commands assume execution from `weevil-lunar/` unless a path is explicitly repo-root-relative.
 - Never commit secrets/tokens.

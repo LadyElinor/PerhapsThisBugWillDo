@@ -72,8 +72,11 @@ def status_from_csv(path: Path) -> str:
     return "fail"
 
 
+ROOT = Path(__file__).resolve().parents[1]
+
+
 def main() -> None:
-    report_dir = Path("verification/reports")
+    report_dir = ROOT / "verification" / "reports"
     out_rows = []
     for cls, files in REPORTS.items():
         file_statuses = []

@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: weevil-lunar
+
 jobs:
   validate-and-bench:
     runs-on: ubuntu-latest
@@ -20,6 +24,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: pip install -r ../requirements.txt pytest
+
       - name: Validate YAML schema/ranges
         run: python cad/scripts/validate_weevil_leg_params.py
 
@@ -31,11 +38,18 @@ jobs:
           git add cad/freecad_spreadsheet_template.csv cad/phase2_template_aliases.csv
           git diff --cached --quiet || (echo "CSV drift detected: commit regenerated CSVs." && exit 1)
 
+      - name: Run unit tests
+        run: python -m pytest verification/tests -q
+
       - name: Run benchmark
         run: python verification/benchmark_runner.py
 
       - name: Check benchmark regression
         run: python verification/check_benchmark_regression.py
+
+      - name: Regenerate export receipt (main/tag only)
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+        run: python cad/scripts/generate_export_receipt.py --interface-version v0.4
 
       - name: Check export receipt gate (main/tag only)
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
@@ -45,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: benchmark-comparison
-          path: verification/reports/benchmark_comparison.csv
+          path: weevil-lunar/verification/reports/benchmark_comparison.csv
           retention-days: 7
 
       - name: Upload export receipt artifact
@@ -54,7 +68,7 @@ jobs:
         with:
           name: export-receipt-v0.4
           path: |
-            cad/exports/latest/export_receipt_v0.4.json
-            cad/exports/latest/export_receipt_latest.json
-            cad/exports/receipt.schema.json
+            weevil-lunar/cad/exports/latest/export_receipt_v0.4.json
+            weevil-lunar/cad/exports/latest/export_receipt_latest.json
+            weevil-lunar/cad/exports/receipt.schema.json
           retention-days: 7

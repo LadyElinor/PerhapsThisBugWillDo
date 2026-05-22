@@ -96,8 +96,8 @@ def read_yaml(path: Path) -> dict[str, Any]:
 
 
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
-    with path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=BASE_FIELDS)
+    with path.open("w", encoding="utf-8", newline="\n") as f:
+        writer = csv.DictWriter(f, fieldnames=BASE_FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 

@@ -30,3 +30,9 @@ Thumbs.db
 
 # Local assistant memory (never publish)
 memory/
+
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/

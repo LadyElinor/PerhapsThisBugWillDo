@@ -1,26 +1,26 @@
 {
   "schema_version": "1.1",
-  "timestamp_utc": "2026-02-18T22:38:46Z",
-  "git_commit_hash": "f64949017ff58941b285fd626bd1700dd3bf2959",
+  "timestamp_utc": "2026-05-22T22:55:49Z",
+  "git_commit_hash": "ce2a3f3a9dbf40a57a201577199ff193961c743b",
   "yaml_version": "v0.3",
   "interface_version": "v0.4",
   "param_source": "cad/weevil_leg_params.yaml",
-  "params_hash_sha256": "d6070967a4bf2ef05f4cd5a80e5d62a233507140f8086760614c0f6bbd1801f7",
+  "params_hash_sha256": "2a40a857c247e270a2abd318d9c84cb9e9192557f026e3f8e53874351c191bf2",
   "exporter_tool": "cad/scripts/generate_export_receipt.py + Phase2_Export.FCMacro",
   "freecad_version": "FreeCAD-unknown",
   "exported_files": [
     {
       "path": "cad/export/weevil_leg_module.urdf",
       "format": "URDF",
-      "sha256": "46ff9a6702a3302a4ed1125af851e64bb6150d138c8d0a011bda79be65b229e3"
+      "sha256": "869af610b5f87efdb07491d99f57ffea42a9fb9d3b1c5ec353ab81ac4fa42cf4"
     },
     {
       "path": "cad/export/weevil_leg_module_ap242.step",
       "format": "STEP",
-      "sha256": "e9b7b1ec08692b6c29d72aa4a7c53c6de19b6c6a887a7119c40ace0575ffbdfe"
+      "sha256": "ebe5b15de955627a0b184cbb98f171c65f57e2a15eb05060aac641b24e8fb6cc"
     }
   ],
   "total_artifact_count": 2,
-  "total_artifact_size_bytes": 148996,
-  "notes": "v0.4 interface freeze handoff receipt generated from current export artifacts."
+  "total_artifact_size_bytes": 152400,
+  "notes": "v0.4 handoff refresh"
 }

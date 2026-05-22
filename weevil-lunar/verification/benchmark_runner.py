@@ -52,8 +52,8 @@ def main() -> int:
     patched = run(ContactModel(regolith_mu=0.55, internal_mu=0.004))
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with OUT_PATH.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.writer(f)
+    with OUT_PATH.open("w", encoding="utf-8", newline="\n") as f:
+        writer = csv.writer(f, lineterminator="\n")
         writer.writerow(["scenario", "original_traction_n", "patched_traction_n", "original_success", "patched_success"])
         for o, p in zip(original, patched):
             writer.writerow([o[0], round(o[1], 4), round(p[1], 4), o[2], p[2]])
