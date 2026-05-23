@@ -11,13 +11,18 @@ This repo is the working lab notebook + executable scaffold for comparing arthro
 ### Runnable analysis / package surface
 - `weevil-lunar/models/lunar_integrated_weevil_leg.py`
   - reduced-order leg model for reachability + traction checks
-- `results/GPT/Robotics/regolith_contact_model.py`
+- `weevil-lunar/models/contact/regolith_contact_model.py`
   - Bekker-Wong pressure–sinkage
   - Mohr-Coulomb shear envelope
   - preload + twist-settle + directional cleat gains (v0.3)
-- `results/GPT/Robotics/weevil_lunar_tests.py`
+- `weevil-lunar/models/contact/morphology_harness.py`
+  - shared morphology-variant evaluator (ant / beetle / arachnid / crab)
+- `weevil-lunar/models/contact/weevil_lunar_tests.py`
   - slope/sinkage/anchoring gates
   - mare rescue profile generation
+
+Generated artifacts (figures, CSVs, reports) for the contact analysis are
+written to `results/GPT/Robotics/`.
 
 ### Blueprint package
 - `weevil-lunar/`
@@ -44,13 +49,15 @@ python weevil-lunar/models/lunar_integrated_weevil_leg.py
 ```
 This prints sampled leg states and traction estimates from the current canonical model location.
 
-### 3) Run legacy robotics analysis outputs
+### 3) Run contact / morphology analysis
 ```bash
-python results/GPT/Robotics/weevil_lunar_tests.py
+cd weevil-lunar
+python -m models.contact.weevil_lunar_tests
+python -m models.contact.morphology_harness
 ```
-Expected outputs:
-- `results/GPT/Robotics/weevil_lunar_test_results.md`
-- `results/GPT/Robotics/mare_rescue_profile.md`
+Outputs (written to `results/GPT/Robotics/`):
+- `weevil_lunar_test_results.md`, `mare_rescue_profile.md`
+- `morphology_tradeoff.csv`, `lunar_morphology_tradeoff.md`
 
 ### 4) Run Weevil-Lunar verification package
 ```bash
@@ -73,7 +80,7 @@ On the Moon, traction must come from **geometry + control**, not weight.
 
 ## v0.3 contact knobs (slope rescue)
 
-In `regolith_contact_model.py`:
+In `weevil-lunar/models/contact/regolith_contact_model.py`:
 - `preload_normal`
 - `twist_settle_gain`
 - `cleat_gain_forward`
@@ -84,12 +91,14 @@ These parameters drive directional traction envelopes and mare rescue feasibilit
 
 ## Current roadmap
 
-1. Extend morphology harness (crab / ant / arachnid / beetle) into one unified evaluator.
+1. Consolidate all model code under `weevil-lunar/models/` (done) and add
+   lint/type checks to CI.
 2. Replace placeholder verification runs with hardware-in-the-loop data.
 3. Tie all requirements to reproducible reports via traceability CSV.
 
 ## Repo hygiene
 - `requirements.txt` is authoritative for Python deps.
-- Keep generated outputs under their existing results folders.
+- All model code lives under `weevil-lunar/models/`; `results/GPT/Robotics/`
+  holds only generated artifacts (figures, CSVs, reports).
 - CI and most package-local commands assume execution from `weevil-lunar/` unless a path is explicitly repo-root-relative.
 - Never commit secrets/tokens.
