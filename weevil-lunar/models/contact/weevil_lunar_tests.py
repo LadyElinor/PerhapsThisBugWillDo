@@ -7,10 +7,27 @@ Weevil-Lunar v0.3 tests with directional anchoring and slope rescue profiling.
 
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Dict, List
 
-from regolith_contact_model import RegolithType, RegolithProperties, FootGeometry, RegolithContactModel
+# Canonical contact model now lives in this package. Support both running as a
+# module (python -m models.contact.weevil_lunar_tests) and as a direct script.
+try:
+    from models.contact.regolith_contact_model import (
+        RegolithType, RegolithProperties, FootGeometry, RegolithContactModel,
+    )
+except ImportError:  # direct-script fallback: add weevil-lunar/ to sys.path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+    from models.contact.regolith_contact_model import (
+        RegolithType, RegolithProperties, FootGeometry, RegolithContactModel,
+    )
+
+# Generated artifacts are written to the legacy results directory, resolved
+# from __file__ so the script works regardless of the working directory.
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+OUTPUT_DIR = _REPO_ROOT / "results" / "GPT" / "Robotics"
 
 
 @dataclass
@@ -251,8 +268,11 @@ def write_mare_rescue_profile(rescue_by_terrain: Dict[str, dict]) -> None:
                 f"| {r['score']:.1f} | {r['radius_m']:.2f} | {r['preload_N']:.1f} | {r['gain_forward']:.2f} | {r['gain_lateral']:.2f} | {r['sinkage_cm']:.2f} |"
             )
 
-    with open("mare_rescue_profile.md", "w", encoding="utf-8") as f:
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    out_path = OUTPUT_DIR / "mare_rescue_profile.md"
+    with out_path.open("w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
+    print(f"Wrote {out_path}")
 
 
 def main() -> None:
@@ -265,14 +285,15 @@ def main() -> None:
         rescue[t.value] = rr
 
     text = summarize(out, rescue)
-    with open("weevil_lunar_test_results.md", "w", encoding="utf-8") as f:
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    results_path = OUTPUT_DIR / "weevil_lunar_test_results.md"
+    with results_path.open("w", encoding="utf-8") as f:
         f.write(text + "\n")
 
     write_mare_rescue_profile(rescue)
 
     print(text)
-    print("\nWrote weevil_lunar_test_results.md")
-    print("Wrote mare_rescue_profile.md")
+    print(f"\nWrote {results_path}")
 
 
 if __name__ == "__main__":

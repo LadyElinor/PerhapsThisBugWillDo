@@ -8,7 +8,7 @@ Compares simplified archetypes:
   - Arachnid (reach/precision, 8 legs)
   - Crab (lateral force/stability, reduced ROM)
 
-Outputs:
+Outputs (written to results/GPT/Robotics/):
   - morphology_tradeoff.csv
   - lunar_morphology_tradeoff.md
 """
@@ -16,6 +16,7 @@ Outputs:
 from __future__ import annotations
 
 import math
+import sys
 from dataclasses import dataclass
 from typing import List, Tuple
 from pathlib import Path
@@ -24,7 +25,23 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.spatial import ConvexHull
 
-from regolith_contact_model import RegolithType, RegolithProperties, FootGeometry, RegolithContactModel
+# Canonical contact model now lives in this package. Support both running as a
+# module (python -m models.contact.morphology_harness) and as a direct script.
+try:
+    from models.contact.regolith_contact_model import (
+        RegolithType, RegolithProperties, FootGeometry, RegolithContactModel,
+    )
+except ImportError:  # direct-script fallback: add weevil-lunar/ to sys.path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+    from models.contact.regolith_contact_model import (
+        RegolithType, RegolithProperties, FootGeometry, RegolithContactModel,
+    )
+
+# Generated artifacts are written to the legacy results directory so existing
+# consumers and the repo layout stay stable. Resolved from __file__ so the
+# script works regardless of the current working directory.
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+OUTPUT_DIR = _REPO_ROOT / "results" / "GPT" / "Robotics"
 
 
 def rot_axis_angle(axis: NDArray[np.float64], angle: float) -> NDArray[np.float64]:
@@ -195,8 +212,10 @@ def main():
 
     # CSV
     import csv
-    with open("morphology_tradeoff.csv", "w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    csv_path = OUTPUT_DIR / "morphology_tradeoff.csv"
+    with csv_path.open("w", newline="\n", encoding="utf-8") as f:
+        w = csv.writer(f, lineterminator="\n")
         w.writerow(["morphology","terrain","workspace_vol_m3","sinkage_cm","friction_cone_deg","max_shear_N","slope_margin_45","notes"])
         for r in rows:
             w.writerow([r.morphology, r.terrain, f"{r.workspace_vol:.6e}", f"{r.sinkage_cm:.3f}", f"{r.cone_deg:.2f}",
@@ -230,8 +249,10 @@ def main():
     md.append("3) Add **history dependence** (sinkage + shear accumulation, compaction).")
     md.append("4) Add **arachnid hydraulics state p** and true **hybrid mode switching** (stance/swing) for phase portraits.\n")
 
-    Path("lunar_morphology_tradeoff.md").write_text("\n".join(md), encoding="utf-8")
-    print("Wrote morphology_tradeoff.csv and lunar_morphology_tradeoff.md")
+    md_path = OUTPUT_DIR / "lunar_morphology_tradeoff.md"
+    md_path.write_text("\n".join(md), encoding="utf-8")
+    print(f"Wrote {csv_path}")
+    print(f"Wrote {md_path}")
 
 if __name__ == "__main__":
     main()
