@@ -21,7 +21,7 @@ python verification/test_phase2_export_bundle.py
 python verification/run_gate_check.py
 ```
 
-Expected outputs are written under `verification/reports/`.
+Expected outputs are generated under `verification/reports/` as local working artifacts and CI artifacts, not canonical committed evidence.
 
 ## Included now
 - `docs/system_spec.md`
@@ -62,6 +62,8 @@ Use deterministic receipt generation for CAD handoff traceability:
 python cad/scripts/generate_export_receipt.py --interface-version v0.4 --notes "v0.4 handoff refresh"
 python verification/check_export_receipt.py --receipt cad/exports/latest/export_receipt_v0.4.json --max-age-days 7
 ```
+
+Verification reports under `verification/reports/` are intentionally treated as generated working outputs. If durable evidence snapshots are needed, freeze them explicitly at a release or handoff rather than relying on mutable dev-run report files.
 
 Canonical receipt artifacts:
 - `cad/exports/latest/export_receipt_v0.4.json`

@@ -13,6 +13,7 @@ moltb.txt
 
 # Outputs / receipts (usually large; keep local unless explicitly publishing)
 outputs/
+weevil-lunar/verification/reports/
 
 # Node
 node_modules/
