@@ -71,7 +71,7 @@ def main() -> None:
     md_path = REPORT_DIR / "steep_slope_state_machine.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(out_rows[0].keys()))
+        w = csv.DictWriter(f, fieldnames=list(out_rows[0].keys()), lineterminator="\n")
         w.writeheader()
         w.writerows(out_rows)
 

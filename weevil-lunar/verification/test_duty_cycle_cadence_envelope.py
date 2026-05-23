@@ -43,7 +43,7 @@ def main() -> None:
     md_path = REPORT_DIR / "duty_cycle_cadence_envelope.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 

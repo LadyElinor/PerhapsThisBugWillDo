@@ -95,7 +95,7 @@ def main() -> None:
 
     csv_path = report_dir / "gate_check.csv"
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["class", "status", "details"])
+        w = csv.DictWriter(f, fieldnames=["class", "status", "details"], lineterminator="\n")
         w.writeheader()
         w.writerows(out_rows)
 

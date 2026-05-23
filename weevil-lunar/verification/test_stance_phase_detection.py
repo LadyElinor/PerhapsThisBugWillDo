@@ -39,7 +39,7 @@ def main() -> None:
     md_path = REPORT_DIR / "stance_phase_detection.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(result.keys()))
+        w = csv.DictWriter(f, fieldnames=list(result.keys()), lineterminator="\n")
         w.writeheader()
         w.writerow(result)
 

@@ -75,7 +75,7 @@ def main() -> None:
     md_path = REPORT_DIR / "rover_informed_profile.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=list(out_rows[0].keys()))
+        writer = csv.DictWriter(f, fieldnames=list(out_rows[0].keys()), lineterminator="\n")
         writer.writeheader()
         writer.writerows(out_rows)
 

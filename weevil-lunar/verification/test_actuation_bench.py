@@ -57,7 +57,7 @@ def main() -> None:
     md_path = REPORT_DIR / "actuation_bench.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(out[0].keys()))
+        w = csv.DictWriter(f, fieldnames=list(out[0].keys()), lineterminator="\n")
         w.writeheader()
         w.writerows(out)
 

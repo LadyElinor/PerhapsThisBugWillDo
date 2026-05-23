@@ -27,11 +27,10 @@ REQUIRED = [
 
 
 def main() -> None:
-    root = Path('.')
     rows = []
     passes = 0
     for rel in REQUIRED:
-        exists = (root / rel).exists()
+        exists = (ROOT / rel).exists()
         passes += int(exists)
         rows.append({"artifact": rel, "pass": exists})
 
@@ -40,7 +39,7 @@ def main() -> None:
     md_path = REPORT_DIR / "phase2_cad_artifacts.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["artifact", "pass"])
+        w = csv.DictWriter(f, fieldnames=["artifact", "pass"], lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 

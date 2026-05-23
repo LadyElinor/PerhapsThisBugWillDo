@@ -10,9 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 REPORT_DIR = ROOT / "verification" / "reports"
 
 REQUIRED = [
-    Path("cad/export/Phase2_Templates.FCStd"),
-    Path("cad/export/weevil_leg_module_ap242.step"),
-    Path("cad/export/phase2_export_receipt.md"),
+    ROOT / "cad/export/Phase2_Templates.FCStd",
+    ROOT / "cad/export/weevil_leg_module_ap242.step",
+    ROOT / "cad/export/phase2_export_receipt.md",
 ]
 
 
@@ -28,7 +28,7 @@ def main() -> None:
         passed += int(ok)
         rows.append(
             {
-                "artifact": str(p).replace('\\', '/'),
+                "artifact": str(p.relative_to(ROOT)).replace('\\', '/'),
                 "exists": exists,
                 "size_bytes": "" if size_bytes is None else size_bytes,
                 "nonempty": nonempty,
@@ -41,7 +41,7 @@ def main() -> None:
     md_path = REPORT_DIR / "phase2_export_bundle.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["artifact", "exists", "size_bytes", "nonempty", "pass"])
+        w = csv.DictWriter(f, fieldnames=["artifact", "exists", "size_bytes", "nonempty", "pass"], lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 
