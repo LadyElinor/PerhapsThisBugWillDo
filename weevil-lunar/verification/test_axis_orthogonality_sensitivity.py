@@ -7,6 +7,9 @@ Purpose:
 from pathlib import Path
 import csv
 
+ROOT = Path(__file__).resolve().parents[1]
+REPORT_DIR = ROOT / "verification" / "reports"
+
 
 def run() -> list[dict]:
     rows = []
@@ -29,11 +32,10 @@ def run() -> list[dict]:
 
 def main() -> None:
     rows = run()
-    reports = Path(__file__).resolve().parent / "reports"
-    reports.mkdir(parents=True, exist_ok=True)
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
-    csv_path = reports / "axis_orthogonality_sensitivity.csv"
-    md_path = reports / "axis_orthogonality_sensitivity.md"
+    csv_path = REPORT_DIR / "axis_orthogonality_sensitivity.csv"
+    md_path = REPORT_DIR / "axis_orthogonality_sensitivity.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))

@@ -3,6 +3,9 @@
 from pathlib import Path
 import csv
 
+ROOT = Path(__file__).resolve().parents[1]
+REPORT_DIR = ROOT / "verification" / "reports"
+
 
 def run() -> tuple[list[dict], bool]:
     rows = [
@@ -34,11 +37,10 @@ def run() -> tuple[list[dict], bool]:
 
 def main() -> None:
     rows, passed = run()
-    reports = Path(__file__).resolve().parent / "reports"
-    reports.mkdir(parents=True, exist_ok=True)
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
-    csv_path = reports / "duty_cycle_cadence_envelope.csv"
-    md_path = reports / "duty_cycle_cadence_envelope.md"
+    csv_path = REPORT_DIR / "duty_cycle_cadence_envelope.csv"
+    md_path = REPORT_DIR / "duty_cycle_cadence_envelope.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))

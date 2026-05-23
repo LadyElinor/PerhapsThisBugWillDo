@@ -7,6 +7,9 @@ within expected stance fraction envelope.
 from pathlib import Path
 import csv
 
+ROOT = Path(__file__).resolve().parents[1]
+REPORT_DIR = ROOT / "verification" / "reports"
+
 
 def run() -> dict:
     test_id = "WL-VER-STANCE-PHASE-001"
@@ -30,11 +33,10 @@ def run() -> dict:
 
 def main() -> None:
     result = run()
-    reports = Path(__file__).resolve().parent / "reports"
-    reports.mkdir(parents=True, exist_ok=True)
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
-    csv_path = reports / "stance_phase_detection.csv"
-    md_path = reports / "stance_phase_detection.md"
+    csv_path = REPORT_DIR / "stance_phase_detection.csv"
+    md_path = REPORT_DIR / "stance_phase_detection.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(result.keys()))

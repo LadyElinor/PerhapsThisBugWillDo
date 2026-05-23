@@ -7,6 +7,9 @@ Purpose:
 from pathlib import Path
 import csv
 
+ROOT = Path(__file__).resolve().parents[1]
+REPORT_DIR = ROOT / "verification" / "reports"
+
 
 def run() -> dict:
     # Placeholder metric seeds; replace with physics/contact simulation integration.
@@ -32,11 +35,10 @@ def run() -> dict:
 
 def main() -> None:
     result = run()
-    reports = Path(__file__).resolve().parent / "reports"
-    reports.mkdir(parents=True, exist_ok=True)
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
-    csv_path = reports / "offplane_impulse_recovery.csv"
-    md_path = reports / "offplane_impulse_recovery.md"
+    csv_path = REPORT_DIR / "offplane_impulse_recovery.csv"
+    md_path = REPORT_DIR / "offplane_impulse_recovery.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(result.keys()))

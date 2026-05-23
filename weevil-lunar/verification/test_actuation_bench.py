@@ -7,6 +7,9 @@ import csv
 from dataclasses import dataclass
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+REPORT_DIR = ROOT / "verification" / "reports"
+
 
 @dataclass
 class ActuationRun:
@@ -49,10 +52,9 @@ def main() -> None:
             }
         )
 
-    report_dir = Path("verification/reports")
-    report_dir.mkdir(parents=True, exist_ok=True)
-    csv_path = report_dir / "actuation_bench.csv"
-    md_path = report_dir / "actuation_bench.md"
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
+    csv_path = REPORT_DIR / "actuation_bench.csv"
+    md_path = REPORT_DIR / "actuation_bench.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(out[0].keys()))

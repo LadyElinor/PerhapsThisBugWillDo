@@ -6,6 +6,8 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+REPORT_DIR = ROOT / "verification" / "reports"
 
 REQUIRED = [
     "cad/rover_freecad_mapping_phase2.md",
@@ -33,10 +35,9 @@ def main() -> None:
         passes += int(exists)
         rows.append({"artifact": rel, "pass": exists})
 
-    report_dir = Path("verification/reports")
-    report_dir.mkdir(parents=True, exist_ok=True)
-    csv_path = report_dir / "phase2_cad_artifacts.csv"
-    md_path = report_dir / "phase2_cad_artifacts.md"
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
+    csv_path = REPORT_DIR / "phase2_cad_artifacts.csv"
+    md_path = REPORT_DIR / "phase2_cad_artifacts.md"
 
     with csv_path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["artifact", "pass"])
