@@ -10,7 +10,7 @@ from __future__ import annotations
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Dict, List
 
 # Canonical contact model now lives in this package. Support both running as a
 # module (python -m models.contact.weevil_lunar_tests) and as a direct script.
@@ -135,8 +135,8 @@ def slope_rescue_sweep(
     gf_grid = [1.10, 1.20, 1.30, 1.40, 1.50, 1.60, 1.80, 2.00]
     gl_grid = [1.00, 1.10, 1.20, 1.30, 1.40, 1.60, 1.80, 2.00]
 
-    best = None
-    top_rows = []
+    best: dict[str, Any] | None = None
+    top_rows: list[dict[str, Any]] = []
 
     for r in radii:
         foot = FootGeometry.circular(

@@ -15,9 +15,9 @@ from pathlib import Path
 from typing import Iterable
 
 try:
-    import yaml  # type: ignore
+    import yaml
 except Exception:  # pragma: no cover
-    yaml = None
+    yaml = None  # type: ignore[assignment]  # optional dependency; simple_yaml is the fallback
 
 ROOT = Path(__file__).resolve().parents[1]
 PARAMS_PATH = ROOT / "cad" / "weevil_leg_params.yaml"

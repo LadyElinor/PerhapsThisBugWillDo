@@ -49,7 +49,7 @@ def main() -> None:
     md_lines = [
         "# Duty Cycle vs Cadence Envelope",
         "",
-        f"- Test ID: `WL-VER-DUTY-CADENCE-001`",
+        "- Test ID: `WL-VER-DUTY-CADENCE-001`",
         f"- Monotonic non-increasing duty cycle vs cadence: {passed}",
         f"- Status: **{status}**",
         "",

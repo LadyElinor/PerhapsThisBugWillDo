@@ -1,0 +1,26 @@
+# Ruff configuration for the weevil-lunar package.
+# Phase 3: establishes a lint gate. The rule selection below is deliberately
+# conservative -- it catches real defects (unused imports, undefined names,
+# f-strings without placeholders) without forcing a reformat of working code.
+
+line-length = 120
+target-version = "py311"
+
+[lint]
+# pycodestyle errors (E), Pyflakes (F), import-related warnings (I are opt-in).
+select = ["E", "F", "W"]
+
+# E402 (import not at top of file): several modules intentionally extend
+#   sys.path before importing local packages -- this is the documented
+#   direct-script fallback pattern, not a defect.
+# E701/E702 (multiple statements on one line): the morphology harness uses a
+#   deliberate compact style for short guard clauses; flagged but not worth a
+#   reformat. Revisit if the file is substantially rewritten.
+# E501 (line too long): not enforced -- several long lines are data tables or
+#   formatted report strings where wrapping reduces readability. The gate
+#   targets correctness defects, not formatting.
+ignore = ["E402", "E701", "E702", "E501"]
+
+[lint.per-file-ignores]
+# Test files may keep unused imports for fixtures and re-export checks.
+"verification/tests/*" = ["F401"]

@@ -85,7 +85,7 @@ def main() -> None:
         "|---|---:|---:|---:|",
     ]
     for r in out_rows:
-        md_lines.append(f"| {r['scenario']} | {int(r['expected_push_off'])} | {int(r['actual_push_off'])} | {int(r['pass'])} |")
+        md_lines.append(f"| {r['scenario']} | {int(bool(r['expected_push_off']))} | {int(bool(r['actual_push_off']))} | {int(bool(r['pass']))} |")
     md_path.write_text("\n".join(md_lines) + "\n", encoding="utf-8")
 
     print(f"Wrote {csv_path}")

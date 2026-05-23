@@ -13,9 +13,9 @@ from pathlib import Path
 from typing import Any
 
 try:
-    import yaml  # type: ignore
+    import yaml
 except Exception:  # pragma: no cover
-    yaml = None
+    yaml = None  # type: ignore[assignment]  # optional dependency; simple_yaml is the fallback
 
 from simple_yaml import load_yaml_text
 

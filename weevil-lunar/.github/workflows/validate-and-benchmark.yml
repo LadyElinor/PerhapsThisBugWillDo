@@ -25,7 +25,13 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r ../requirements.txt pytest
+        run: pip install -r ../requirements.txt -r ../requirements-dev.txt
+
+      - name: Lint (ruff)
+        run: ruff check .
+
+      - name: Type check (mypy)
+        run: mypy models/ verification/ cad/scripts/
 
       - name: Validate YAML schema/ranges
         run: python cad/scripts/validate_weevil_leg_params.py
