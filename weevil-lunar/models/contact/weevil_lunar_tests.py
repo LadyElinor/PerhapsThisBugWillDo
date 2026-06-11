@@ -275,6 +275,58 @@ def write_mare_rescue_profile(rescue_by_terrain: Dict[str, dict]) -> None:
     print(f"Wrote {out_path}")
 
 
+def write_gate_results_csv(
+    results_by_terrain: Dict[str, List[TestResult]],
+    rescue_by_terrain: Dict[str, dict],
+) -> Path:
+    """Emit machine-readable gate receipts alongside the markdown summary.
+
+    One row per (terrain, gate). gate_id is stable ("<terrain>/<name>" or
+    "rescue/<terrain>") so the verification receipts spine and the
+    requirements traceability sync can key on it.
+    """
+    import csv
+
+    rows: list[dict[str, Any]] = []
+    for terrain, results in results_by_terrain.items():
+        for r in results:
+            rows.append(
+                {
+                    "gate_id": f"{terrain}/{r.name}",
+                    "terrain": terrain,
+                    "name": r.name,
+                    "passed": r.passed,
+                    "value": f"{r.value:.6f}",
+                    "threshold": f"{r.threshold:.6f}",
+                    "note": r.note,
+                }
+            )
+        best = (rescue_by_terrain.get(terrain) or {}).get("best")
+        rows.append(
+            {
+                "gate_id": f"rescue/{terrain}",
+                "terrain": terrain,
+                "name": "slope_rescue_sweep",
+                "passed": best is not None,
+                "value": "" if best is None else f"{best['score']:.1f}",
+                "threshold": "",
+                "note": "feasible combo found" if best is not None else "no feasible combo in sweep grid",
+            }
+        )
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    csv_path = OUTPUT_DIR / "gate_results.csv"
+    with csv_path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(
+            f,
+            fieldnames=["gate_id", "terrain", "name", "passed", "value", "threshold", "note"],
+            lineterminator="\n",
+        )
+        w.writeheader()
+        w.writerows(rows)
+    return csv_path
+
+
 def main() -> None:
     terrains = [RegolithType.MARE, RegolithType.HIGHLAND, RegolithType.MIXED, RegolithType.COMPACTED]
     out = {}
@@ -291,6 +343,8 @@ def main() -> None:
         f.write(text + "\n")
 
     write_mare_rescue_profile(rescue)
+    gate_csv = write_gate_results_csv(out, rescue)
+    print(f"Wrote {gate_csv}")
 
     print(text)
     print(f"\nWrote {results_path}")

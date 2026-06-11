@@ -1,0 +1,185 @@
+# Harness manifest: the declared contract for the Weevil-Lunar receipts spine.
+#
+# Every verification harness (the report-generating scripts under
+# verification/ plus the contact package) is registered here with:
+#   - script: what to execute
+#   - reports: which artifacts it must produce, and HOW to read pass/fail
+#     from each one (the schema contract -- no more hardcoded `pass` column)
+#   - expected_fail: gates that are documented baseline failures; a baseline
+#     failure that starts PASSING (or vice versa) is reported as `drift` and
+#     fails CI, so silent regressions and silent fixes are both caught.
+#
+# `traceability.test_map` declares how rows in requirements_traceability.csv
+# resolve to executed receipts, so the CSV `status` column is DERIVED from
+# execution, never hand-typed. `pending_linkage` is declared debt: harnesses
+# that emit receipts but have no requirement ID yet. Undeclared unmapped
+# harnesses fail the traceability check.
+#
+# Report `file` paths are relative to verification/reports/ unless they
+# start with "../", in which case they resolve from the weevil-lunar root.
+
+schema_version: 1
+
+harnesses:
+  actuation_bench:
+    script: verification/test_actuation_bench.py
+    reports:
+      - file: actuation_bench.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  autonomy_health_planner:
+    script: verification/test_autonomy_health_planner.py
+    reports:
+      - file: autonomy_health_planner.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  axis_orthogonality_sensitivity:
+    script: verification/test_axis_orthogonality_sensitivity.py
+    # Sensitivity sweep: the gate criterion (success rate >= 0.80 inside the
+    # +/-15 deg orthogonality envelope) previously lived only in the markdown
+    # report; declared here so it is machine-checked.
+    reports:
+      - file: axis_orthogonality_sensitivity.csv
+        kind: threshold
+        where: { column: axis_error_deg, equals: 15.0 }
+        metric: slope_recovery_success_rate
+        min: 0.80
+
+  dust_ingress_endurance:
+    script: verification/test_dust_ingress_endurance.py
+    reports:
+      - file: dust_ingress_endurance.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  duty_cycle_cadence_envelope:
+    script: verification/test_duty_cycle_cadence_envelope.py
+    reports:
+      - file: duty_cycle_cadence_envelope.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  offplane_coupling_index:
+    script: verification/test_offplane_coupling_index.py
+    reports:
+      - file: offplane_coupling_index.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  offplane_impulse_recovery:
+    script: verification/test_offplane_impulse_recovery.py
+    # This report has no single `pass` column; it gates on BOTH criteria.
+    # The old aggregator misread this schema as a hard fail.
+    reports:
+      - file: offplane_impulse_recovery.csv
+        kind: pass_column
+        pass_columns: [pass_time, pass_slip]
+
+  phase2_cad_artifacts:
+    script: verification/test_phase2_cad_artifacts.py
+    reports:
+      - file: phase2_cad_artifacts.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  phase2_export_bundle:
+    script: verification/test_phase2_export_bundle.py
+    reports:
+      - file: phase2_export_bundle.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  power_comms_profile:
+    script: verification/test_power_comms_profile.py
+    reports:
+      - file: power_comms_profile.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  rover_informed_profile:
+    script: verification/test_rover_informed_profile.py
+    reports:
+      - file: rover_informed_profile.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  stance_phase_detection:
+    script: verification/test_stance_phase_detection.py
+    reports:
+      - file: stance_phase_detection.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  steep_slope_state_machine:
+    script: verification/test_steep_slope_state_machine.py
+    reports:
+      - file: steep_slope_state_machine.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  thermal_vac_cycle:
+    script: verification/test_thermal_vac_cycle.py
+    reports:
+      - file: thermal_vac_cycle.csv
+        kind: pass_column
+        pass_columns: [pass]
+
+  contact_package:
+    script: models/contact/weevil_lunar_tests.py
+    run: ["-m", "models.contact.weevil_lunar_tests"]
+    reports:
+      - file: ../results/GPT/Robotics/gate_results.csv
+        kind: gate_table
+        name_column: gate_id
+        pass_column: passed
+        # Documented baseline design gap: at 45 deg with no preload tuning or
+        # directional cleats, the static friction cone is insufficient on all
+        # terrains. The slope-rescue sweep (rescue/* gates) demonstrates a
+        # feasible geometry+anchoring envelope. If any of these starts
+        # passing, that is a model change and must be reviewed (drift).
+        expected_fail:
+          - mare/directional_slope_margin_45deg
+          - highland/directional_slope_margin_45deg
+          - mixed/directional_slope_margin_45deg
+          - compacted/directional_slope_margin_45deg
+
+traceability:
+  csv: verification/requirements_traceability.csv
+  # test_name in the CSV -> how to derive its status from receipts.
+  #   harness only         -> the harness's combined status
+  #   harness + gate       -> a single gate row in a gate_table report
+  #   harness + gate_prefix-> aggregate over matching gates
+  #                           (all pass -> pass; some -> partial; none -> fail)
+  test_map:
+    test_twist_settle_gain:
+      harness: contact_package
+      gate: mare/twist_settle_gain
+    test_sinkage_limit:
+      harness: contact_package
+      gate: mare/sinkage_limit
+    test_directional_slope_margin_45deg:
+      harness: contact_package
+      gate: mare/directional_slope_margin_45deg
+    slope_rescue_sweep:
+      harness: contact_package
+      gate_prefix: rescue/
+    test_actuation_bench: { harness: actuation_bench }
+    test_autonomy_health_planner: { harness: autonomy_health_planner }
+    test_dust_ingress_endurance: { harness: dust_ingress_endurance }
+    test_power_comms_profile: { harness: power_comms_profile }
+    test_rover_informed_profile: { harness: rover_informed_profile }
+    test_steep_slope_state_machine: { harness: steep_slope_state_machine }
+    test_thermal_vac_cycle: { harness: thermal_vac_cycle }
+    test_phase2_cad_artifacts: { harness: phase2_cad_artifacts }
+    test_phase2_export_bundle: { harness: phase2_export_bundle }
+  # Declared debt: harnesses that emit receipts but are not yet linked to a
+  # requirement ID. Listed here so the gap is visible and intentional; an
+  # unmapped harness NOT listed here fails `sync_traceability.py --check`.
+  pending_linkage:
+    axis_orthogonality_sensitivity: needs REQ-LOCO/REQ-FOOT id for axis-orthogonality envelope
+    duty_cycle_cadence_envelope: needs REQ-LOCO id for cadence/duty-cycle envelope
+    offplane_coupling_index: needs REQ-LOCO/REQ-FOOT id for off-plane coupling limit
+    offplane_impulse_recovery: needs REQ-LOCO id for impulse-recovery time/slip
+    stance_phase_detection: needs REQ-AUTO id for stance-phase detection

@@ -1,0 +1,17 @@
+gate_id,terrain,name,passed,value,threshold,note
+mare/twist_settle_gain,mare,twist_settle_gain,True,1.150000,1.150000,shear ratio=1.150
+mare/sinkage_limit,mare,sinkage_limit,True,0.231423,8.000000,sinkage=0.23 cm
+mare/directional_slope_margin_45deg,mare,directional_slope_margin_45deg,False,0.801345,1.050000,"cone_fwd=36.06°, cone_lat=36.06°, down_margin=0.801, lat_margin=0.801, anchored=True, preload=20.0N, gf=1.00, gl=1.00"
+rescue/mare,mare,slope_rescue_sweep,True,172.0,,feasible combo found
+highland/twist_settle_gain,highland,twist_settle_gain,True,1.150000,1.150000,shear ratio=1.150
+highland/sinkage_limit,highland,sinkage_limit,True,0.707262,8.000000,sinkage=0.71 cm
+highland/directional_slope_margin_45deg,highland,directional_slope_margin_45deg,False,0.855419,1.050000,"cone_fwd=38.49°, cone_lat=38.49°, down_margin=0.855, lat_margin=0.855, anchored=True, preload=20.0N, gf=1.00, gl=1.00"
+rescue/highland,highland,slope_rescue_sweep,True,156.0,,feasible combo found
+mixed/twist_settle_gain,mixed,twist_settle_gain,True,1.150000,1.150000,shear ratio=1.150
+mixed/sinkage_limit,mixed,sinkage_limit,True,0.176769,8.000000,sinkage=0.18 cm
+mixed/directional_slope_margin_45deg,mixed,directional_slope_margin_45deg,False,0.855589,1.050000,"cone_fwd=38.50°, cone_lat=38.50°, down_margin=0.856, lat_margin=0.856, anchored=True, preload=20.0N, gf=1.00, gl=1.00"
+rescue/mixed,mixed,slope_rescue_sweep,True,128.0,,feasible combo found
+compacted/twist_settle_gain,compacted,twist_settle_gain,True,1.150000,1.150000,shear ratio=1.150
+compacted/sinkage_limit,compacted,sinkage_limit,True,0.018020,8.000000,sinkage=0.02 cm
+compacted/directional_slope_margin_45deg,compacted,directional_slope_margin_45deg,False,0.967962,1.050000,"cone_fwd=43.56°, cone_lat=43.56°, down_margin=0.968, lat_margin=0.968, anchored=True, preload=20.0N, gf=1.00, gl=1.00"
+rescue/compacted,compacted,slope_rescue_sweep,True,72.0,,feasible combo found

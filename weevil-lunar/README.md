@@ -10,6 +10,10 @@ This package defines a markdown-first, test-traceable blueprint for a lunar weev
 
 See also: `docs/modeling_assumptions.md`.
 
+Governance-critical reading before making validation or performance claims:
+- `DECISION_MEMO.md` — internal claim boundaries and validation-spend gate
+- `../../robotics/physics_redteam_report.md` — adversarial physics review underpinning the memo
+
 ## Quick reproducible benchmark
 From repo root:
 
