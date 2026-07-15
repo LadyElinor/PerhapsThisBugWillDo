@@ -1,0 +1,10 @@
+scenario_family: single_leg_incline
+backend: ode
+terrain_proxy: incline_plane
+geometry:
+  upper_length_m: 0.12
+  lower_length_m: 0.12
+  foot_radius_m: 0.05
+contact:
+  gravity_m_s2: 1.62
+  slope_deg: 25.0
