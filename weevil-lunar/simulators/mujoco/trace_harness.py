@@ -31,23 +31,27 @@ def _quat_to_euler_deg(quat: np.ndarray) -> tuple[float, float, float]:
     return roll, pitch, yaw
 
 
-def _contact_force_proxy(model: mujoco.MjModel, data: mujoco.MjData) -> tuple[float, float]:
+def _contact_force_proxy(model: mujoco.MjModel, data: mujoco.MjData) -> tuple[float, float, float, float]:
     if data.ncon <= 0:
-        return 0.0, 0.0
+        return 0.0, 0.0, 0.0, 0.0
 
     total_normal = 0.0
-    max_contact_mag = 0.0
+    total_tangential = 0.0
+    max_normal = 0.0
+    max_tangential = 0.0
     force = np.zeros(6, dtype=float)
     for i in range(data.ncon):
         mujoco.mj_contactForce(model, data, i, force)
         normal = abs(float(force[0]))
-        tangent = float(np.linalg.norm(force[:3]))
+        tangential = float(np.linalg.norm(force[1:3]))
         total_normal += normal
-        max_contact_mag = max(max_contact_mag, tangent)
-    return total_normal, max_contact_mag
+        total_tangential += tangential
+        max_normal = max(max_normal, normal)
+        max_tangential = max(max_tangential, tangential)
+    return total_normal, total_tangential, max_normal, max_tangential
 
 
-def run_trace(scenario: SimulationScenario) -> tuple[Path, dict[str, Any]]:
+def run_trace(scenario: SimulationScenario, output_root: Path | None = None) -> tuple[Path, dict[str, Any]]:
     scenario.validate()
     model_path = scenario_to_model_path(scenario)
     model = mujoco.MjModel.from_xml_path(str(model_path))
@@ -64,7 +68,8 @@ def run_trace(scenario: SimulationScenario) -> tuple[Path, dict[str, Any]]:
     steps: list[dict[str, Any]] = []
     foot_x_positions: list[float] = []
     foot_x_velocities: list[float] = []
-    contact_force_proxies: list[float] = []
+    contact_force_normal_proxies: list[float] = []
+    contact_force_tangential_proxies: list[float] = []
     contact_presence: list[bool] = []
     body_pitch_deg: list[float] = []
     body_roll_deg: list[float] = []
@@ -85,8 +90,9 @@ def run_trace(scenario: SimulationScenario) -> tuple[Path, dict[str, Any]]:
         foot_x_velocities.append(slip_velocity)
         prev_foot_x = foot_x
 
-        total_normal_proxy, max_contact_proxy = _contact_force_proxy(model, data)
-        contact_force_proxies.append(total_normal_proxy)
+        total_normal_proxy, total_tangential_proxy, max_normal_proxy, max_tangential_proxy = _contact_force_proxy(model, data)
+        contact_force_normal_proxies.append(total_normal_proxy)
+        contact_force_tangential_proxies.append(total_tangential_proxy)
         has_contact = data.ncon > 0
         contact_presence.append(has_contact)
 
@@ -104,8 +110,10 @@ def run_trace(scenario: SimulationScenario) -> tuple[Path, dict[str, Any]]:
                 "slip_velocity_m_s": slip_velocity,
                 "contact_count": int(data.ncon),
                 "contact_present": has_contact,
-                "contact_force_proxy_n": total_normal_proxy,
-                "contact_force_proxy_peak_n": max_contact_proxy,
+                "contact_force_normal_proxy_n": total_normal_proxy,
+                "contact_force_tangential_proxy_n": total_tangential_proxy,
+                "contact_force_normal_proxy_peak_n": max_normal_proxy,
+                "contact_force_tangential_proxy_peak_n": max_tangential_proxy,
                 "body_pitch_deg": float(pitch_deg),
                 "body_roll_deg": float(roll_deg),
             }
@@ -136,15 +144,17 @@ def run_trace(scenario: SimulationScenario) -> tuple[Path, dict[str, Any]]:
             "final_foot_x_m": final_x,
             "slip_distance_m": slip_distance,
             "max_slip_velocity_m_s": max(foot_x_velocities) if foot_x_velocities else 0.0,
-            "mean_contact_force_proxy_n": float(np.mean(contact_force_proxies)) if contact_force_proxies else 0.0,
-            "max_contact_force_proxy_n": float(np.max(contact_force_proxies)) if contact_force_proxies else 0.0,
+            "mean_contact_normal_proxy_n": float(np.mean(contact_force_normal_proxies)) if contact_force_normal_proxies else 0.0,
+            "max_contact_normal_proxy_n": float(np.max(contact_force_normal_proxies)) if contact_force_normal_proxies else 0.0,
+            "mean_contact_tangential_proxy_n": float(np.mean(contact_force_tangential_proxies)) if contact_force_tangential_proxies else 0.0,
+            "max_contact_tangential_proxy_n": float(np.max(contact_force_tangential_proxies)) if contact_force_tangential_proxies else 0.0,
             "max_body_pitch_deg": float(np.max(np.abs(body_pitch_deg))) if body_pitch_deg else 0.0,
             "max_body_roll_deg": float(np.max(np.abs(body_roll_deg))) if body_roll_deg else 0.0,
         },
         "steps": steps,
     }
 
-    stem = scenario_artifact_stem("mujoco", scenario.scenario_id)
+    stem = scenario_artifact_stem("mujoco", scenario.scenario_id, output_root=output_root)
     trace_path = Path(str(stem) + "_trace.json")
     trace_path.write_text(json.dumps(trace, indent=2) + "\n", encoding="utf-8")
     return trace_path, trace

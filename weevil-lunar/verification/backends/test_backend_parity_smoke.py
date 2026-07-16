@@ -19,9 +19,12 @@ def test_backend_parity_smoke_runs_receipt_paths(tmp_path):
         slope_deg=25.0,
         preload_normal_n=20.0,
     )
-    mujoco_metrics, mujoco_receipt = run_mujoco(scenario)
-    ode_metrics, ode_receipt = run_ode(scenario)
+    output_root = tmp_path / "simulation"
+    mujoco_metrics, mujoco_receipt = run_mujoco(scenario, output_root=output_root)
+    ode_metrics, ode_receipt = run_ode(scenario, output_root=output_root)
     assert mujoco_metrics.exists()
     assert mujoco_receipt.exists()
     assert ode_metrics.exists()
     assert ode_receipt.exists()
+    assert str(mujoco_metrics).startswith(str(output_root))
+    assert str(ode_metrics).startswith(str(output_root))

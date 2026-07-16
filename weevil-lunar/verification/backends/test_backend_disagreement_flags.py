@@ -7,7 +7,7 @@ from simulators.mujoco.runner import run_scenario as run_mujoco
 from simulators.ode.runner import run_scenario as run_ode
 
 
-def test_backend_placeholder_disagreement_is_explicit():
+def test_backend_placeholder_disagreement_is_explicit(tmp_path):
     scenario = SimulationScenario(
         scenario_id="test_backend_disagreement_flags",
         backend="comparative",
@@ -21,8 +21,9 @@ def test_backend_placeholder_disagreement_is_explicit():
         slope_deg=25.0,
         preload_normal_n=20.0,
     )
-    _, mujoco_receipt = run_mujoco(scenario)
-    _, ode_receipt = run_ode(scenario)
+    output_root = tmp_path / "simulation"
+    _, mujoco_receipt = run_mujoco(scenario, output_root=output_root)
+    _, ode_receipt = run_ode(scenario, output_root=output_root)
     mj = json.loads(mujoco_receipt.read_text(encoding="utf-8"))
     od = json.loads(ode_receipt.read_text(encoding="utf-8"))
     assert mj["status"] == "partial"

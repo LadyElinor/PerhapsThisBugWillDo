@@ -47,7 +47,7 @@ def _compile_model(model_path: Path, compiled_path: Path) -> None:
     )
 
 
-def run_scenario(scenario: SimulationScenario) -> tuple[Path, Path]:
+def run_scenario(scenario: SimulationScenario, output_root: Path | None = None) -> tuple[Path, Path]:
     """Python trace-backed MuJoCo runner for the narrow incline-hold tranche.
 
     Real actions performed here:
@@ -60,11 +60,11 @@ def run_scenario(scenario: SimulationScenario) -> tuple[Path, Path]:
         raise FileNotFoundError(f"MuJoCo compile executable not found: {COMPILE_EXE}")
 
     model_path = scenario_to_model_path(scenario)
-    stem = scenario_artifact_stem("mujoco", scenario.scenario_id)
+    stem = scenario_artifact_stem("mujoco", scenario.scenario_id, output_root=output_root)
     compiled_path = Path(str(stem) + ".mjb")
 
     _compile_model(model_path, compiled_path)
-    trace_path, trace_data = run_trace(scenario)
+    trace_path, trace_data = run_trace(scenario, output_root=output_root)
 
     metrics = trace_backed_metrics(
         scenario,
@@ -97,7 +97,7 @@ def run_scenario(scenario: SimulationScenario) -> tuple[Path, Path]:
             "trace harness uses Python mujoco bindings for per-step contact/state capture",
         ],
     )
-    receipt_path = write_receipt(receipt)
+    receipt_path = write_receipt(receipt, output_root=output_root)
     return metrics_path, receipt_path
 
 

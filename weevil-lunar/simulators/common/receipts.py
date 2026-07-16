@@ -40,8 +40,8 @@ def sha256_of_path(path: Path) -> str:
     return h.hexdigest()
 
 
-def write_receipt(receipt: SimulationReceipt) -> Path:
-    stem = scenario_artifact_stem(receipt.backend, receipt.scenario_id)
+def write_receipt(receipt: SimulationReceipt, output_root: Path | None = None) -> Path:
+    stem = scenario_artifact_stem(receipt.backend, receipt.scenario_id, output_root=output_root)
     out_path = Path(str(stem) + "_receipt.json")
     out_path.write_text(json.dumps(receipt.to_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return out_path

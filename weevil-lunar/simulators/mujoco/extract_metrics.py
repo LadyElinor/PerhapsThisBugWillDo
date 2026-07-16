@@ -40,8 +40,10 @@ def trace_backed_metrics(
     contact_steps = int(summary.get("contact_steps", 0))
     total_steps = int(summary.get("total_steps", 0))
     contact_persistence_ratio = float(summary.get("contact_persistence_ratio", 0.0))
-    max_contact_force_proxy = float(summary.get("max_contact_force_proxy_n", 0.0))
-    mean_contact_force_proxy = float(summary.get("mean_contact_force_proxy_n", 0.0))
+    max_contact_normal_proxy = float(summary.get("max_contact_normal_proxy_n", 0.0))
+    mean_contact_normal_proxy = float(summary.get("mean_contact_normal_proxy_n", 0.0))
+    max_contact_tangential_proxy = float(summary.get("max_contact_tangential_proxy_n", 0.0))
+    mean_contact_tangential_proxy = float(summary.get("mean_contact_tangential_proxy_n", 0.0))
     final_foot_x = float(summary.get("final_foot_x_m", 0.0))
     initial_foot_x = float(summary.get("initial_foot_x_m", 0.0))
 
@@ -53,12 +55,12 @@ def trace_backed_metrics(
         completed=BackendMetricValue(completed, note="custom Python MuJoCo trace completed"),
         failure_mode=BackendMetricValue("", note="no Python MuJoCo trace failure recorded"),
         normal_reaction_n=BackendMetricValue(
-            mean_contact_force_proxy,
-            note="contact-force proxy from summed contact-frame normal components across active contacts",
+            mean_contact_normal_proxy,
+            note="mean per-step summed normal contact-force proxy from active contacts",
         ),
         tangential_reaction_n=BackendMetricValue(
-            max_contact_force_proxy,
-            note="contact-force proxy upper envelope from active contact frames; still proxy-level, not full wrench decomposition",
+            mean_contact_tangential_proxy,
+            note="mean per-step summed tangential contact-force proxy from active contacts; still proxy-level, not full wrench decomposition",
         ),
         slip_distance_m=BackendMetricValue(
             slip_distance,
@@ -88,6 +90,10 @@ def trace_backed_metrics(
             f"compiled model exists at {compiled_model_path}",
             f"trace captured {total_steps} steps",
             f"contact persistence ratio={contact_persistence_ratio:.3f}",
+            f"mean_contact_normal_proxy_n={mean_contact_normal_proxy:.3f}",
+            f"mean_contact_tangential_proxy_n={mean_contact_tangential_proxy:.3f}",
+            f"max_contact_normal_proxy_n={max_contact_normal_proxy:.3f}",
+            f"max_contact_tangential_proxy_n={max_contact_tangential_proxy:.3f}",
             "slip/contact metrics now come from per-step trace artifact rather than testspeed summary",
         ],
     )

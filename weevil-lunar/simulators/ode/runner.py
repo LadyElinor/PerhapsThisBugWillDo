@@ -15,12 +15,12 @@ from .extract_metrics import placeholder_metrics
 ENGINE_VERSION = "ode-source-present-headless-build-blocked"
 
 
-def run_scenario(scenario: SimulationScenario) -> tuple[Path, Path]:
+def run_scenario(scenario: SimulationScenario, output_root: Path | None = None) -> tuple[Path, Path]:
     scenario.validate()
     config_path = scenario_to_config_path(scenario)
     metrics = placeholder_metrics()
 
-    stem = scenario_artifact_stem("ode", scenario.scenario_id)
+    stem = scenario_artifact_stem("ode", scenario.scenario_id, output_root=output_root)
     metrics_path = Path(str(stem) + "_metrics.json")
     metrics_path.write_text(json.dumps(metrics.to_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
@@ -50,5 +50,5 @@ def run_scenario(scenario: SimulationScenario) -> tuple[Path, Path]:
             "current headless build attempt failed because modern MSBuild would not directly build generated .vcproj files and the legacy .sln did not load cleanly in this flow",
         ],
     )
-    receipt_path = write_receipt(receipt)
+    receipt_path = write_receipt(receipt, output_root=output_root)
     return metrics_path, receipt_path
