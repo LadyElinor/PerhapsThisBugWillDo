@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
+pytest.importorskip("mujoco")
+
 from simulators.common.scenario_schema import SimulationScenario
 from simulators.mujoco.runner import run_scenario as run_mujoco
 from simulators.ode.runner import run_scenario as run_ode
@@ -28,6 +32,8 @@ def test_backend_placeholder_disagreement_is_explicit(tmp_path):
     od = json.loads(ode_receipt.read_text(encoding="utf-8"))
     assert mj["status"] == "partial"
     assert od["status"] == "partial"
+    assert mj["load_path"] == "gravity_coupled"
+    assert od["load_path"] == "gravity_coupled"
     assert "custom Python MuJoCo trace path active" in mj["warnings"]
     assert "placeholder backend path" in od["warnings"]
     assert "ODE runtime execution remains blocked locally" in od["warnings"]

@@ -47,6 +47,9 @@ jobs:
       - name: Run unit tests
         run: python -m pytest verification/tests -q
 
+      - name: Run backend tests
+        run: python -m pytest verification/backends -q
+
       - name: Run verification suite (generate receipts)
         run: python verification/run_verification_suite.py
 
@@ -86,6 +89,7 @@ jobs:
             weevil-lunar/verification/reports/receipts.md
             weevil-lunar/verification/reports/gate_check.csv
             weevil-lunar/verification/reports/gate_check.md
+            weevil-lunar/verification/traceability_sync_report.md
           retention-days: 30
 
       - name: Upload export receipt artifact
@@ -98,3 +102,10 @@ jobs:
             weevil-lunar/cad/exports/latest/export_receipt_latest.json
             weevil-lunar/cad/exports/receipt.schema.json
           retention-days: 7
+
+      - name: Upload backend comparative reference artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-comparative-reference
+          path: weevil-lunar/verification/reference_artifacts/demo_single_leg_incline_hold_comparative_report.json
+          retention-days: 30

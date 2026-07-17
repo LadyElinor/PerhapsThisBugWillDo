@@ -40,6 +40,7 @@ REPORT_DIR = WEEVIL_ROOT / "verification" / "reports"
 RECEIPTS_PATH = REPORT_DIR / "receipts.json"
 
 SEVERITY = ["pass", "partial", "fail", "drift", "missing", "error"]
+DATA_SOURCES = {"placeholder", "model_coupled", "backend", "hardware"}
 
 _TRUTHY = {"true", "1", "yes", "pass"}
 
@@ -52,6 +53,11 @@ def load_manifest(path: Path = MANIFEST_PATH) -> dict[str, Any]:
     data = yaml.safe_load(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict) or data.get("schema_version") != 1:
         raise ValueError(f"unsupported or missing schema_version in {path}")
+    harnesses = data.get("harnesses", {})
+    for name, spec in harnesses.items():
+        data_source = spec.get("data_source")
+        if data_source not in DATA_SOURCES:
+            raise ValueError(f"harness '{name}' missing valid data_source in {path}")
     return data
 
 
@@ -176,6 +182,14 @@ def load_receipts(path: Path = RECEIPTS_PATH) -> dict[str, Any]:
             f"{path} not found -- run `python verification/run_verification_suite.py` first"
         )
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def evidence_pass_for_harness(harness: dict[str, Any]) -> bool:
+    return harness.get("status") == "pass" and harness.get("data_source") in {"backend", "hardware"}
+
+
+def contract_pass_for_harness(harness: dict[str, Any]) -> bool:
+    return harness.get("status") == "pass"
 
 
 def write_receipts(data: dict[str, Any], path: Path = RECEIPTS_PATH) -> None:

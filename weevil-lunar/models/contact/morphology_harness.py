@@ -8,6 +8,10 @@ Compares simplified archetypes:
   - Arachnid (reach/precision, 8 legs)
   - Crab (lateral force/stability, reduced ROM)
 
+Important governance note:
+- this harness uses a simplified gravity-coupled per-leg load estimate
+- it remains comparative/exploratory, not validation-grade Moon-vs-Earth evidence
+
 Outputs (written to results/GPT/Robotics/):
   - morphology_tradeoff.csv
   - lunar_morphology_tradeoff.md
@@ -178,7 +182,7 @@ def evaluate(spec: MorphologySpec, terrain: RegolithType, body_mass: float, grav
     contact = RegolithContactModel(reg, foot, gravity=1.62)
 
     g = gravity_scale * 9.81
-    F_leg = (body_mass * g) / spec.n_legs
+    F_leg = contact.body_normal_load(body_mass, stance_legs=spec.n_legs, gravity=g)
     forces = contact.compute_contact_forces(F_leg)
 
     W = workspace_cloud(leg, n_samples=n_samples, rng=rng)
@@ -225,7 +229,7 @@ def main():
     md = []
     md.append("# Lunar morphology tradeoffs — POC (contact-constrained locomotion)\n")
     md.append("This is a comparative *architecture* analysis (not a biological reconstruction).")
-    md.append("\n**Model:** Bekker pressure–sinkage + Mohr–Coulomb shear envelope, evaluated per-leg load under lunar gravity.\n")
+    md.append("\n**Model:** Bekker pressure–sinkage + Mohr–Coulomb shear envelope, evaluated with a simplified per-leg load path `mass × g / n_legs` under lunar gravity. This remains exploratory and does not close Findings 1–3.\n")
     md.append("## Setup\n")
     md.append(f"- Body mass: **{body_mass} kg**")
     md.append(f"- Gravity: **{gravity_scale:.3f}× Earth** (Moon)")
@@ -245,7 +249,7 @@ def main():
 
     md.append("\n## Next upgrades (to make this a real design tool)\n")
     md.append("1) Replace hull volume with **ROM→accessible-set shrinkage** using torque limits ∩ contact wrench polytope.")
-    md.append("2) Make the contact model **stance-geometry aware** (per-leg normal load varies over support polygon and slope).")
+    md.append("2) Make the contact model **stance-geometry aware** (per-leg normal load varies over support polygon and slope rather than only using the simplified `mass × g / n_legs` split).")
     md.append("3) Add **history dependence** (sinkage + shear accumulation, compaction).")
     md.append("4) Add **arachnid hydraulics state p** and true **hybrid mode switching** (stance/swing) for phase portraits.\n")
 

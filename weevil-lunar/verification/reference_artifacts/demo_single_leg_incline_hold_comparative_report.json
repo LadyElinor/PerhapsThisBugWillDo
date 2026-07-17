@@ -1,0 +1,277 @@
+{
+  "backends": {
+    "mujoco": {
+      "metrics": {
+        "anchor_state_confirmed": {
+          "available": true,
+          "note": "anchoring state not modeled in current MuJoCo scaffold",
+          "value": false
+        },
+        "completed": {
+          "available": true,
+          "note": "custom Python MuJoCo trace completed",
+          "value": true
+        },
+        "control_effort_proxy": {
+          "available": true,
+          "note": "solver iteration setting used in traced MuJoCo rollout",
+          "value": 100.0
+        },
+        "failure_mode": {
+          "available": true,
+          "note": "no Python MuJoCo trace failure recorded",
+          "value": ""
+        },
+        "foot_penetration_proxy_m": {
+          "available": true,
+          "note": "geometry proxy from MJCF foot radius; direct penetration depth extraction still pending",
+          "value": 0.05
+        },
+        "normal_reaction_n": {
+          "available": true,
+          "note": "mean per-step summed normal contact-force proxy from active contacts",
+          "value": 93.61359212780417
+        },
+        "notes": [
+          "custom Python MuJoCo trace path active",
+          "compiled model exists at C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\results\\simulation\\mujoco\\demo_single_leg_incline_hold.mjb",
+          "trace captured 2000 steps",
+          "contact persistence ratio=1.000",
+          "mean_contact_normal_proxy_n=93.614",
+          "mean_contact_tangential_proxy_n=53.673",
+          "max_contact_normal_proxy_n=2226.258",
+          "max_contact_tangential_proxy_n=884.339",
+          "slip/contact metrics now come from per-step trace artifact rather than testspeed summary"
+        ],
+        "peak_body_pitch_deg": {
+          "available": true,
+          "note": "max traced body pitch proxy from root orientation",
+          "value": 35.39600708751549
+        },
+        "peak_body_roll_deg": {
+          "available": true,
+          "note": "max traced body roll proxy from root orientation",
+          "value": 0.0
+        },
+        "slip_distance_m": {
+          "available": true,
+          "note": "foot x-displacement traced from 0.000000 m to 0.072672 m",
+          "value": 0.07267159640098747
+        },
+        "slip_velocity_m_s": {
+          "available": true,
+          "note": "maximum finite-difference foot x velocity from per-step trace",
+          "value": 0.6685803054743336
+        },
+        "stance_stable_duration_s": {
+          "available": true,
+          "note": "contact present for 2000/2000 steps (1.000 persistence)",
+          "value": 2.0
+        },
+        "tangential_reaction_n": {
+          "available": true,
+          "note": "mean per-step summed tangential contact-force proxy from active contacts; still proxy-level, not full wrench decomposition",
+          "value": 53.673013910469415
+        }
+      },
+      "metrics_path": "C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\results\\simulation\\mujoco\\demo_single_leg_incline_hold_metrics.json",
+      "receipt": {
+        "assumption_notes": [
+          "MuJoCo compile.exe used to produce real .mjb artifact",
+          "custom per-step trace written to C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\results\\simulation\\mujoco\\demo_single_leg_incline_hold_trace.json",
+          "trace harness uses Python mujoco bindings for per-step contact/state capture"
+        ],
+        "backend": "mujoco",
+        "code_commit": "unknown",
+        "engine_version": "mujoco-python-trace-backed",
+        "generated_at": "2026-07-16T19:31:08.661493+00:00",
+        "load_path": "gravity_coupled",
+        "load_path_detail": "scenario contract uses gravity-coupled boundary load derivation before backend execution",
+        "metrics_path": "C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\results\\simulation\\mujoco\\demo_single_leg_incline_hold_metrics.json",
+        "model_artifact": "C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\simulators\\mujoco\\models\\single_leg_incline.xml",
+        "model_hash": "af5728e8c5d198d7269f049ec5f69512a339586529b372abd81dc4ed43f10361",
+        "parameter_hash": "27117007a9d8896b76113b5ec91279d8eeca45a7a59a895fddc6387efd4c8273",
+        "scenario_id": "demo_single_leg_incline_hold",
+        "status": "partial",
+        "warnings": [
+          "custom Python MuJoCo trace path active",
+          "reaction/contact-force values are still proxy-level rather than full wrench decomposition",
+          "some geometry/penetration fields remain proxies"
+        ]
+      },
+      "receipt_path": "C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\results\\simulation\\mujoco\\demo_single_leg_incline_hold_receipt.json"
+    },
+    "ode": {
+      "metrics": {
+        "anchor_state_confirmed": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        },
+        "completed": {
+          "available": true,
+          "note": "placeholder ODE scaffold run",
+          "value": true
+        },
+        "control_effort_proxy": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        },
+        "failure_mode": {
+          "available": true,
+          "note": "no runtime failure in placeholder path",
+          "value": ""
+        },
+        "foot_penetration_proxy_m": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        },
+        "normal_reaction_n": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        },
+        "notes": [
+          "placeholder metrics only",
+          "ODE runtime integration not yet wired"
+        ],
+        "peak_body_pitch_deg": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        },
+        "peak_body_roll_deg": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        },
+        "slip_distance_m": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        },
+        "slip_velocity_m_s": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        },
+        "stance_stable_duration_s": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        },
+        "tangential_reaction_n": {
+          "available": false,
+          "note": "not yet extracted from ODE",
+          "value": null
+        }
+      },
+      "metrics_path": "C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\results\\simulation\\ode\\demo_single_leg_incline_hold_metrics.json",
+      "receipt": {
+        "assumption_notes": [
+          "artifact-only scaffold",
+          "no physics execution performed in this tranche",
+          "local check found ODE source/tests and premake tooling",
+          "MSVC compiler became available after vcvars64 initialization",
+          "premake4 successfully generated legacy vs2008 solution/project files",
+          "current headless build attempt failed because modern MSBuild would not directly build generated .vcproj files and the legacy .sln did not load cleanly in this flow"
+        ],
+        "backend": "ode",
+        "code_commit": "unknown",
+        "engine_version": "ode-source-present-headless-build-blocked",
+        "generated_at": "2026-07-16T19:31:08.664508+00:00",
+        "load_path": "gravity_coupled",
+        "load_path_detail": "scenario contract declares gravity-coupled boundary load derivation, but this ODE path remains placeholder / blocked-runtime",
+        "metrics_path": "C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\results\\simulation\\ode\\demo_single_leg_incline_hold_metrics.json",
+        "model_artifact": "C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\simulators\\ode\\configs\\single_leg_incline.yaml",
+        "model_hash": "14ab489b5cccf952cf31b0f749701a87267d2b609e9ed8566c5ba06050b319cf",
+        "parameter_hash": "27117007a9d8896b76113b5ec91279d8eeca45a7a59a895fddc6387efd4c8273",
+        "scenario_id": "demo_single_leg_incline_hold",
+        "status": "partial",
+        "warnings": [
+          "placeholder backend path",
+          "ODE runtime execution remains blocked locally",
+          "source tree is present and MSVC is installable, but no headless-ready ODE runtime binary path was completed in this tranche",
+          "generated legacy Visual Studio 2008 project files are not directly consumable by current headless MSBuild flow"
+        ]
+      },
+      "receipt_path": "C:\\Users\\arren\\.openclaw\\workspace\\temp\\PerhapsThisBugWillDo\\weevil-lunar\\results\\simulation\\ode\\demo_single_leg_incline_hold_receipt.json"
+    }
+  },
+  "generated_at": "2026-07-16T19:31:08.687125+00:00",
+  "scenario": {
+    "backend": "comparative",
+    "body_mass_kg": 30.0,
+    "cleat_gain_forward_assumed": 1.0,
+    "cleat_gain_lateral_assumed": 1.0,
+    "control_mode": "quasi_static",
+    "duration_s": 2.0,
+    "foot_geometry_kind": "sphere",
+    "foot_radius_m": 0.05,
+    "gravity_m_s2": 1.62,
+    "leg_count": 6,
+    "load_path": "gravity_coupled",
+    "maneuver": "single_leg_incline_hold",
+    "notes": [
+      "reference comparative artifact refresh with load-path semantics"
+    ],
+    "preload_normal_n": 20.0,
+    "scenario_id": "demo_single_leg_incline_hold",
+    "slope_deg": 25.0,
+    "stance_legs": 1,
+    "terrain_class": "mare",
+    "timestep_s": 0.001,
+    "twist_settle_gain_assumed": 1.0
+  },
+  "summary": {
+    "backend_data_sources": {
+      "mujoco": "backend",
+      "ode": "placeholder"
+    },
+    "backend_load_path_details": {
+      "mujoco": "scenario contract uses gravity-coupled boundary load derivation before backend execution",
+      "ode": "scenario contract declares gravity-coupled boundary load derivation, but this ODE path remains placeholder / blocked-runtime"
+    },
+    "backend_load_paths": {
+      "mujoco": "gravity_coupled",
+      "ode": "gravity_coupled"
+    },
+    "backend_status": {
+      "mujoco": "partial",
+      "ode": "partial"
+    },
+    "blocked_by_finding": {
+      "mujoco": [],
+      "ode": []
+    },
+    "completed": {
+      "mujoco": true,
+      "ode": true
+    },
+    "contract_pass": false,
+    "data_source": "placeholder",
+    "disagreement_flags": [
+      "backend runtime-live mismatch",
+      "ODE remains partial / blocked-runtime"
+    ],
+    "evidence_label": "comparative",
+    "evidence_pass": false,
+    "missing_comparable_metrics": [
+      "normal_reaction_n",
+      "tangential_reaction_n",
+      "slip_distance_m",
+      "slip_velocity_m_s",
+      "stance_stable_duration_s"
+    ],
+    "notes": [
+      "Comparative report is non-validating and governed by simulation_governance.md",
+      "Missing or blocked-runtime backend metrics are surfaced explicitly rather than normalized away"
+    ],
+    "runtime_live": {
+      "mujoco": true,
+      "ode": false
+    }
+  }
+}

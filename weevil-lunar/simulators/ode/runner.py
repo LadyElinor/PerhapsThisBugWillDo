@@ -35,6 +35,8 @@ def run_scenario(scenario: SimulationScenario, output_root: Path | None = None) 
         engine_version=ENGINE_VERSION,
         metrics_path=str(metrics_path),
         status="partial",
+        load_path=scenario.load_path,
+        load_path_detail="scenario contract declares gravity-coupled boundary load derivation, but this ODE path remains placeholder / blocked-runtime",
         warnings=[
             "placeholder backend path",
             "ODE runtime execution remains blocked locally",

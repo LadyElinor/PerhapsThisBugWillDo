@@ -24,6 +24,7 @@ class SimulationScenario:
     terrain_class: str
     slope_deg: float
     preload_normal_n: float
+    load_path: str = "gravity_coupled"
     twist_settle_gain_assumed: float = 1.0
     cleat_gain_forward_assumed: float = 1.0
     cleat_gain_lateral_assumed: float = 1.0
@@ -50,6 +51,8 @@ class SimulationScenario:
             raise ValueError("duration_s must be > 0")
         if self.timestep_s <= 0:
             raise ValueError("timestep_s must be > 0")
+        if self.load_path not in {"gravity_coupled", "externally_injected"}:
+            raise ValueError("load_path must be 'gravity_coupled' or 'externally_injected'")
 
     def to_dict(self) -> dict[str, Any]:
         self.validate()

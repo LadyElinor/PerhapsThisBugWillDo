@@ -51,6 +51,16 @@ def test_depth_round_trips_with_normal_load(model):
     assert recovered == pytest.approx(depth, rel=1e-3)
 
 
+def test_body_normal_load_helper(model):
+    assert model.body_normal_load(30.0, stance_legs=1, gravity=1.62) == pytest.approx(48.6)
+    assert model.body_normal_load(30.0, stance_legs=6, gravity=1.62) == pytest.approx(8.1)
+
+
+def test_total_normal_load_helper(model):
+    total = model.total_normal_load(30.0, stance_legs=6, preload_normal=20.0, gravity=1.62)
+    assert total == pytest.approx(28.1)
+
+
 def test_contact_forces_nonnegative(model):
     forces = model.compute_contact_forces(normal_load=120.0)
     assert forces.max_shear_force >= 0.0

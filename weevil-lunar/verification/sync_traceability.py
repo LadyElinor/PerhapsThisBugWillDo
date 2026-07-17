@@ -71,59 +71,63 @@ def derive_status(
     test_name: str,
     manifest: dict[str, Any],
     receipts: dict[str, Any],
-) -> tuple[str, str]:
-    """Return (derived_status, detail) for one traceability test_name."""
+) -> tuple[str, str, str, bool, list[str]]:
+    """Return (derived_status, detail, data_source, evidence_pass, blocked_by_finding)."""
     test_map = manifest.get("traceability", {}).get("test_map", {})
     entry = test_map.get(test_name)
     if entry is None:
-        return "unmapped", f"no test_map entry for '{test_name}'"
+        return "unmapped", f"no test_map entry for '{test_name}'", "placeholder", False, []
 
     harness = entry["harness"]
     h = receipts.get("harnesses", {}).get(harness)
     if h is None:
-        return "missing", f"harness '{harness}' absent from receipts"
+        return "missing", f"harness '{harness}' absent from receipts", "placeholder", False, []
+
+    data_source = h.get("data_source", "placeholder")
+    evidence_pass = bool(h.get("evidence_pass", False))
+    blocked_by_finding = list(h.get("blocked_by_finding", []))
+
     if h["exit_code"] != 0:
-        return "error", f"harness '{harness}' exited {h['exit_code']}"
+        return "error", f"harness '{harness}' exited {h['exit_code']}", data_source, evidence_pass, blocked_by_finding
 
     if "gate" in entry:
         outcomes, expected_fail = gate_table_context(manifest, harness)
         gid = entry["gate"]
         if gid not in outcomes:
-            return "missing", f"gate '{gid}' absent from report"
+            return "missing", f"gate '{gid}' absent from report", data_source, evidence_pass, blocked_by_finding
         actual = outcomes[gid]
         if gid in expected_fail:
-            return ("drift", f"gate '{gid}' declared expected-fail but passed") if actual else (
-                "expected-fail",
-                f"gate '{gid}' failing as documented (baseline design gap)",
-            )
-        return ("pass" if actual else "fail"), f"gate '{gid}' {'passed' if actual else 'failed'}"
+            if actual:
+                return "drift", f"gate '{gid}' declared expected-fail but passed", data_source, evidence_pass, blocked_by_finding
+            return "expected-fail", f"gate '{gid}' failing as documented (baseline design gap)", data_source, evidence_pass, blocked_by_finding
+        return ("pass" if actual else "fail"), f"gate '{gid}' {'passed' if actual else 'failed'}", data_source, evidence_pass, blocked_by_finding
 
     if "gate_prefix" in entry:
         outcomes, _ = gate_table_context(manifest, harness)
         prefix = entry["gate_prefix"]
         hits = {g: ok for g, ok in outcomes.items() if g.startswith(prefix)}
         if not hits:
-            return "missing", f"no gates with prefix '{prefix}'"
+            return "missing", f"no gates with prefix '{prefix}'", data_source, evidence_pass, blocked_by_finding
         n_ok = sum(hits.values())
         detail = f"{n_ok}/{len(hits)} gates pass under '{prefix}*'"
         if n_ok == len(hits):
-            return "pass", detail
-        return ("partial" if n_ok else "fail"), detail
+            return "pass", detail, data_source, evidence_pass, blocked_by_finding
+        return ("partial" if n_ok else "fail"), detail, data_source, evidence_pass, blocked_by_finding
 
-    return h["status"], f"harness '{harness}' combined status"
+    return h["status"], f"harness '{harness}' combined status", data_source, evidence_pass, blocked_by_finding
 
 
 def analyze(
     manifest: dict[str, Any], receipts: dict[str, Any], rows: list[dict[str, str]]
 ) -> dict[str, Any]:
     problems: list[str] = []
-    derived: list[tuple[dict[str, str], str, str]] = []
+    derived: list[tuple[dict[str, str], str, str, str, bool, list[str]]] = []
     referenced_harnesses: set[str] = set()
     test_map = manifest.get("traceability", {}).get("test_map", {})
 
     for row in rows:
-        status, detail = derive_status(row["test_name"], manifest, receipts)
-        derived.append((row, status, detail))
+        status, detail, data_source, evidence_pass, blocked_by_finding = derive_status(row["test_name"], manifest, receipts)
+        derived.append((row, status, detail, data_source, evidence_pass, blocked_by_finding))
         entry = test_map.get(row["test_name"])
         if entry:
             referenced_harnesses.add(entry["harness"])
@@ -159,11 +163,22 @@ def analyze(
 
 
 def write_csv(csv_path: Path, analysis: dict[str, Any]) -> None:
-    fieldnames = ["requirement_id", "spec_section", "test_name", "analysis_script", "result_file", "status", "note"]
+    fieldnames = [
+        "requirement_id",
+        "spec_section",
+        "test_name",
+        "analysis_script",
+        "result_file",
+        "status",
+        "data_source",
+        "evidence_pass",
+        "blocked_by_finding",
+        "note",
+    ]
     with csv_path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         w.writeheader()
-        for row, status, _detail in analysis["derived"]:
+        for row, status, _detail, data_source, evidence_pass, blocked_by_finding in analysis["derived"]:
             note = row.get("note", "")
             if row["status"] != status and row["status"] not in ("", status):
                 prior = f"prior hand status: {row['status']}"
@@ -176,6 +191,9 @@ def write_csv(csv_path: Path, analysis: dict[str, Any]) -> None:
                     "analysis_script": SCRIPT_ALIASES.get(row["analysis_script"], row["analysis_script"]),
                     "result_file": row["result_file"],
                     "status": status,
+                    "data_source": data_source,
+                    "evidence_pass": str(bool(evidence_pass)).lower(),
+                    "blocked_by_finding": ",".join(blocked_by_finding),
                     "note": note,
                 }
             )
@@ -195,11 +213,13 @@ def write_report(report_path: Path, analysis: dict[str, Any], receipts: dict[str
         "",
         "## Derived statuses",
         "",
-        "| requirement | test | derived status | detail |",
-        "|---|---|---|---|",
+        "| requirement | test | derived status | data_source | evidence_pass | blocked_by_finding | detail |",
+        "|---|---|---|---|---|---|---|",
     ]
-    for row, status, detail in analysis["derived"]:
-        lines.append(f"| {row['requirement_id']} | {row['test_name']} | {status} | {detail} |")
+    for row, status, detail, data_source, evidence_pass, blocked_by_finding in analysis["derived"]:
+        lines.append(
+            f"| {row['requirement_id']} | {row['test_name']} | {status} | {data_source} | {str(bool(evidence_pass)).lower()} | {','.join(blocked_by_finding)} | {detail} |"
+        )
     lines += ["", "## Harnesses pending requirement linkage", ""]
     if analysis["pending_reasons"]:
         lines += [f"- {name}: {reason}" for name, reason in sorted(analysis["pending_reasons"].items())]

@@ -33,7 +33,7 @@ MuJoCo and ODE outputs are approved for:
 
 Until the validation-spend gate in `DECISION_MEMO.md` is green, backend outputs must not be used as support for claims such as:
 - predictive lunar sinkage realism
-- validated Moon-vs-Earth performance
+- validated Moon-vs-Earth performance (even where simplified gravity-coupled load paths now exist)
 - physically grounded traction margins from free gain knobs
 - design readiness for hardware-validation spend
 - field-ready slope capability
@@ -55,7 +55,7 @@ All new simulation backends must consume a shared scenario contract.
 
 Scenario definitions must:
 - be engine-agnostic
-- name gravity, mass, stance, and preload assumptions explicitly
+- name gravity, mass, stance, preload, and load-path assumptions explicitly
 - record free or nonphysical assumptions in receipts
 - avoid hidden backend-specific parameter injection
 
@@ -81,6 +81,11 @@ Each backend run must emit a receipt capturing:
 - status
 
 Receipts are required because simulator prestige should not outrun traceability.
+
+Current Finding 2 note:
+- load-path semantics are now explicit in scenario and receipt contracts
+- this improves comparative honesty and testability
+- it does not by itself close the gravity-coupling finding or authorize validated Moon-vs-Earth claims
 
 ## Backend roles
 

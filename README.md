@@ -47,7 +47,7 @@ pip install -r requirements.txt
 ```bash
 python weevil-lunar/models/lunar_integrated_weevil_leg.py
 ```
-This prints sampled leg states and traction estimates from the current canonical model location.
+This prints sampled leg states and traction estimates from the current canonical model location under `weevil-lunar/models/`.
 
 ### 3) Run contact / morphology analysis
 ```bash
@@ -55,16 +55,18 @@ cd weevil-lunar
 python -m models.contact.weevil_lunar_tests
 python -m models.contact.morphology_harness
 ```
-Outputs (written to `results/GPT/Robotics/`):
-- `weevil_lunar_test_results.md`, `mare_rescue_profile.md`
-- `morphology_tradeoff.csv`, `lunar_morphology_tradeoff.md`
+Outputs are written under `results/GPT/Robotics/` as generated working artifacts, for example:
+- `weevil_lunar_test_results.md`
+- `mare_rescue_profile.md`
+- `morphology_tradeoff.csv`
+- `lunar_morphology_tradeoff.md`
 
 ### 4) Run Weevil-Lunar verification package
 ```bash
 cd weevil-lunar
 python -m pytest verification/tests -q
-python verification/benchmark_runner.py
-python verification/check_benchmark_regression.py
+python weevil-lunar/verification/benchmark_runner.py
+python weevil-lunar/verification/check_benchmark_regression.py
 ```
 
 ## Core idea
@@ -99,6 +101,6 @@ These parameters drive directional traction envelopes and mare rescue feasibilit
 ## Repo hygiene
 - `requirements.txt` is authoritative for Python deps.
 - All model code lives under `weevil-lunar/models/`; `results/GPT/Robotics/`
-  holds only generated artifacts (figures, CSVs, reports).
+  holds generated artifacts (figures, CSVs, reports) and may be absent in a fresh clone until local runs create them.
 - CI and most package-local commands assume execution from `weevil-lunar/` unless a path is explicitly repo-root-relative.
 - Never commit secrets/tokens.

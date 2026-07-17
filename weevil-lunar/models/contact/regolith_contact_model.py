@@ -7,6 +7,11 @@ Implements:
   - Mohr–Coulomb shear envelope (max lateral force before slip)
   - friction cone helper
 
+Contract note:
+- contact physics operates on explicit normal loads in Newtons
+- gravity coupling belongs at the load-derivation boundary, exposed here via
+  a named helper, rather than as an implicit hidden force inside the model
+
 This is intentionally minimal so downstream scripts run end-to-end.
 """
 
@@ -107,7 +112,22 @@ class RegolithContactModel:
     def __init__(self, regolith: RegolithProperties, foot: FootGeometry, gravity: float = 1.62):
         self.regolith = regolith
         self.foot = foot
-        self.gravity = gravity  # Stored only for future weight-from-mass helpers; current APIs require pre-computed normal loads in Newtons.
+        self.gravity = gravity
+
+    def body_normal_load(self, body_mass_kg: float, stance_legs: int = 1, gravity: float | None = None) -> float:
+        g = self.gravity if gravity is None else float(gravity)
+        if stance_legs <= 0:
+            raise ValueError("stance_legs must be positive")
+        return float(body_mass_kg * g / stance_legs)
+
+    def total_normal_load(
+        self,
+        body_mass_kg: float,
+        stance_legs: int = 1,
+        preload_normal: float = 0.0,
+        gravity: float | None = None,
+    ) -> float:
+        return float(self.body_normal_load(body_mass_kg, stance_legs=stance_legs, gravity=gravity) + max(0.0, float(preload_normal)))
 
     def bearing_capacity(self, depth: float) -> float:
         """Bekker pressure–sinkage: p = (k_c/b + k_phi) * z^n  (kPa)."""

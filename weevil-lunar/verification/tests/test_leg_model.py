@@ -13,9 +13,11 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "cad" / "scripts"))
 
 from models.lunar_integrated_weevil_leg import (  # noqa: E402
+    MOON_G,
     ContactModel,
     LegState,
     axis_is_within_tolerance,
+    body_normal_load_n,
     evaluate_leg_state,
     helical_displacement_mm,
     load_params,
@@ -62,27 +64,36 @@ def test_tibia_extension_symmetric_about_neutral(params, contact):
 def test_traction_no_double_gravity_scaling(params):
     contact = ContactModel(regolith_mu=0.55, internal_mu=0.004)
     result = evaluate_leg_state(LegState(0.0, 0.0, 0.0), params, contact)
+    expected_normal = body_normal_load_n(30.0, MOON_G, 1) + params.preload_n
     expected = (
         contact.regolith_mu
-        * params.preload_n
+        * expected_normal
         * params.cleat_forward_gain
         * (1.0 - contact.internal_mu)
     )
     assert result.traction_n == pytest.approx(expected)
-    buggy = expected * (1.62 / 9.81)
+    buggy = expected * (MOON_G / 9.81)
     assert result.traction_n != pytest.approx(buggy)
-    assert result.traction_n > buggy * 2.0
 
 
 def test_traction_scales_with_preload(params):
     contact = ContactModel()
-    low = evaluate_leg_state(LegState(0.0, 0.0, 0.0), params, contact).traction_n
+    low = evaluate_leg_state(LegState(0.0, 0.0, 0.0), params, contact, commanded_preload_n=0.0).traction_n
+    high = evaluate_leg_state(LegState(0.0, 0.0, 0.0), params, contact, commanded_preload_n=50.0).traction_n
     assert low > 0.0
+    assert high > low
 
 
-def test_normal_force_equals_preload(params, contact):
+def test_body_normal_load_helper():
+    assert body_normal_load_n(30.0, MOON_G, 1) == pytest.approx(48.6)
+    assert body_normal_load_n(30.0, MOON_G, 6) == pytest.approx(8.1)
+
+
+def test_normal_force_is_body_load_plus_preload(params, contact):
     result = evaluate_leg_state(LegState(0.0, 0.0, 0.0), params, contact)
-    assert result.normal_n == pytest.approx(params.preload_n)
+    assert result.body_normal_n == pytest.approx(body_normal_load_n(30.0, MOON_G, 1))
+    assert result.preload_n == pytest.approx(params.preload_n)
+    assert result.normal_n == pytest.approx(result.body_normal_n + result.preload_n)
 
 
 def test_axis_tolerance_basic():

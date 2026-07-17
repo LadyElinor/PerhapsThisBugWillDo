@@ -32,7 +32,7 @@ MuJoCo and ODE are being added to support:
 
 Until the validation-spend gate in `DECISION_MEMO.md` is green, these backends must **not** be used to claim:
 - predictive lunar sinkage realism
-- validated Moon-vs-Earth comparative performance
+- validated Moon-vs-Earth comparative performance, even where simplified gravity-coupled load splits are present upstream
 - physically grounded traction margins from free gain knobs
 - readiness for hardware-validation spend
 

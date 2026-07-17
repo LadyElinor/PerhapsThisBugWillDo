@@ -1,7 +1,7 @@
 # Decision Memo — Weevil-Lunar Model Use, Claim Boundaries, and Validation Gate
 
 Status: internal governance memo
-Basis: `C:\Users\arren\.openclaw\workspace\robotics\bug2\physics_redteam_report.md`
+Basis: `docs/physics_redteam_report.md`
 Scope: contact and reduced-order leg model use inside `weevil-lunar/`
 
 ## Purpose
@@ -115,7 +115,7 @@ The following statements are allowed and encouraged because they are honest to t
 - “This repo is an exploratory scaffold for design-space reasoning.”
 - “These outputs are qualitative and assumption-sensitive, not calibrated field predictions.”
 - “The model contains standard equation forms but remains uncalibrated in key parameters and couplings.”
-- “Moon-vs-Earth claims are not yet supported because gravity is not yet coupled into the load path.”
+- “Moon-vs-Earth claims are not yet supported because gravity/load-path coupling is only partially repaired and not yet closed across the full model path.”
 - “Traction-sensitive outputs remain contingent on an underived cleat-gain term.”
 - “This package is useful for organizing assumptions and identifying what would need real validation.”
 
@@ -136,9 +136,10 @@ That gate requires all three conditions below.
 
 ### Gate condition B — Finding 2 closed
 
-Gravity must become mechanistically real in the model path, and all of the following must be true:
+Gravity/load-path coupling must become mechanistically authoritative in the model path, and all of the following must be true:
 - `normal_load` is derived at one named place from body/load assumptions rather than treated as a floating preload constant
-- the gravity/body-mass dependence is explicit and testable
+- the gravity/body-mass dependence is explicit and testable across the reduced-order and contact-facing paths
+- scenario, receipt, and comparative-artifact contracts preserve the declared load-path semantics without ambiguity
 - Moon-vs-Earth outputs differ because the model path includes gravity coupling, not because scripts inject arbitrary load differences upstream
 
 ### Gate condition C — Finding 3 closed

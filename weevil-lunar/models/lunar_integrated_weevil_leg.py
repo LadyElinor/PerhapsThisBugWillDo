@@ -3,8 +3,8 @@
 
 Focus:
 - helical tibia coupling (rotation -> prismatic displacement)
+- explicit separation of body-load gravity coupling vs commanded preload
 - explicit separation of internal joint friction vs regolith friction
-- preload in N (never inferred from Earth gravity)
 """
 
 from __future__ import annotations
@@ -28,6 +28,7 @@ sys.path.append(str(ROOT / "cad" / "scripts"))
 from simple_yaml import load_yaml_text  # type: ignore
 
 EARTH_G = 9.81
+MOON_G = 1.62
 
 
 @dataclass(frozen=True)
@@ -62,6 +63,8 @@ class EvalResult:
     reachable: bool
     tip_x_mm: float
     tip_z_mm: float
+    body_normal_n: float
+    preload_n: float
     normal_n: float
     traction_n: float
 
@@ -91,7 +94,21 @@ def axis_is_within_tolerance(actual_deg: float, target_deg: float, tol_deg: floa
     return abs(actual_deg - target_deg) <= tol_deg
 
 
-def evaluate_leg_state(state: LegState, params: LegParams, contact: ContactModel) -> EvalResult:
+def body_normal_load_n(body_mass_kg: float, gravity_m_s2: float, stance_legs: int) -> float:
+    if stance_legs <= 0:
+        raise ValueError("stance_legs must be positive")
+    return (body_mass_kg * gravity_m_s2) / stance_legs
+
+
+def evaluate_leg_state(
+    state: LegState,
+    params: LegParams,
+    contact: ContactModel,
+    body_mass_kg: float = 30.0,
+    gravity_m_s2: float = MOON_G,
+    stance_legs: int = 1,
+    commanded_preload_n: float | None = None,
+) -> EvalResult:
     reachable = (
         params.coxa_range[0] <= state.coxa_yaw_deg <= params.coxa_range[1]
         and params.femur_range[0] <= state.femur_pitch_deg <= params.femur_range[1]
@@ -106,7 +123,9 @@ def evaluate_leg_state(state: LegState, params: LegParams, contact: ContactModel
     tip_x = params.femur_link_mm * math.cos(femur_rad) + tibia_effective_mm * math.cos(femur_rad)
     tip_z = params.femur_link_mm * math.sin(femur_rad) + tibia_effective_mm * math.sin(femur_rad)
 
-    normal_n = params.preload_n
+    preload_n = params.preload_n if commanded_preload_n is None else float(commanded_preload_n)
+    body_normal_n = body_normal_load_n(body_mass_kg, gravity_m_s2, stance_legs)
+    normal_n = body_normal_n + max(0.0, preload_n)
     terrain_term = max(0.0, contact.regolith_mu * normal_n * params.cleat_forward_gain)
     efficiency = max(0.0, 1.0 - contact.internal_mu)
     traction_n = terrain_term * efficiency
@@ -115,6 +134,8 @@ def evaluate_leg_state(state: LegState, params: LegParams, contact: ContactModel
         reachable=reachable,
         tip_x_mm=tip_x,
         tip_z_mm=tip_z,
+        body_normal_n=body_normal_n,
+        preload_n=preload_n,
         normal_n=normal_n,
         traction_n=traction_n,
     )

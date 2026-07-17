@@ -21,6 +21,8 @@ class SimulationReceipt:
     engine_version: str
     metrics_path: str
     status: str
+    load_path: str = "gravity_coupled"
+    load_path_detail: str = "normal load derived from body_mass_kg × gravity_m_s2 / stance_legs plus any explicit preload"
     warnings: list[str] = field(default_factory=list)
     assumption_notes: list[str] = field(default_factory=list)
 

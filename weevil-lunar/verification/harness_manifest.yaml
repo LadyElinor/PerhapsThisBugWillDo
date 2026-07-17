@@ -23,6 +23,7 @@ schema_version: 1
 harnesses:
   actuation_bench:
     script: verification/test_actuation_bench.py
+    data_source: model_coupled
     reports:
       - file: actuation_bench.csv
         kind: pass_column
@@ -30,6 +31,7 @@ harnesses:
 
   autonomy_health_planner:
     script: verification/test_autonomy_health_planner.py
+    data_source: model_coupled
     reports:
       - file: autonomy_health_planner.csv
         kind: pass_column
@@ -37,6 +39,7 @@ harnesses:
 
   axis_orthogonality_sensitivity:
     script: verification/test_axis_orthogonality_sensitivity.py
+    data_source: model_coupled
     # Sensitivity sweep: the gate criterion (success rate >= 0.80 inside the
     # +/-15 deg orthogonality envelope) previously lived only in the markdown
     # report; declared here so it is machine-checked.
@@ -49,6 +52,7 @@ harnesses:
 
   dust_ingress_endurance:
     script: verification/test_dust_ingress_endurance.py
+    data_source: model_coupled
     reports:
       - file: dust_ingress_endurance.csv
         kind: pass_column
@@ -56,6 +60,7 @@ harnesses:
 
   duty_cycle_cadence_envelope:
     script: verification/test_duty_cycle_cadence_envelope.py
+    data_source: model_coupled
     reports:
       - file: duty_cycle_cadence_envelope.csv
         kind: pass_column
@@ -63,6 +68,7 @@ harnesses:
 
   offplane_coupling_index:
     script: verification/test_offplane_coupling_index.py
+    data_source: model_coupled
     reports:
       - file: offplane_coupling_index.csv
         kind: pass_column
@@ -70,6 +76,7 @@ harnesses:
 
   offplane_impulse_recovery:
     script: verification/test_offplane_impulse_recovery.py
+    data_source: model_coupled
     # This report has no single `pass` column; it gates on BOTH criteria.
     # The old aggregator misread this schema as a hard fail.
     reports:
@@ -79,6 +86,7 @@ harnesses:
 
   phase2_cad_artifacts:
     script: verification/test_phase2_cad_artifacts.py
+    data_source: placeholder
     reports:
       - file: phase2_cad_artifacts.csv
         kind: pass_column
@@ -86,6 +94,7 @@ harnesses:
 
   phase2_export_bundle:
     script: verification/test_phase2_export_bundle.py
+    data_source: placeholder
     reports:
       - file: phase2_export_bundle.csv
         kind: pass_column
@@ -93,6 +102,7 @@ harnesses:
 
   power_comms_profile:
     script: verification/test_power_comms_profile.py
+    data_source: model_coupled
     reports:
       - file: power_comms_profile.csv
         kind: pass_column
@@ -100,6 +110,7 @@ harnesses:
 
   rover_informed_profile:
     script: verification/test_rover_informed_profile.py
+    data_source: model_coupled
     reports:
       - file: rover_informed_profile.csv
         kind: pass_column
@@ -107,6 +118,7 @@ harnesses:
 
   stance_phase_detection:
     script: verification/test_stance_phase_detection.py
+    data_source: model_coupled
     reports:
       - file: stance_phase_detection.csv
         kind: pass_column
@@ -114,6 +126,7 @@ harnesses:
 
   steep_slope_state_machine:
     script: verification/test_steep_slope_state_machine.py
+    data_source: model_coupled
     reports:
       - file: steep_slope_state_machine.csv
         kind: pass_column
@@ -121,6 +134,7 @@ harnesses:
 
   thermal_vac_cycle:
     script: verification/test_thermal_vac_cycle.py
+    data_source: model_coupled
     reports:
       - file: thermal_vac_cycle.csv
         kind: pass_column
@@ -128,6 +142,7 @@ harnesses:
 
   contact_package:
     script: models/contact/weevil_lunar_tests.py
+    data_source: model_coupled
     run: ["-m", "models.contact.weevil_lunar_tests"]
     reports:
       - file: ../results/GPT/Robotics/gate_results.csv

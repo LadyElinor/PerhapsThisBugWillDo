@@ -201,7 +201,7 @@ def run_suite(
     reg = RegolithProperties.from_type(terrain)
     foot = FootGeometry.circular(0.05, cleat_gain_forward=1.0, cleat_gain_lateral=1.0, cleat_engage_threshold_preload=20.0)
     model = RegolithContactModel(reg, foot, gravity=gravity)
-    body_load_per_leg = body_mass_kg * gravity / n_legs
+    body_load_per_leg = model.body_normal_load(body_mass_kg, stance_legs=n_legs, gravity=gravity)
 
     tests = [
         test_twist_settle_gain(model, body_load_per_leg),

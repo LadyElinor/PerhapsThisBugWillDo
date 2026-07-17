@@ -8,11 +8,9 @@ This package defines a markdown-first, test-traceable blueprint for a lunar weev
 - **Validation status:** simulation-first; no hardware validation in-repo yet
 - **Intended use:** design-space exploration, requirement shaping, and verification scaffolding
 
-See also: `docs/modeling_assumptions.md`.
-
 Governance-critical reading before making validation or performance claims:
 - `DECISION_MEMO.md` — internal claim boundaries and validation-spend gate
-- `../../robotics/physics_redteam_report.md` — adversarial physics review underpinning the memo
+- `docs/physics_redteam_report.md` — adversarial physics review underpinning the memo
 
 ## Quick reproducible benchmark
 From repo root:
@@ -29,13 +27,12 @@ Expected outputs are generated under `verification/reports/` as local working ar
 
 ## Included now
 - `docs/system_spec.md`
-- `specs/foot_anchoring_spec.md`
 - `docs/ops_playbook.md`
 - `docs/rover_informed_build_plan.md`
 - `docs/lunar_weevil_build_checklist.md`
 - `docs/phase2_handoff_summary.md`
-- `docs/modeling_assumptions.md`
-- `docs/public_roadmap_issues.md`
+- `docs/physics_redteam_report.md`
+- `specs/foot_anchoring_spec.md`
 - `icd/software_icd.md`
 - `icd/data_contracts.yaml`
 - `verification/test_matrix.csv`
@@ -50,14 +47,14 @@ Expected outputs are generated under `verification/reports/` as local working ar
 - `cad/Phase2_Export.FCMacro`
 
 ## Source evidence used
-- `results/GPT/Robotics/weevil_lunar_test_results.md`
-- `results/GPT/Robotics/mare_rescue_profile.md`
-- `results/GPT/Robotics/weevil_lunar_tests.py`
+- `results/GPT/Robotics/weevil_lunar_test_results.md` (generated local artifact, may be absent in a fresh clone)
+- `results/GPT/Robotics/mare_rescue_profile.md` (generated local artifact, may be absent in a fresh clone)
+- `results/GPT/Robotics/weevil_lunar_tests.py` (generated/local evidence snapshot, not canonical source, may be absent in a fresh clone)
 
 ## Project metadata
-- License: `LICENSE` (MIT)
-- Citation: `CITATION.cff`
-- CI workflow: `.github/workflows/ci.yml`
+- CI workflow: `../.github/workflows/validate-and-benchmark.yml`
+- License: not yet committed in this clone
+- Citation: not yet committed in this clone
 
 ## Export receipt workflow (v0.4)
 Use deterministic receipt generation for CAD handoff traceability:
@@ -78,4 +75,4 @@ Canonical receipt artifacts:
 - mechanical/electrical ICD
 - thermal, dust sealing, and actuation subsystem specs
 - preliminary BOM and materials sheet
-- dynamics-layer and HIL calibration milestones (see `docs/public_roadmap_issues.md`)
+- dynamics-layer and HIL calibration milestones (roadmap doc not yet committed in this clone)

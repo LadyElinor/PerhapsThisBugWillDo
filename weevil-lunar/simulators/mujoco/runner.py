@@ -86,6 +86,8 @@ def run_scenario(scenario: SimulationScenario, output_root: Path | None = None) 
         engine_version=ENGINE_VERSION,
         metrics_path=str(metrics_path),
         status="partial",
+        load_path=scenario.load_path,
+        load_path_detail="scenario contract uses gravity-coupled boundary load derivation before backend execution",
         warnings=[
             "custom Python MuJoCo trace path active",
             "reaction/contact-force values are still proxy-level rather than full wrench decomposition",

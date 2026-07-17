@@ -54,6 +54,7 @@ def git_commit() -> str:
 
 def run_harness(name: str, spec: dict[str, Any]) -> dict[str, Any]:
     cmd = [sys.executable] + list(spec.get("run") or [spec["script"]])
+    data_source = spec["data_source"]
     env = dict(os.environ, MPLBACKEND="Agg")
     t0 = time.monotonic()
     proc = subprocess.run(cmd, cwd=WEEVIL_ROOT, env=env, capture_output=True, text=True)
@@ -82,13 +83,21 @@ def run_harness(name: str, spec: dict[str, Any]) -> dict[str, Any]:
         status = combine(statuses)
         detail = "; ".join(r["detail"] for r in reports)
 
+    blocked_by_finding = list(spec.get("blocked_by_finding", []))
+    evidence_pass = status == "pass" and data_source in {"backend", "hardware"}
+    contract_pass = status == "pass"
+
     return {
         "script": spec["script"],
         "command": cmd[1:],
+        "data_source": data_source,
+        "blocked_by_finding": blocked_by_finding,
         "exit_code": proc.returncode,
         "duration_s": duration,
         "reports": reports,
         "status": status,
+        "contract_pass": contract_pass,
+        "evidence_pass": evidence_pass,
         "detail": detail,
     }
 
@@ -106,20 +115,42 @@ def main() -> int:
     for r in results.values():
         summary[r["status"]] = summary.get(r["status"], 0) + 1
 
+    by_data_source: dict[str, int] = {}
+    for r in results.values():
+        by_data_source[r["data_source"]] = by_data_source.get(r["data_source"], 0) + 1
+
     data = {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "git_commit": git_commit(),
         "manifest": str(MANIFEST_PATH.relative_to(WEEVIL_ROOT)),
         "harnesses": results,
         "summary": summary,
+        "contract_summary": {
+            "pass": sum(1 for r in results.values() if r["contract_pass"]),
+            "not_pass": sum(1 for r in results.values() if not r["contract_pass"]),
+        },
+        "evidence_summary": {
+            "pass": sum(1 for r in results.values() if r["evidence_pass"]),
+            "not_pass": sum(1 for r in results.values() if not r["evidence_pass"]),
+        },
+        "data_sources": by_data_source,
     }
     write_receipts(data)
 
-    md = ["# Verification Suite Receipts", "", f"- generated: {data['generated_at']}",
-          f"- commit: {data['git_commit']}", "", "| harness | status | detail |", "|---|---|---|"]
+    md = [
+        "# Verification Suite Receipts",
+        "",
+        f"- generated: {data['generated_at']}",
+        f"- commit: {data['git_commit']}",
+        f"- contract pass harnesses: {data['contract_summary']['pass']}",
+        f"- evidence pass harnesses: {data['evidence_summary']['pass']}",
+        "",
+        "| harness | status | data_source | contract_pass | evidence_pass | detail |",
+        "|---|---|---|---|---|---|",
+    ]
     for name, r in results.items():
-        md.append(f"| {name} | {r['status']} | {r['detail']} |")
+        md.append(f"| {name} | {r['status']} | {r['data_source']} | {r['contract_pass']} | {r['evidence_pass']} | {r['detail']} |")
     md_path = WEEVIL_ROOT / "verification" / "reports" / "receipts.md"
     md_path.write_text("\n".join(md) + "\n", encoding="utf-8")
 

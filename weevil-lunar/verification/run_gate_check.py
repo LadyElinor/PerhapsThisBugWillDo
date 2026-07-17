@@ -67,13 +67,34 @@ def main() -> int:
     out_rows: list[dict[str, str]] = []
     for cls, members in CLASSES.items():
         statuses, details = [], []
+        contract_pass = True
+        evidence_pass = True
+        blocked_by_finding: set[str] = set()
+        data_sources: set[str] = set()
         for name in members:
             h = harnesses.get(name)
             status = h["status"] if h else "missing"
             statuses.append(status)
-            details.append(f"{name}:{status}")
+            if not h:
+                contract_pass = False
+                evidence_pass = False
+                details.append(f"{name}:missing")
+                continue
+            contract_pass = contract_pass and bool(h.get("contract_pass", status == "pass"))
+            evidence_pass = evidence_pass and bool(h.get("evidence_pass", False))
+            blocked_by_finding.update(h.get("blocked_by_finding", []))
+            data_sources.add(h.get("data_source", "unknown"))
+            details.append(f"{name}:{status}/{h.get('data_source', 'unknown')}")
         out_rows.append(
-            {"class": cls, "status": combine(statuses), "details": "; ".join(details)}
+            {
+                "class": cls,
+                "status": combine(statuses),
+                "contract_pass": str(contract_pass).lower(),
+                "evidence_pass": str(evidence_pass).lower(),
+                "data_sources": ",".join(sorted(data_sources)),
+                "blocked_by_finding": ",".join(sorted(blocked_by_finding)),
+                "details": "; ".join(details),
+            }
         )
 
     report_dir = WEEVIL_ROOT / "verification" / "reports"
@@ -81,7 +102,7 @@ def main() -> int:
 
     csv_path = report_dir / "gate_check.csv"
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["class", "status", "details"], lineterminator="\n")
+        w = csv.DictWriter(f, fieldnames=["class", "status", "contract_pass", "evidence_pass", "data_sources", "blocked_by_finding", "details"], lineterminator="\n")
         w.writeheader()
         w.writerows(out_rows)
 
@@ -91,11 +112,11 @@ def main() -> int:
         f"- receipts commit: {receipts.get('git_commit', 'unknown')}",
         f"- receipts generated: {receipts.get('generated_at', 'unknown')}",
         "",
-        "| class | status | details |",
-        "|---|---|---|",
+        "| class | status | contract_pass | evidence_pass | data_sources | blocked_by_finding | details |",
+        "|---|---|---|---|---|---|---|",
     ]
     for r in out_rows:
-        md_lines.append(f"| {r['class']} | {r['status']} | {r['details']} |")
+        md_lines.append(f"| {r['class']} | {r['status']} | {r['contract_pass']} | {r['evidence_pass']} | {r['data_sources']} | {r['blocked_by_finding']} | {r['details']} |")
     md_path = report_dir / "gate_check.md"
     md_path.write_text("\n".join(md_lines) + "\n", encoding="utf-8")
 

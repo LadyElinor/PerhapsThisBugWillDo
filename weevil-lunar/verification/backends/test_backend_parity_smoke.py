@@ -1,5 +1,11 @@
 from __future__ import annotations
 
+import json
+
+import pytest
+
+pytest.importorskip("mujoco")
+
 from simulators.common.scenario_schema import SimulationScenario
 from simulators.mujoco.runner import run_scenario as run_mujoco
 from simulators.ode.runner import run_scenario as run_ode
@@ -28,3 +34,8 @@ def test_backend_parity_smoke_runs_receipt_paths(tmp_path):
     assert ode_receipt.exists()
     assert str(mujoco_metrics).startswith(str(output_root))
     assert str(ode_metrics).startswith(str(output_root))
+
+    mj = json.loads(mujoco_receipt.read_text(encoding="utf-8"))
+    od = json.loads(ode_receipt.read_text(encoding="utf-8"))
+    assert mj["load_path"] == "gravity_coupled"
+    assert od["load_path"] == "gravity_coupled"

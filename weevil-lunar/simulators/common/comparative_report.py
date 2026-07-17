@@ -57,12 +57,32 @@ def _build_summary(mj_metrics: dict[str, Any], od_metrics: dict[str, Any], mj_re
     if od_receipt.get("status") == "partial":
         disagreement_flags.append("ODE remains partial / blocked-runtime")
 
+    data_sources = {
+        "mujoco": mj_receipt.get("data_source", "backend"),
+        "ode": od_receipt.get("data_source", "placeholder"),
+    }
+    load_paths = {
+        "mujoco": mj_receipt.get("load_path", "externally_injected"),
+        "ode": od_receipt.get("load_path", "externally_injected"),
+    }
+    load_path_details = {
+        "mujoco": mj_receipt.get("load_path_detail", "unspecified"),
+        "ode": od_receipt.get("load_path_detail", "unspecified"),
+    }
+    blocked_by_finding = {
+        "mujoco": mj_receipt.get("blocked_by_finding", []),
+        "ode": od_receipt.get("blocked_by_finding", []),
+    }
+
     evidence_label = "comparative"
-    if not missing_comparables and not disagreement_flags:
+    if not missing_comparables and not disagreement_flags and all(ds in {"backend", "hardware"} for ds in data_sources.values()):
         evidence_label = "backend-consistent"
 
     return {
         "evidence_label": evidence_label,
+        "data_source": "backend" if all(ds in {"backend", "hardware"} for ds in data_sources.values()) else "placeholder",
+        "contract_pass": not disagreement_flags,
+        "evidence_pass": evidence_label == "backend-consistent",
         "backend_status": {
             "mujoco": mj_receipt.get("status"),
             "ode": od_receipt.get("status"),
@@ -77,6 +97,10 @@ def _build_summary(mj_metrics: dict[str, Any], od_metrics: dict[str, Any], mj_re
         },
         "missing_comparable_metrics": missing_comparables,
         "disagreement_flags": disagreement_flags,
+        "backend_data_sources": data_sources,
+        "backend_load_paths": load_paths,
+        "backend_load_path_details": load_path_details,
+        "blocked_by_finding": blocked_by_finding,
         "notes": [
             "Comparative report is non-validating and governed by simulation_governance.md",
             "Missing or blocked-runtime backend metrics are surfaced explicitly rather than normalized away",
