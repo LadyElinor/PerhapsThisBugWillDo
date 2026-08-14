@@ -78,3 +78,27 @@ def test_preload_anchoring_engages(model):
     )
     assert below.anchored is False
     assert above.anchored is True
+
+
+def test_directional_preload_changes_forward_shear():
+    reg = RegolithProperties.from_type(RegolithType.MARE)
+    foot = FootGeometry.circular(
+        radius=0.08,
+        cleat_gain_forward=1.5,
+        cleat_gain_lateral=1.0,
+        cleat_engage_threshold_preload=50.0,
+    )
+    model = RegolithContactModel(reg, foot)
+
+    low = model.compute_contact_forces_with_preload(
+        body_normal_load=50.0,
+        preload_normal=30.0,
+    )
+    high = model.compute_contact_forces_with_preload(
+        body_normal_load=50.0,
+        preload_normal=50.0,
+    )
+
+    assert low.anchored is False
+    assert high.anchored is True
+    assert high.max_shear_forward > low.max_shear_forward

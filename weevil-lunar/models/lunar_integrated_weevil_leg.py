@@ -62,6 +62,7 @@ class LegParams:
 class EvalResult:
     reachable: bool
     tip_x_mm: float
+    tip_y_mm: float
     tip_z_mm: float
     body_normal_n: float
     preload_n: float
@@ -115,13 +116,17 @@ def evaluate_leg_state(
         and abs(state.tibia_theta_deg) <= params.tibia_range_total_deg / 2.0
     )
 
+    coxa_rad = math.radians(state.coxa_yaw_deg)
     femur_rad = math.radians(state.femur_pitch_deg)
     ext_mm = helical_displacement_mm(state.tibia_theta_deg, params.tibia_pitch_mm_per_rev)
     ext_mm = max(-params.tibia_stroke_mm / 2.0, min(params.tibia_stroke_mm / 2.0, ext_mm))
     tibia_effective_mm = params.tibia_stroke_mm / 2.0 + ext_mm
 
-    tip_x = params.femur_link_mm * math.cos(femur_rad) + tibia_effective_mm * math.cos(femur_rad)
-    tip_z = params.femur_link_mm * math.sin(femur_rad) + tibia_effective_mm * math.sin(femur_rad)
+    reach_mm = params.femur_link_mm + tibia_effective_mm
+    horizontal_mm = reach_mm * math.cos(femur_rad)
+    tip_x = horizontal_mm * math.cos(coxa_rad)
+    tip_y = horizontal_mm * math.sin(coxa_rad)
+    tip_z = reach_mm * math.sin(femur_rad)
 
     preload_n = params.preload_n if commanded_preload_n is None else float(commanded_preload_n)
     body_normal_n = body_normal_load_n(body_mass_kg, gravity_m_s2, stance_legs)
@@ -133,6 +138,7 @@ def evaluate_leg_state(
     return EvalResult(
         reachable=reachable,
         tip_x_mm=tip_x,
+        tip_y_mm=tip_y,
         tip_z_mm=tip_z,
         body_normal_n=body_normal_n,
         preload_n=preload_n,

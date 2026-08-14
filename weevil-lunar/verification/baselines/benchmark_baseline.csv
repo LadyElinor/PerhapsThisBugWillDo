@@ -1,4 +1,4 @@
 scenario,original_traction_n,patched_traction_n,original_success,patched_success
-flat,40.425,41.085,True,True
-slope_25deg,40.425,41.085,True,True
-sinkage_recovery,40.425,41.085,True,True
+flat,52.4684,52.4684,True,True
+slope_25deg,65.5720,66.6434,True,True
+sinkage_recovery,56.9234,57.8523,True,True

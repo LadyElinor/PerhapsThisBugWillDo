@@ -61,6 +61,22 @@ def test_tibia_extension_symmetric_about_neutral(params, contact):
     assert (plus - neutral) == pytest.approx(neutral - minus)
 
 
+def test_coxa_yaw_rotates_tip_about_vertical_axis(params, contact):
+    state0 = LegState(coxa_yaw_deg=0.0, femur_pitch_deg=45.0, tibia_theta_deg=0.0)
+    state1 = LegState(coxa_yaw_deg=30.0, femur_pitch_deg=45.0, tibia_theta_deg=0.0)
+
+    r0 = evaluate_leg_state(state0, params, contact)
+    r1 = evaluate_leg_state(state1, params, contact)
+
+    assert (r1.tip_x_mm, r1.tip_y_mm) != pytest.approx((r0.tip_x_mm, r0.tip_y_mm))
+    assert r0.tip_y_mm == pytest.approx(0.0, abs=1e-9)
+
+    horizontal0 = (r0.tip_x_mm**2 + r0.tip_y_mm**2) ** 0.5
+    horizontal1 = (r1.tip_x_mm**2 + r1.tip_y_mm**2) ** 0.5
+    assert horizontal1 == pytest.approx(horizontal0)
+    assert r1.tip_z_mm == pytest.approx(r0.tip_z_mm)
+
+
 def test_traction_no_double_gravity_scaling(params):
     contact = ContactModel(regolith_mu=0.55, internal_mu=0.004)
     result = evaluate_leg_state(LegState(0.0, 0.0, 0.0), params, contact)
