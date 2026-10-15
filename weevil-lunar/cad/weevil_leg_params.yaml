@@ -26,8 +26,8 @@ femur:
 
 tibia_screw:
   pitch_mm_per_rev: 13.5      # nominal; sweep 12.0..15.0
-  stroke_mm: 35.0             # nominal; sweep 25.0..45.0
-  rotation_range_deg: 120.0
+  stroke_mm: 35.0             # mechanical travel cap; sweep 25.0..45.0
+  rotation_range_deg: 120.0  # total +/-60 deg operating range; only 4.5 mm travel at this lead
   joint_type_suggestion: "helical (recirculating ball nut preferred for low stiction)"
 
 foot:

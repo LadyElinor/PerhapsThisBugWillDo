@@ -36,6 +36,9 @@ jobs:
       - name: Validate YAML schema/ranges
         run: python cad/scripts/validate_weevil_leg_params.py
 
+      - name: Report available screw travel
+        run: python cad/scripts/kinematic_report.py --output verification/reports/screw_travel.json
+
       - name: Regenerate FreeCAD CSVs
         run: python cad/scripts/generate_csvs_from_yaml.py
 
@@ -89,6 +92,8 @@ jobs:
             weevil-lunar/verification/reports/receipts.md
             weevil-lunar/verification/reports/gate_check.csv
             weevil-lunar/verification/reports/gate_check.md
+            weevil-lunar/verification/reports/phase2_export_bundle.csv
+            weevil-lunar/verification/reports/screw_travel.json
             weevil-lunar/verification/traceability_sync_report.md
           retention-days: 30
 
@@ -109,3 +114,30 @@ jobs:
           name: backend-comparative-reference
           path: weevil-lunar/verification/reference_artifacts/demo_single_leg_incline_hold_comparative_report.json
           retention-days: 30
+
+  freecad-integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch and verify the tested FreeCAD runtime
+        run: |
+          curl -fL --retry 3 -o FreeCAD.AppImage https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage
+          echo "f6dc6ba676e5ac96a565ebc8d657232f94c6158e85b4352141bd1a46f6b43434  FreeCAD.AppImage" | sha256sum -c -
+          chmod +x FreeCAD.AppImage
+          ./FreeCAD.AppImage --appimage-extract > /dev/null
+
+      - name: Test native CAD and export pipeline
+        run: |
+          set -o pipefail
+          bash cad/scripts/run_freecad_python.sh "$PWD/squashfs-root" verification/freecad/check_freecad_pipeline.py | tee freecad-validation.log
+
+      - name: Upload FreeCAD validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: freecad-validation
+          path: weevil-lunar/freecad-validation.log
+          retention-days: 14

@@ -11,8 +11,6 @@ if __package__ in {None, ""}:
 
 from simulators.common.artifact_paths import scenario_artifact_stem
 from simulators.common.scenario_schema import SimulationScenario
-from simulators.mujoco.runner import run_scenario as run_mujoco
-from simulators.ode.runner import run_scenario as run_ode
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -109,6 +107,10 @@ def _build_summary(mj_metrics: dict[str, Any], od_metrics: dict[str, Any], mj_re
 
 
 def generate_comparative_report(scenario: SimulationScenario, output_root: Path | None = None) -> Path:
+    # Reading/summarizing receipts does not require optional physics runtimes.
+    from simulators.mujoco.runner import run_scenario as run_mujoco
+    from simulators.ode.runner import run_scenario as run_ode
+
     scenario.validate()
     mj_metrics_path, mj_receipt_path = run_mujoco(scenario, output_root=output_root)
     od_metrics_path, od_receipt_path = run_ode(scenario, output_root=output_root)

@@ -95,10 +95,14 @@ harnesses:
   phase2_export_bundle:
     script: verification/test_phase2_export_bundle.py
     data_source: placeholder
+    blocked_by_finding: [CAD-001-legacy-schema, CAD-002-nonparametric-snapshot, CAD-003-placeholder-urdf]
     reports:
       - file: phase2_export_bundle.csv
-        kind: pass_column
-        pass_columns: [pass]
+        kind: gate_table
+        name_column: gate_id
+        pass_column: passed
+        # Historical artifacts stay unchanged; new fixture exports are separate.
+        expected_fail: [step_schema_ap242, parametric_document, urdf_complete]
 
   power_comms_profile:
     script: verification/test_power_comms_profile.py

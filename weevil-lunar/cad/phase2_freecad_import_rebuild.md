@@ -1,5 +1,9 @@
 # Phase 2 FreeCAD Import + Rebuild Procedure
 
+For the runnable native fixture builder and audited export, start with
+[PARAMETRIC_WORKFLOW.md](PARAMETRIC_WORKFLOW.md). The manual procedure below
+remains a design checklist; its assembly and URDF goals are not yet achieved.
+
 ## Goal
 Turn MRover examples into parameterized Weevil template parts while preserving current leg-module conventions.
 

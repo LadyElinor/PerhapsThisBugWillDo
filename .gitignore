@@ -14,6 +14,7 @@ moltb.txt
 # Outputs / receipts (usually large; keep local unless explicitly publishing)
 outputs/
 weevil-lunar/verification/reports/
+weevil-lunar/cad/exports/generated/
 
 # Node
 node_modules/
