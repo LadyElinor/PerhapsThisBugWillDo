@@ -15,8 +15,8 @@ import FreeCAD as App
 import FreeCADGui as Gui
 
 
-BASE_CSV = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\freecad_spreadsheet_template.csv"
-PHASE2_CSV = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\phase2_template_aliases.csv"
+BASE_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "freecad_spreadsheet_template.csv")
+PHASE2_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "phase2_template_aliases.csv")
 DOC_NAME = "Phase2_Templates"
 
 

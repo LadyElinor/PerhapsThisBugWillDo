@@ -1,5 +1,11 @@
 # README_export.md
 
+> **Historical scaffold:** the checked-in STEP below declares AP214, despite its
+> filename. The FCStd contains duplicated seed geometry and the URDF is a
+> placeholder. The following describes the original target, not achieved
+> validation. Use [PARAMETRIC_WORKFLOW.md](PARAMETRIC_WORKFLOW.md) for the current
+> editable fixture builder and verified AP242 export path.
+
 ## Export Bundle (per leg module)
 1. `weevil_leg_module_ap242.step` — full assembly STEP AP242 (sparse PMI)
 2. `weevil_leg_module.urdf` — kinematic chain for sim

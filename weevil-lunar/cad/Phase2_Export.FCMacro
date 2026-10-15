@@ -1,67 +1,45 @@
-# -*- coding: utf-8 -*-
-"""
-Phase2_Export.FCMacro
-Export helper for Phase2 templates and assembly state.
+"""Audit explicit physical parts and export to a new directory.
 
-Run in FreeCAD after Phase2_Templates.FCMacro and geometry authoring are complete.
+Build with Build_ParametricFixtures.FCMacro first. WEEVIL_SELECTION can name
+a different JSON part manifest; WEEVIL_EXPORT_DIR can name a new output folder.
 """
-
+from datetime import datetime, timezone
+import json
 import os
+from pathlib import Path
+import sys
 import FreeCAD as App
-import ImportGui
 
-EXPORT_DIR = r"C:\Users\arren\.openclaw\workspace\weevil-lunar\cad\export"
-STEP_PATH = os.path.join(EXPORT_DIR, "weevil_leg_module_ap242.step")
-FCSTD_PATH = os.path.join(EXPORT_DIR, "Phase2_Templates.FCStd")
-RECEIPT_PATH = os.path.join(EXPORT_DIR, "phase2_export_receipt.md")
+CAD = Path(__file__).resolve().parent
+sys.path.insert(0, str(CAD / "scripts"))
+from freecad_audit import audit_document, digest, export_verified
 
 
 def main():
     doc = App.ActiveDocument
     if doc is None:
-        raise RuntimeError("No active document. Open/build Phase2_Templates first.")
-
-    os.makedirs(EXPORT_DIR, exist_ok=True)
-
-    # save document snapshot
-    doc.saveAs(FCSTD_PATH)
-
-    # export only objects that have a valid non-null Shape (skip spreadsheet/datums/null bodies)
-    export_objs = []
-    for o in doc.Objects:
-        try:
-            shape = getattr(o, "Shape", None)
-            if shape is None:
-                continue
-            if hasattr(shape, "isNull") and shape.isNull():
-                continue
-            export_objs.append(o)
-        except Exception:
-            continue
-
-    if not export_objs:
-        raise RuntimeError("No valid shaped objects to export. Run Phase2_SeedGeometry.FCMacro or create template solids first.")
-
-    ImportGui.export(export_objs, STEP_PATH)
-
-    lines = [
-        "# Phase 2 Export Receipt",
-        "",
-        f"- document: {doc.Name}",
-        f"- fcstd: {FCSTD_PATH}",
-        f"- step: {STEP_PATH}",
-        f"- object_count: {len(doc.Objects)}",
-        f"- exported_count: {len(export_objs)}",
-        "- step_schema: AP242 target (tool-dependent)",
-        "- urdf: update manually in cad/export/weevil_leg_module.urdf (if kinematics changed)",
-    ]
-
-    with open(RECEIPT_PATH, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines) + "\n")
-
-    App.Console.PrintMessage(f"Wrote {FCSTD_PATH}\n")
-    App.Console.PrintMessage(f"Wrote {STEP_PATH}\n")
-    App.Console.PrintMessage(f"Wrote {RECEIPT_PATH}\n")
+        raise RuntimeError("No active document. Build/open the parametric fixtures first.")
+    selection = Path(os.environ.get("WEEVIL_SELECTION", CAD / "fixture_selection.json"))
+    manifest = json.loads(selection.read_text(encoding="utf-8"))
+    report, shapes = audit_document(doc, manifest)
+    if not report["passed"]:
+        raise RuntimeError("Export blocked: " + "; ".join(report["errors"]))
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")
+    destination = Path(os.environ.get("WEEVIL_EXPORT_DIR", CAD / "exports" / "generated" / stamp))
+    destination.mkdir(parents=True, exist_ok=False)
+    try:
+        report["export"] = export_verified(shapes, destination / "fixtures_ap242.step")
+        fcstd = destination / "Fixtures.FCStd"
+        doc.saveAs(str(fcstd.resolve()))
+        report["fcstd_sha256"] = digest(fcstd)
+        report["selection_sha256"] = digest(selection)
+    except Exception as exc:
+        report["passed"] = False
+        report["errors"].append(str(exc))
+        raise
+    finally:
+        (destination / "audit.json").write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
+    App.Console.PrintMessage(f"Verified concept export: {destination}\n")
 
 
 if __name__ == "__main__":

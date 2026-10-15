@@ -151,3 +151,7 @@ def main():
 
     doc.recompute()
     App.Console.PrintMessage("Attempt1 geometry built/updated.\n")
+
+
+if __name__ == "__main__":
+    main()

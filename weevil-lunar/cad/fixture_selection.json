@@ -1,0 +1,11 @@
+{
+  "design_status": "concept",
+  "minimum_clearance_mm": 0.1,
+  "objects": [
+    {"name": "Body_AdapterBlank"},
+    {"name": "Body_PivotFlange"},
+    {"name": "Body_ServoMount"},
+    {"name": "Body_RightAngleMount"},
+    {"name": "Body_ActuationLever25"}
+  ]
+}

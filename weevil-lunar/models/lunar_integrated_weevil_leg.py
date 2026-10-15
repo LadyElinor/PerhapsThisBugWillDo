@@ -70,6 +70,36 @@ class EvalResult:
     traction_n: float
 
 
+@dataclass(frozen=True)
+class ScrewTravel:
+    """Travel about mid-stroke; configured rotation is a total symmetric range."""
+
+    rotation_limited_travel_mm: float
+    available_travel_mm: float
+    effective_rotation_range_deg: float
+    rotation_for_full_stroke_deg: float
+    stroke_utilization: float
+    limiting_constraint: str
+
+
+def screw_travel(params: LegParams) -> ScrewTravel:
+    lead = params.tibia_pitch_mm_per_rev
+    rotation = params.tibia_range_total_deg
+    stroke = params.tibia_stroke_mm
+    if not all(math.isfinite(v) and v > 0 for v in (lead, rotation, stroke)):
+        raise ValueError("Screw lead, rotation range and stroke must be finite and positive")
+    demanded = lead * rotation / 360.0
+    available = min(demanded, stroke)
+    return ScrewTravel(
+        rotation_limited_travel_mm=demanded,
+        available_travel_mm=available,
+        effective_rotation_range_deg=min(rotation, 360.0 * stroke / lead),
+        rotation_for_full_stroke_deg=360.0 * stroke / lead,
+        stroke_utilization=available / stroke,
+        limiting_constraint="rotation" if demanded < stroke else "stroke" if demanded > stroke else "both",
+    )
+
+
 def load_params(path: Path = PARAMS_PATH) -> LegParams:
     text = path.read_text(encoding="utf-8")
     raw = yaml.safe_load(text) if yaml is not None else load_yaml_text(text)
@@ -110,10 +140,13 @@ def evaluate_leg_state(
     stance_legs: int = 1,
     commanded_preload_n: float | None = None,
 ) -> EvalResult:
+    if not all(math.isfinite(v) for v in (state.coxa_yaw_deg, state.femur_pitch_deg, state.tibia_theta_deg)):
+        raise ValueError("Joint state must contain finite angles")
+    travel = screw_travel(params)
     reachable = (
         params.coxa_range[0] <= state.coxa_yaw_deg <= params.coxa_range[1]
         and params.femur_range[0] <= state.femur_pitch_deg <= params.femur_range[1]
-        and abs(state.tibia_theta_deg) <= params.tibia_range_total_deg / 2.0
+        and abs(state.tibia_theta_deg) <= travel.effective_rotation_range_deg / 2.0
     )
 
     coxa_rad = math.radians(state.coxa_yaw_deg)
@@ -148,15 +181,17 @@ def evaluate_leg_state(
 
 
 def sample_states(params: LegParams) -> Iterable[LegState]:
+    half_rotation = screw_travel(params).effective_rotation_range_deg / 2.0
     for c in (params.coxa_range[0], 0.0, params.coxa_range[1]):
         for f in (params.femur_range[0], 0.0, params.femur_range[1]):
-            for t in (-params.tibia_range_total_deg / 2.0, 0.0, params.tibia_range_total_deg / 2.0):
+            for t in (-half_rotation, 0.0, half_rotation):
                 yield LegState(c, f, t)
 
 
 def main() -> int:
     params = load_params()
     contact = ContactModel()
+    print("Screw travel:", screw_travel(params))
 
     # sanity check for proximal axis assumptions (orthogonal by design)
     if not axis_is_within_tolerance(params.axis_target_deg, 90.0, params.axis_tol_deg):

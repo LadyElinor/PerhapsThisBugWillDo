@@ -1,0 +1,14 @@
+"""Build editable native fixture concepts from this repository's parameters."""
+from pathlib import Path
+import sys
+import FreeCAD as App
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / "scripts"))
+from build_parametric_fixtures import build_document
+
+doc = build_document()
+if App.GuiUp:
+    import FreeCADGui as Gui
+    Gui.activeDocument().activeView().viewAxonometric()
+    Gui.activeDocument().activeView().fitAll()
+App.Console.PrintMessage(f"Built {doc.Name}: editable fixture concepts, not an assembled rover.\n")

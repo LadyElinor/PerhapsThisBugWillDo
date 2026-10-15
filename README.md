@@ -31,6 +31,16 @@ written to `results/GPT/Robotics/`.
   - verification matrix + traceability
   - test harnesses + gate reports
 
+### Editable CAD and verified exports
+- Five native PartDesign fixture concepts with live spreadsheet expressions.
+- Explicit-part auditing for invalid geometry, stale dependencies, duplicates,
+  overlaps, clearance, and density-based mass/inertia.
+- AP242 export with header and spatial round-trip verification.
+- A screw-travel report that distinguishes mechanical stroke from operating travel.
+
+Start with [the CAD workflow](weevil-lunar/cad/PARAMETRIC_WORKFLOW.md).
+These are editable fixture concepts, not an assembled or hardware-qualified rover.
+
 ## Quickstart
 
 ### 1) Install dependencies
@@ -62,11 +72,13 @@ Outputs are written under `results/GPT/Robotics/` as generated working artifacts
 - `lunar_morphology_tradeoff.md`
 
 ### 4) Run Weevil-Lunar verification package
+From the repository root:
 ```bash
-cd weevil-lunar
-python -m pytest verification/tests -q
+pip install -r requirements-dev.txt
+python -m pytest weevil-lunar/verification/tests -q
 python weevil-lunar/verification/benchmark_runner.py
 python weevil-lunar/verification/check_benchmark_regression.py
+python weevil-lunar/cad/scripts/kinematic_report.py
 ```
 
 ## Core idea
@@ -94,9 +106,11 @@ These parameters drive directional traction envelopes and mare rescue feasibilit
 ## Current roadmap
 
 1. Consolidate all model code under `weevil-lunar/models/` (done) and add
-   lint/type checks to CI.
-2. Replace placeholder verification runs with hardware-in-the-loop data.
-3. Tie all requirements to reproducible reports via traceability CSV.
+   lint/type checks to CI (done).
+2. Assemble the parametric fixture concepts with measured interfaces and materials;
+   resolve screw operating travel before generating a complete simulation model.
+3. Replace placeholder verification runs with hardware-in-the-loop data.
+4. Tie all requirements to reproducible reports via traceability CSV.
 
 ## Repo hygiene
 - `requirements.txt` is authoritative for Python deps.

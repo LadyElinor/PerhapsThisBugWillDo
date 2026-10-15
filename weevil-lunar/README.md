@@ -8,6 +8,12 @@ This package defines a markdown-first, test-traceable blueprint for a lunar weev
 - **Validation status:** simulation-first; no hardware validation in-repo yet
 - **Intended use:** design-space exploration, requirement shaping, and verification scaffolding
 
+The [parametric CAD workflow](cad/PARAMETRIC_WORKFLOW.md) builds five editable
+fixture concepts and verifies selected-solid AP242 exports. The old bundle in
+`cad/export/` remains a historical scaffold; the inspection harness now reports
+its actual schema and missing parametric/URDF structure as known failures.
+Use `python cad/scripts/kinematic_report.py` to inspect available screw travel.
+
 Governance-critical reading before making validation or performance claims:
 - `DECISION_MEMO.md` — internal claim boundaries and validation-spend gate
 - `docs/physics_redteam_report.md` — adversarial physics review underpinning the memo
@@ -57,7 +63,9 @@ Expected outputs are generated under `verification/reports/` as local working ar
 - Citation: not yet committed in this clone
 
 ## Export receipt workflow (v0.4)
-Use deterministic receipt generation for CAD handoff traceability:
+The v0.4 receipt records hashes of the historical bundle; it does not certify its
+geometry or format. New concept exports use the audit described in
+`cad/PARAMETRIC_WORKFLOW.md`. To refresh historical handoff traceability:
 
 ```bash
 python cad/scripts/generate_export_receipt.py --interface-version v0.4 --notes "v0.4 handoff refresh"
