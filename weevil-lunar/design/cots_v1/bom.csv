@@ -18,7 +18,7 @@ LAND,ACE MC600EUM shock absorber,4,0,0.27,catalog,ACE,,yes,25 mm travel; indepen
 HOME,Sealed mechanical homing switches with bracket,18,3,0.01,allocation,SPEC,,yes,Select normally closed low-force industrial switch after cam layout
 WIRE,Power CAN Ethernet harness connectors strain relief,1,1,1.0,allocation,SPEC,,yes,Final lengths bend radius wire ampacity and DC connector ratings gate
 PROTECT,Fuses disconnect E-stop precharge monitor and guards,1,1,0.8,allocation,SPEC,,yes,DC ratings and independent heartbeat circuit required; exact BOM pending schematic
-FRAME,Machined chassis deck rails and battery restraints,1,0,2.4,allocation,CUSTOM,,yes,Custom fabrication and mass verification
+FRAME,Machined chassis deck rails and battery restraints,1,0,5.0,allocation,CUSTOM,,yes,3 mm deck plus two solid 20x40x620 mm rails: about 4.69 kg at 2700 kg/m3; remainder for restraints; verify final mass
 CARRIER,Bearing cartridges and leg clevises,18,3,0.26,allocation,CUSTOM,,yes,Not detailed fabrication CAD; fit coupon precedes carrier drawing
 HUB,Rotor torque couplers,18,3,0.07,allocation,CUSTOM,,yes,Six M4 rotor pattern; retained shaft coupling proof required
 SHAFT,20 mm steel shafts from certified quenched-and-tempered stock,18,3,0.25,allocation,SPEC,,yes,Certified yield >=900 MPa; 20 mm solid shaft up to 100 mm long; retention and notch review required

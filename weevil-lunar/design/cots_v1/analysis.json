@@ -132,9 +132,9 @@
     "qualification": "energy screen only; guided skids and drop testing required"
   },
   "mass_budget": {
-    "allocated_mass_kg": 53.735,
-    "reserve_kg": 6.265000000000001,
-    "reserve_fraction": 0.10441666666666671
+    "allocated_mass_kg": 56.335,
+    "reserve_kg": 3.664999999999999,
+    "reserve_fraction": 0.06108333333333327
   },
   "maximum_load_arm_with_offset_m": 0.394577213029828,
   "gait": {
@@ -150,6 +150,6 @@
     "Voltage transient margin requires oscilloscope verification; no clamp transient model."
   ],
   "config_sha256": "cf22ebbc729fbdce837473c695d5ecc22b6ebb0a8cf38940ead7c34bc3059b7f",
-  "bom_sha256": "b7ef25c10af894c9cf2c7bc1b883193c337bbb49e67093eb0fc00aa76d2304dd",
+  "bom_sha256": "ddcceac02279a6d66ada9ea12d9fd4e36fff02449c3f57b71a0d16537475289f",
   "model_sha256": "98ed350d943727571ede1b9369c5662c33cef5c956d278c0abc91547a510f9b3"
 }

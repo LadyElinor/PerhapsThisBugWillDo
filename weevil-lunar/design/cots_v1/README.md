@@ -76,7 +76,7 @@ The force allocator enforces all three force and all three moment equations, uni
 
 ## Mass, power and cost
 
-The present mass allocation is **53.735 kg**, leaving **6.265 kg** inside the 60 kg gross limit. This reserve covers unresolved mounts, cable details and fabrication growth; it is not committed science payload. Catalog masses and engineering allowances are distinguished in the BOM. Actual weighing and COM measurement are release gates. A lightweight lunar article would require a separate mass redesign.
+The present mass allocation is **56.335 kg**, leaving **3.665 kg** inside the 60 kg gross limit. This reserve covers unresolved mounts, cable details and fabrication growth; it is not committed science payload. Catalog masses and engineering allowances are distinguished in the BOM. Actual weighing and COM measurement are release gates. A lightweight lunar article would require a separate mass redesign.
 
 The battery budget is 16 A, or 544 W at the 34 V cutoff. Auxiliary input allocation is 110 W, leaving 434 W for drive electronics and motors at that point. This is a budget, not a measured holding-power prediction. Using an assumed 80% usable battery energy and keeping a further 72 Wh reserve gives 504 Wh for planning: **121, 75.6 or 60.5 minutes** at measured total mean draws of 250, 400 or 500 W. Availability of that energy above 34 V, including temperature and sag, must be measured.
 
