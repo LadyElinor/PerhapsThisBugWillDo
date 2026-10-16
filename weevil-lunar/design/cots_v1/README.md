@@ -4,7 +4,9 @@
 
 The commercial assemblies are selected; the interfaces, operating envelope and acceptance tests are defined below. Custom bearing cartridges, torque hubs, clevises, gimbals, harnesses and the landing guides still need detailed drawings and physical verification. The STEP file is a packaging model, not a complete set of parts to send to a machine shop.
 
-**Tranche 02 test update:** the additional 12,528 nominal/sensitivity/interpolation cases pass their sampled constraints, but 2,921 of 5,400 support-loss cases are infeasible under the configured limits. The expanded CAD inventory finds 70 unresolved overlapping pairs. See [the full test report](../../verification/cots/tranche_02/README.md); fabrication and unrestrained walking remain blocked.
+**Current correction: [COTS-1.1](../cots_v1_1/README.md)** removes ten of the 70 modeled overlaps, retains all 60 unresolved leg interfaces, and adds conservative offline support-loss admission and latched fault monitoring. All six phases fail the static contingency gate. Fabrication and hardware motion remain blocked. This page and its CAD retain the original COTS-1 baseline.
+
+The historical [tranche 02 report](../../verification/cots/tranche_02/README.md) records 12,528 passing nominal/sensitivity/interpolation cases, 2,921 of 5,400 infeasible support-loss cases and 70 original overlap pairs. The [new correction report](../../verification/cots/tranche_03/README.md) separately checks the revised chassis and raised COM.
 
 ![COTS rover packaging](../../cad/cots_v1/rover_overview.png)
 
