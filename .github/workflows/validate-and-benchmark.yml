@@ -156,11 +156,17 @@ jobs:
         run: python -m models.cots_rover --output /tmp/cots-analysis.json
       - name: Rebuild and check CAD exchange
         run: python cad/scripts/build_cots_rover.py --output /tmp/cots-cad
+      - name: Run frozen robustness and contact-loss experiments
+        run: python verification/cots/run_tranche_02.py --output /tmp/cots-robustness.json
+      - name: Inventory all modeled overlaps
+        run: python verification/cots/check_all_geometry.py --output /tmp/cots-geometry.json
       - name: Upload generated COTS artifacts
         uses: actions/upload-artifact@v4
         with:
           name: cots-design-checks
           path: |
             /tmp/cots-analysis.json
+            /tmp/cots-robustness.json
+            /tmp/cots-geometry.json
             /tmp/cots-cad/
           retention-days: 30

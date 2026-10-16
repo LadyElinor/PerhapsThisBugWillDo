@@ -1,0 +1,19 @@
+{
+  "status": "SOURCE-GATED",
+  "reasons": [
+    "No declared measured record; template is not evidence"
+  ],
+  "checks": {},
+  "metrics": {},
+  "hardware_validated": false,
+  "gates_closed": [],
+  "scope": "M5 and E2 numerical record checks only; physical review remains required",
+  "excluded": [
+    "calibration authenticity",
+    "internal winding temperature unless separately instrumented",
+    "voltage transients and regeneration E1",
+    "fault-response timing C2",
+    "structural and landing proof M4/L1",
+    "lunar qualification"
+  ]
+}

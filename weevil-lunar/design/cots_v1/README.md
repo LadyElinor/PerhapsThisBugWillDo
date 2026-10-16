@@ -4,6 +4,8 @@
 
 The commercial assemblies are selected; the interfaces, operating envelope and acceptance tests are defined below. Custom bearing cartridges, torque hubs, clevises, gimbals, harnesses and the landing guides still need detailed drawings and physical verification. The STEP file is a packaging model, not a complete set of parts to send to a machine shop.
 
+**Tranche 02 test update:** the additional 12,528 nominal/sensitivity/interpolation cases pass their sampled constraints, but 2,921 of 5,400 support-loss cases are infeasible under the configured limits. The expanded CAD inventory finds 70 unresolved overlapping pairs. See [the full test report](../../verification/cots/tranche_02/README.md); fabrication and unrestrained walking remain blocked.
+
 ![COTS rover packaging](../../cad/cots_v1/rover_overview.png)
 
 ## What changes
