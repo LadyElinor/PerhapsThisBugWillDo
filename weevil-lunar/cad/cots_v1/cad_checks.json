@@ -1,0 +1,18 @@
+{
+  "status": "packaging_and_interface_coupons_only",
+  "cadquery": "2.7.0",
+  "config_sha256": "cf22ebbc729fbdce837473c695d5ecc22b6ebb0a8cf38940ead7c34bc3059b7f",
+  "solids": 86,
+  "valid": true,
+  "actuator_interferences": [],
+  "swept_pose_count": 30,
+  "swept_actuator_interferences": [],
+  "step_schema": "FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 1 1 1 1 }'));",
+  "roundtrip_solid_count": 86,
+  "relative_volume_error": 9.391610626919785e-14,
+  "unverified": [
+    "Carrier/yoke/coupler manufacturing details and bearing fits",
+    "Full link/cover/cable swept collision and structural analysis",
+    "Inertials, thermal performance and flight qualification"
+  ]
+}

@@ -1,0 +1,2 @@
+# Optional COTS packaging generator; install alongside requirements.txt.
+cadquery==2.7.0

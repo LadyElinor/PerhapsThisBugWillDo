@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="weevil_cots_v1_kinematics">
+  <!--Kinematics-only: no inertials or validated collision meshes. Do not use as a dynamics model.-->
+  <link name="base">
+    <visual>
+      <geometry>
+        <box size="0.62 0.4 0.16" />
+      </geometry>
+    </visual>
+  </link>
+  <link name="L1_coxa" />
+  <link name="L1_femur" />
+  <link name="L1_tibia" />
+  <link name="L1_ankle" />
+  <joint name="L1_yaw" type="revolute">
+    <parent link="base" />
+    <child link="L1_coxa" />
+    <origin xyz="0.24 0.26 0.0" rpy="0 0 1.0471975511965976" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.6108652381980153" upper="0.6108652381980153" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L1_pitch" type="revolute">
+    <parent link="L1_coxa" />
+    <child link="L1_femur" />
+    <origin xyz="0.12 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.5235987755982988" upper="1.3962634015954636" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L1_knee" type="revolute">
+    <parent link="L1_femur" />
+    <child link="L1_tibia" />
+    <origin xyz="0.18 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="0.4363323129985824" upper="2.443460952792061" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L1_ankle_frame" type="fixed">
+    <parent link="L1_tibia" />
+    <child link="L1_ankle" />
+    <origin xyz="0.22 0 0" rpy="0 -1.5707963267948966 0" />
+  </joint>
+  <link name="L2_coxa" />
+  <link name="L2_femur" />
+  <link name="L2_tibia" />
+  <link name="L2_ankle" />
+  <joint name="L2_yaw" type="revolute">
+    <parent link="base" />
+    <child link="L2_coxa" />
+    <origin xyz="0 0.26 0.0" rpy="0 0 1.5707963267948966" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.6108652381980153" upper="0.6108652381980153" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L2_pitch" type="revolute">
+    <parent link="L2_coxa" />
+    <child link="L2_femur" />
+    <origin xyz="0.12 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.5235987755982988" upper="1.3962634015954636" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L2_knee" type="revolute">
+    <parent link="L2_femur" />
+    <child link="L2_tibia" />
+    <origin xyz="0.18 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="0.4363323129985824" upper="2.443460952792061" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L2_ankle_frame" type="fixed">
+    <parent link="L2_tibia" />
+    <child link="L2_ankle" />
+    <origin xyz="0.22 0 0" rpy="0 -1.5707963267948966 0" />
+  </joint>
+  <link name="L3_coxa" />
+  <link name="L3_femur" />
+  <link name="L3_tibia" />
+  <link name="L3_ankle" />
+  <joint name="L3_yaw" type="revolute">
+    <parent link="base" />
+    <child link="L3_coxa" />
+    <origin xyz="-0.24 0.26 0.0" rpy="0 0 2.0943951023931953" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.6108652381980153" upper="0.6108652381980153" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L3_pitch" type="revolute">
+    <parent link="L3_coxa" />
+    <child link="L3_femur" />
+    <origin xyz="0.12 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.5235987755982988" upper="1.3962634015954636" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L3_knee" type="revolute">
+    <parent link="L3_femur" />
+    <child link="L3_tibia" />
+    <origin xyz="0.18 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="0.4363323129985824" upper="2.443460952792061" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L3_ankle_frame" type="fixed">
+    <parent link="L3_tibia" />
+    <child link="L3_ankle" />
+    <origin xyz="0.22 0 0" rpy="0 -1.5707963267948966 0" />
+  </joint>
+  <link name="L4_coxa" />
+  <link name="L4_femur" />
+  <link name="L4_tibia" />
+  <link name="L4_ankle" />
+  <joint name="L4_yaw" type="revolute">
+    <parent link="base" />
+    <child link="L4_coxa" />
+    <origin xyz="-0.24 -0.26 0.0" rpy="0 0 -2.0943951023931953" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.6108652381980153" upper="0.6108652381980153" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L4_pitch" type="revolute">
+    <parent link="L4_coxa" />
+    <child link="L4_femur" />
+    <origin xyz="0.12 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.5235987755982988" upper="1.3962634015954636" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L4_knee" type="revolute">
+    <parent link="L4_femur" />
+    <child link="L4_tibia" />
+    <origin xyz="0.18 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="0.4363323129985824" upper="2.443460952792061" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L4_ankle_frame" type="fixed">
+    <parent link="L4_tibia" />
+    <child link="L4_ankle" />
+    <origin xyz="0.22 0 0" rpy="0 -1.5707963267948966 0" />
+  </joint>
+  <link name="L5_coxa" />
+  <link name="L5_femur" />
+  <link name="L5_tibia" />
+  <link name="L5_ankle" />
+  <joint name="L5_yaw" type="revolute">
+    <parent link="base" />
+    <child link="L5_coxa" />
+    <origin xyz="0 -0.26 0.0" rpy="0 0 -1.5707963267948966" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.6108652381980153" upper="0.6108652381980153" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L5_pitch" type="revolute">
+    <parent link="L5_coxa" />
+    <child link="L5_femur" />
+    <origin xyz="0.12 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.5235987755982988" upper="1.3962634015954636" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L5_knee" type="revolute">
+    <parent link="L5_femur" />
+    <child link="L5_tibia" />
+    <origin xyz="0.18 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="0.4363323129985824" upper="2.443460952792061" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L5_ankle_frame" type="fixed">
+    <parent link="L5_tibia" />
+    <child link="L5_ankle" />
+    <origin xyz="0.22 0 0" rpy="0 -1.5707963267948966 0" />
+  </joint>
+  <link name="L6_coxa" />
+  <link name="L6_femur" />
+  <link name="L6_tibia" />
+  <link name="L6_ankle" />
+  <joint name="L6_yaw" type="revolute">
+    <parent link="base" />
+    <child link="L6_coxa" />
+    <origin xyz="0.24 -0.26 0.0" rpy="0 0 -1.0471975511965976" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.6108652381980153" upper="0.6108652381980153" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L6_pitch" type="revolute">
+    <parent link="L6_coxa" />
+    <child link="L6_femur" />
+    <origin xyz="0.12 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.5235987755982988" upper="1.3962634015954636" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L6_knee" type="revolute">
+    <parent link="L6_femur" />
+    <child link="L6_tibia" />
+    <origin xyz="0.18 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="0.4363323129985824" upper="2.443460952792061" effort="43.2" velocity="0.3" />
+  </joint>
+  <joint name="L6_ankle_frame" type="fixed">
+    <parent link="L6_tibia" />
+    <child link="L6_ankle" />
+    <origin xyz="0.22 0 0" rpy="0 -1.5707963267948966 0" />
+  </joint>
+</robot>

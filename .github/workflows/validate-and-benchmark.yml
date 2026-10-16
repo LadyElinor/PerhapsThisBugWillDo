@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, codex/cad-kinematics-upgrade]
   workflow_dispatch:
 
 defaults:
@@ -141,3 +141,26 @@ jobs:
           name: freecad-validation
           path: weevil-lunar/freecad-validation.log
           retention-days: 14
+
+  cots-packaging:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install COTS analysis and CAD dependencies
+        run: pip install -r ../requirements.txt -r ../requirements-cad.txt
+      - name: Screen static loads and budgets
+        run: python -m models.cots_rover --output /tmp/cots-analysis.json
+      - name: Rebuild and check CAD exchange
+        run: python cad/scripts/build_cots_rover.py --output /tmp/cots-cad
+      - name: Upload generated COTS artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cots-design-checks
+          path: |
+            /tmp/cots-analysis.json
+            /tmp/cots-cad/
+          retention-days: 30

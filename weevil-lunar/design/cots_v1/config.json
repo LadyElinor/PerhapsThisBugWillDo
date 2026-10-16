@@ -1,0 +1,194 @@
+{
+  "design_id": "WEEVIL-COTS-1",
+  "status": "analytically_screened_earth_prototype",
+  "units": "SI; angles radians unless named deg",
+  "gross_mass_kg": 60.0,
+  "earth_gravity_m_s2": 9.80665,
+  "moon_gravity_m_s2": 1.62,
+  "com_m": [
+    0.0,
+    0.0,
+    0.3
+  ],
+  "com_uncertainty_xy_m": [
+    0.04,
+    0.03
+  ],
+  "chassis_size_m": [
+    0.62,
+    0.4,
+    0.16
+  ],
+  "chassis_center_z_m": 0.28,
+  "hip_height_m": 0.3,
+  "coxa_m": 0.12,
+  "femur_m": 0.18,
+  "tibia_m": 0.22,
+  "foot_pivot_height_m": 0.055,
+  "foot_radius_m": 0.08,
+  "nominal_radial_reach_m": 0.24,
+  "hips_xy_m": [
+    [
+      0.24,
+      0.26
+    ],
+    [
+      0,
+      0.26
+    ],
+    [
+      -0.24,
+      0.26
+    ],
+    [
+      -0.24,
+      -0.26
+    ],
+    [
+      0,
+      -0.26
+    ],
+    [
+      0.24,
+      -0.26
+    ]
+  ],
+  "leg_azimuth_deg": [
+    60,
+    90,
+    120,
+    -120,
+    -90,
+    -60
+  ],
+  "joint_limits_deg": [
+    [
+      -35,
+      35
+    ],
+    [
+      -30,
+      80
+    ],
+    [
+      25,
+      140
+    ]
+  ],
+  "joint_velocity_limit_rad_s": 0.3,
+  "actuator": {
+    "model": "CubeMars AK80-64 KV80, with matched 48 V driver",
+    "rated_torque_nm": 48.0,
+    "catalog_peak_torque_nm": 120.0,
+    "design_torque_limit_nm": 43.2,
+    "mass_kg": 0.85,
+    "diameter_m": 0.098,
+    "length_m": 0.0619,
+    "driver_voltage_range_v": [
+      18.0,
+      52.0
+    ],
+    "source_ids": [
+      "CM-PRODUCT",
+      "CM-DRAWING",
+      "CM-MANUAL"
+    ]
+  },
+  "leg_mass_proxies": {
+    "at_coxa_mid_kg": 0.35,
+    "at_pitch_kg": 1.7,
+    "at_thigh_mid_kg": 0.3,
+    "at_knee_kg": 1.7,
+    "at_shank_mid_kg": 0.3,
+    "at_foot_kg": 0.8
+  },
+  "screening": {
+    "load_factor": 1.3,
+    "normal_force_limit_n": 300.0,
+    "friction_coefficient_assumption": 0.5,
+    "support_margin_required_m": 0.04,
+    "slope_limit_deg": 10.0,
+    "step_length_m": 0.06,
+    "step_height_m": 0.04,
+    "foot_clearance_required_m": 0.02,
+    "foot_cop_edge_reserve_m": 0.01,
+    "phase_time_s": 5.0,
+    "load_transfer_dwell_s": 0.5
+  },
+  "structure": {
+    "tube_outer_m": 0.025,
+    "tube_wall_m": 0.002,
+    "tube_yield_assumption_pa": 240000000.0,
+    "tube_modulus_assumption_pa": 69000000000.0,
+    "shaft_diameter_m": 0.02,
+    "shaft_yield_requirement_pa": 900000000.0,
+    "shaft_bearing_span_m": 0.06,
+    "shaft_load_eccentricity_m": 0.4,
+    "shaft_stress_concentration_factor": 2.0,
+    "minimum_yield_factor": 2.0,
+    "bearing_static_capacity_n": 6550.0,
+    "bearing_model": "SKF 6204-2RSH",
+    "bearing_width_m": 0.014,
+    "bearing_outer_m": 0.047
+  },
+  "power": {
+    "battery_model": "Bioenno BLF-3620A",
+    "nominal_voltage_v": 36.0,
+    "capacity_ah": 20.0,
+    "charge_voltage_v": 43.8,
+    "operating_cutoff_v": 34.0,
+    "continuous_current_a": 20.0,
+    "design_bus_current_a": 16.0,
+    "energy_usable_fraction_assumption": 0.8,
+    "reserve_wh": 72.0,
+    "auxiliary_power_budget_w": 110.0,
+    "mean_power_scenarios_w": [
+      250,
+      400,
+      500
+    ],
+    "bench_supply_v": 36,
+    "bench_supply_a": 42,
+    "clamp_voltage_rise_max_v": 2.5,
+    "brake_resistance_ohm": 4.7,
+    "brake_resistor_nominal_w": 300.0,
+    "regen_clamp_brake_current_a": 20.0,
+    "regen_clamp_forward_current_a": 40.0,
+    "motor_mechanical_power_limit_w": 150.0,
+    "brake_average_limit_w": 100.0,
+    "resistor_tolerance_fraction": 0.05,
+    "aux_input_range_v": [
+      33.6,
+      62.4
+    ]
+  },
+  "control": {
+    "can_buses": 6,
+    "motors_per_bus": 3,
+    "can_bitrate": 1000000,
+    "command_hz": 250,
+    "frames_per_motor_cycle": 2,
+    "worst_frame_bits": 160,
+    "can_overhead_fraction": 0.05,
+    "max_bus_utilization": 0.5,
+    "motor_feedback_stale_ms": 40,
+    "hardware_heartbeat_timeout_ms": 100
+  },
+  "landing": {
+    "damper_model": "ACE MC600EUM",
+    "quantity": 4,
+    "stroke_m": 0.025,
+    "rated_energy_j": 136.0,
+    "clearance_m": 0.07,
+    "mass_each_kg": 0.27,
+    "effective_mass_range_kg": [
+      9.0,
+      136.0
+    ],
+    "impact_velocity_range_m_s": [
+      0.06,
+      6.0
+    ]
+  },
+  "minimum_mass_reserve_fraction": 0.05
+}

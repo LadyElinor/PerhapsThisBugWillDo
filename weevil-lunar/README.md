@@ -1,5 +1,9 @@
 # Weevil-Lunar Blueprint Package (v0.3)
 
+## Commercial-parts ground prototype
+
+See [Weevil COTS-1](design/cots_v1/README.md) for the selected 60 kg ground-prototype architecture, sourced BOM, load and power calculations, generated CAD and physical acceptance gates. This independent baseline does not validate the earlier soil/anchor model.
+
 This package defines a markdown-first, test-traceable blueprint for a lunar weevil-class mobility platform.
 
 ## State of the project
