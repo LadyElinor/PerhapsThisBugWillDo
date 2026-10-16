@@ -1,0 +1,18 @@
+{
+  "protocol_id": "COTS-T02-HOLD-01",
+  "dataset_origin": null,
+  "csv_file": null,
+  "csv_sha256": null,
+  "config_sha256": "cf22ebbc729fbdce837473c695d5ecc22b6ebb0a8cf38940ead7c34bc3059b7f",
+  "acquisition_utc": null,
+  "operator": null,
+  "fixture_id": null,
+  "actuator_serial": null,
+  "driver_revision": null,
+  "firmware_revision": null,
+  "calibration_record": null,
+  "target_torque_nm": 43.2,
+  "temperature_limits_c": {},
+  "temperature_limit_sources": {},
+  "note": "Do not energize from this template. Detailed fixture/interface review precedes the hold test. Supplier limits must match actual sensor locations. A completed record never automatically releases hardware."
+}

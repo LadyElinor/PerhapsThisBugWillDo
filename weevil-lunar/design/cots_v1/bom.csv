@@ -1,0 +1,30 @@
+id,part,qty_full,qty_single_leg_rig,unit_mass_budget_kg,mass_basis,source_ids,unit_price_usd_observed,onboard,notes
+ACT,CubeMars AK80-64 KV80 with matching 48 V driver,18,3,0.85,catalog,CM-PRODUCT;CM-STORE,989.9,yes,Confirm driver revision and stock; 24 V board is not acceptable
+BRG,SKF 6204-2RSH bearing 20x47x14 mm,36,6,0.11,catalog rounded,SKF,,yes,Two per cartridge; 60 mm bearing center spacing
+FT,ATI Mini45 IP65/IP68 SI-580-20 calibrated system,6,1,0.391,catalog,ATI,,yes,Quote matched sensor calibration plates cable and NETBA interface
+FTIF,ATI NETBA compatible interface enclosure,6,1,0.4,allocation,ATI,,yes,Exact configured mass supply and pinout must be confirmed in quote
+CAN,PEAK PCAN-USB X6 IPEH-004063 isolated M12,1,1,0.6,allocation,PEAK,,yes,Six isolated CAN channels; external 12 V power; verify stock
+BAT,Bioenno BLF-3620A 36 V 20 Ah battery,1,0,7.2,catalog,BAT,379.99,yes,Ground prototype only; 34 V operational cutoff
+CAM,Luxonis OAK-D S2 USB depth camera,1,0,0.1,allocation,CAM,,yes,Navigation development only; stereo performance needs lighting tests
+CPU,Raspberry Pi 5 8 GB with cooler and enclosure,1,1,0.25,allocation,PI,,yes,Supervisory computer; no safety function; verify USB power mode
+NET,Moxa EDS-208A eight-port Ethernet switch,1,1,0.3,catalog plus mounts,MOXA,,yes,Six force interfaces plus host leave one spare port
+DCDC,MEAN WELL RSD-100C-12 12 V 8.4 A converter,1,1,0.6,catalog plus mounts,MW-AUX,,yes,Continuous input 33.6 to 62.4 V
+REG,Pololu D24V90F5 5 V regulator,1,1,0.05,allocation with wiring,POLOLU,,yes,12 V input; typical 9 A is thermally limited
+REGEN,ODrive Regen Clamp with heatspreader,1,1,0.079,catalog,OD-CLAMP,,yes,No reliance on software-only power cap for resistor sizing
+R,TE HSC3004R7J / 1-1630027-7 4.7 ohm resistor,1,1,0.55,allocation,TE-R,,yes,300 W rating needs specified heatsink; pulse rating gate open
+HS,Brake resistor heatsink and guard,1,1,0.45,allocation,CUSTOM,,yes,Thermal sizing pending measured dissipation; accessible surfaces guarded
+K,Albright SW80 contactor configured 12 V continuous coil,1,1,0.35,allocation,ALBRIGHT,,yes,Quote magnetic blowouts and auxiliary contact; no inferred safety certification
+LAND,ACE MC600EUM shock absorber,4,0,0.27,catalog,ACE,,yes,25 mm travel; independent guide prevents side load
+HOME,Sealed mechanical homing switches with bracket,18,3,0.01,allocation,SPEC,,yes,Select normally closed low-force industrial switch after cam layout
+WIRE,Power CAN Ethernet harness connectors strain relief,1,1,1.0,allocation,SPEC,,yes,Final lengths bend radius wire ampacity and DC connector ratings gate
+PROTECT,Fuses disconnect E-stop precharge monitor and guards,1,1,0.8,allocation,SPEC,,yes,DC ratings and independent heartbeat circuit required; exact BOM pending schematic
+FRAME,Machined chassis deck rails and battery restraints,1,0,5.0,allocation,CUSTOM,,yes,3 mm deck plus two solid 20x40x620 mm rails: about 4.69 kg at 2700 kg/m3; remainder for restraints; verify final mass
+CARRIER,Bearing cartridges and leg clevises,18,3,0.26,allocation,CUSTOM,,yes,Not detailed fabrication CAD; fit coupon precedes carrier drawing
+HUB,Rotor torque couplers,18,3,0.07,allocation,CUSTOM,,yes,Six M4 rotor pattern; retained shaft coupling proof required
+SHAFT,20 mm steel shafts from certified quenched-and-tempered stock,18,3,0.25,allocation,SPEC,,yes,Certified yield >=900 MPa; 20 mm solid shaft up to 100 mm long; retention and notch review required
+TUBE,25x25x2 mm structural tube and tube end hardware,1,1,1.2,allocation,SPEC,,yes,Certified yield >=240 MPa; end joints require separate proof
+PAD,160 mm pads two-axis gimbals and replaceable tread,6,1,0.25,allocation,CUSTOM,,yes,Passive tilt +/-35 degrees; include hard stops; no anchor credit
+GUIDE,Guided landing shoes,4,0,0.15,allocation,CUSTOM,,yes,Load path and impact mount review required
+PSU,MEAN WELL RSP-1500-36 bench supply,1,1,0,offboard,MW-BENCH,,no,Never parallel directly with battery; current limiting required
+CHARGE,Bioenno BPC-3604DC matched charger,1,0,0,offboard,BAT,,no,Charge only in supplier-approved configuration
+FIXTURE,Restrained single-leg load fixture and overhead catch,1,1,0,offboard,CUSTOM,,no,Load and torque instrumentation required before walking

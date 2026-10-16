@@ -10,7 +10,7 @@ import Part
 from freecad_audit import audit_document, export_verified, metrics, pair_check, world_shape
 
 
-checks=[]
+checks: list[str] = []
 def passed(name):
     checks.append(name)
 

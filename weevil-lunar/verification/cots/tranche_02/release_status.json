@@ -1,0 +1,18 @@
+{
+  "baseline_commit": "4330551e5776e094e03767caa6a727679f5a071f",
+  "spec_sha256": "a379b3b64b936f5839101940e0f1fc360a268547c7e346f25000970beb6813d4",
+  "analytical_nominal_claim": "RETAIN_UNDER_SAMPLED_ASSUMPTIONS",
+  "arbitrary_support_loss_hold_claim": "CLOSED_UNDER_TESTED_SPECIFICATION",
+  "whole_model_clearance_claim": "CLOSED_FOR_CURRENT_PACKAGING",
+  "physical_evidence_status": "SOURCE-GATED",
+  "fabrication_released": false,
+  "unrestrained_walking_released": false,
+  "hardware_validated": false,
+  "flight_qualified": false,
+  "blockers": {
+    "support_loss_rejected_cases": 2921,
+    "support_loss_total_cases": 5400,
+    "unresolved_overlap_pairs": 70,
+    "physical_measurement_records": 0
+  }
+}

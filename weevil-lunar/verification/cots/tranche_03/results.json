@@ -1,0 +1,1509 @@
+{
+  "experiment_id": "COTS-TRANCHE-03",
+  "spec_sha256": "a362a809fb803fb544d463dfed9eb43e634a53baf6a6aa7c0c90df78e234403a",
+  "input_sha256": {
+    "cad/scripts/build_cots_revision.py": "a5af0fe1953f1e1a6855ac6fa638022d36319e4fdc19190760d58151901a5f6a",
+    "models/cots_support_guard.py": "d51ba87e1197ef441392f1a16f115ed891888a4ca158b14c36d26a71d3f4379f",
+    "verification/cots/run_tranche_03.py": "cd297f41116c9ceedfd0b1d0c298cf6541849af6cd4c1b78af8a73f1c81671ae"
+  },
+  "config": {
+    "design_id": "WEEVIL-COTS-1.1",
+    "status": "analytically_screened_earth_prototype",
+    "units": "SI; angles radians unless named deg",
+    "gross_mass_kg": 60.0,
+    "earth_gravity_m_s2": 9.80665,
+    "moon_gravity_m_s2": 1.62,
+    "com_m": [
+      0.0,
+      0.0,
+      0.31
+    ],
+    "com_uncertainty_xy_m": [
+      0.04,
+      0.03
+    ],
+    "chassis_size_m": [
+      0.62,
+      0.4,
+      0.16
+    ],
+    "chassis_center_z_m": 0.28,
+    "hip_height_m": 0.3,
+    "coxa_m": 0.12,
+    "femur_m": 0.18,
+    "tibia_m": 0.22,
+    "foot_pivot_height_m": 0.055,
+    "foot_radius_m": 0.08,
+    "nominal_radial_reach_m": 0.24,
+    "hips_xy_m": [
+      [
+        0.24,
+        0.26
+      ],
+      [
+        0,
+        0.26
+      ],
+      [
+        -0.24,
+        0.26
+      ],
+      [
+        -0.24,
+        -0.26
+      ],
+      [
+        0,
+        -0.26
+      ],
+      [
+        0.24,
+        -0.26
+      ]
+    ],
+    "leg_azimuth_deg": [
+      60,
+      90,
+      120,
+      -120,
+      -90,
+      -60
+    ],
+    "joint_limits_deg": [
+      [
+        -35,
+        35
+      ],
+      [
+        -30,
+        80
+      ],
+      [
+        25,
+        140
+      ]
+    ],
+    "joint_velocity_limit_rad_s": 0.3,
+    "actuator": {
+      "model": "CubeMars AK80-64 KV80, with matched 48 V driver",
+      "rated_torque_nm": 48.0,
+      "catalog_peak_torque_nm": 120.0,
+      "design_torque_limit_nm": 43.2,
+      "mass_kg": 0.85,
+      "diameter_m": 0.098,
+      "length_m": 0.0619,
+      "driver_voltage_range_v": [
+        18.0,
+        52.0
+      ],
+      "source_ids": [
+        "CM-PRODUCT",
+        "CM-DRAWING",
+        "CM-MANUAL"
+      ]
+    },
+    "leg_mass_proxies": {
+      "at_coxa_mid_kg": 0.35,
+      "at_pitch_kg": 1.7,
+      "at_thigh_mid_kg": 0.3,
+      "at_knee_kg": 1.7,
+      "at_shank_mid_kg": 0.3,
+      "at_foot_kg": 0.8
+    },
+    "screening": {
+      "load_factor": 1.3,
+      "normal_force_limit_n": 300.0,
+      "friction_coefficient_assumption": 0.5,
+      "support_margin_required_m": 0.04,
+      "slope_limit_deg": 10.0,
+      "step_length_m": 0.06,
+      "step_height_m": 0.04,
+      "foot_clearance_required_m": 0.02,
+      "foot_cop_edge_reserve_m": 0.01,
+      "phase_time_s": 5.0,
+      "load_transfer_dwell_s": 0.5
+    },
+    "structure": {
+      "tube_outer_m": 0.025,
+      "tube_wall_m": 0.002,
+      "tube_yield_assumption_pa": 240000000.0,
+      "tube_modulus_assumption_pa": 69000000000.0,
+      "shaft_diameter_m": 0.02,
+      "shaft_yield_requirement_pa": 900000000.0,
+      "shaft_bearing_span_m": 0.06,
+      "shaft_load_eccentricity_m": 0.4,
+      "shaft_stress_concentration_factor": 2.0,
+      "minimum_yield_factor": 2.0,
+      "bearing_static_capacity_n": 6550.0,
+      "bearing_model": "SKF 6204-2RSH",
+      "bearing_width_m": 0.014,
+      "bearing_outer_m": 0.047
+    },
+    "power": {
+      "battery_model": "Bioenno BLF-3620A",
+      "nominal_voltage_v": 36.0,
+      "capacity_ah": 20.0,
+      "charge_voltage_v": 43.8,
+      "operating_cutoff_v": 34.0,
+      "continuous_current_a": 20.0,
+      "design_bus_current_a": 16.0,
+      "energy_usable_fraction_assumption": 0.8,
+      "reserve_wh": 72.0,
+      "auxiliary_power_budget_w": 110.0,
+      "mean_power_scenarios_w": [
+        250,
+        400,
+        500
+      ],
+      "bench_supply_v": 36,
+      "bench_supply_a": 42,
+      "clamp_voltage_rise_max_v": 2.5,
+      "brake_resistance_ohm": 4.7,
+      "brake_resistor_nominal_w": 300.0,
+      "regen_clamp_brake_current_a": 20.0,
+      "regen_clamp_forward_current_a": 40.0,
+      "motor_mechanical_power_limit_w": 150.0,
+      "brake_average_limit_w": 100.0,
+      "resistor_tolerance_fraction": 0.05,
+      "aux_input_range_v": [
+        33.6,
+        62.4
+      ]
+    },
+    "control": {
+      "can_buses": 6,
+      "motors_per_bus": 3,
+      "can_bitrate": 1000000,
+      "command_hz": 250,
+      "frames_per_motor_cycle": 2,
+      "worst_frame_bits": 160,
+      "can_overhead_fraction": 0.05,
+      "max_bus_utilization": 0.5,
+      "motor_feedback_stale_ms": 40,
+      "hardware_heartbeat_timeout_ms": 100
+    },
+    "landing": {
+      "damper_model": "ACE MC600EUM",
+      "quantity": 4,
+      "stroke_m": 0.025,
+      "rated_energy_j": 136.0,
+      "clearance_m": 0.07,
+      "mass_each_kg": 0.27,
+      "effective_mass_range_kg": [
+        9.0,
+        136.0
+      ],
+      "impact_velocity_range_m_s": [
+        0.06,
+        6.0
+      ]
+    },
+    "minimum_mass_reserve_fraction": 0.05
+  },
+  "phases": [
+    {
+      "phase": 0,
+      "nominal_cases": 180,
+      "nominal_rejected": 0,
+      "loss_cases": 900,
+      "loss_rejected": 542,
+      "nominal_static_pass": true,
+      "single_loss_static_contingency_pass": false,
+      "hardware_motion_allowed": false,
+      "dynamic_recovery_proven": false,
+      "first_failure": {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.31
+        ],
+        "gravity_m_s2": [
+          0.0,
+          0.0,
+          -9.80665
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ]
+      }
+    },
+    {
+      "phase": 1,
+      "nominal_cases": 180,
+      "nominal_rejected": 0,
+      "loss_cases": 900,
+      "loss_rejected": 540,
+      "nominal_static_pass": true,
+      "single_loss_static_contingency_pass": false,
+      "hardware_motion_allowed": false,
+      "dynamic_recovery_proven": false,
+      "first_failure": {
+        "pose": "phase1_sample0",
+        "lost_leg_1based": 2,
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.31
+        ],
+        "gravity_m_s2": [
+          -0.8547058646163219,
+          1.0467128013148497e-16,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ]
+      }
+    },
+    {
+      "phase": 2,
+      "nominal_cases": 180,
+      "nominal_rejected": 0,
+      "loss_cases": 900,
+      "loss_rejected": 368,
+      "nominal_static_pass": true,
+      "single_loss_static_contingency_pass": false,
+      "hardware_motion_allowed": false,
+      "dynamic_recovery_proven": false,
+      "first_failure": {
+        "pose": "phase2_sample0",
+        "lost_leg_1based": 1,
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.31
+        ],
+        "gravity_m_s2": [
+          0.0,
+          0.0,
+          -9.80665
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ]
+      }
+    },
+    {
+      "phase": 3,
+      "nominal_cases": 180,
+      "nominal_rejected": 0,
+      "loss_cases": 900,
+      "loss_rejected": 383,
+      "nominal_static_pass": true,
+      "single_loss_static_contingency_pass": false,
+      "hardware_motion_allowed": false,
+      "dynamic_recovery_proven": false,
+      "first_failure": {
+        "pose": "phase3_sample0",
+        "lost_leg_1based": 3,
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.31
+        ],
+        "gravity_m_s2": [
+          -0.6043683127901124,
+          0.6043683127901125,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ]
+      }
+    },
+    {
+      "phase": 4,
+      "nominal_cases": 180,
+      "nominal_rejected": 0,
+      "loss_cases": 900,
+      "loss_rejected": 544,
+      "nominal_static_pass": true,
+      "single_loss_static_contingency_pass": false,
+      "hardware_motion_allowed": false,
+      "dynamic_recovery_proven": false,
+      "first_failure": {
+        "pose": "phase4_sample0",
+        "lost_leg_1based": 1,
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.31
+        ],
+        "gravity_m_s2": [
+          0.0,
+          0.0,
+          -9.80665
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ]
+      }
+    },
+    {
+      "phase": 5,
+      "nominal_cases": 180,
+      "nominal_rejected": 0,
+      "loss_cases": 900,
+      "loss_rejected": 548,
+      "nominal_static_pass": true,
+      "single_loss_static_contingency_pass": false,
+      "hardware_motion_allowed": false,
+      "dynamic_recovery_proven": false,
+      "first_failure": {
+        "pose": "phase5_sample0",
+        "lost_leg_1based": 1,
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.31
+        ],
+        "gravity_m_s2": [
+          0.0,
+          0.0,
+          -9.80665
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ]
+      }
+    }
+  ],
+  "counts": {
+    "nominal_cases": 1080,
+    "nominal_rejected": 0,
+    "loss_cases": 5400,
+    "loss_rejected": 2925
+  },
+  "hardware_motion_allowed": false,
+  "fabrication_released": false,
+  "dynamic_recovery_proven": false,
+  "geometry": {
+    "checks": {
+      "all_components_retained": true,
+      "all_commercial_envelope_volumes_preserved": true,
+      "only_declared_deck_material_removed": true,
+      "all_ten_target_pairs_resolved": true,
+      "no_new_overlap_pairs": true,
+      "untouched_interface_findings_retained": true,
+      "guide_deck_clearance": true,
+      "guide_equipment_clearance": true,
+      "equipment_roof_clearance": true
+    },
+    "controls": {
+      "penetrating": true,
+      "touching": true,
+      "separated": true
+    },
+    "pose_count": 31,
+    "solid_count": 86,
+    "pair_checks": 113305,
+    "baseline_overlapping_pairs": 70,
+    "resolved_modeled_pairs": 10,
+    "remaining_overlapping_pairs": 60,
+    "new_pairs": [],
+    "minimum_guide_deck_clearance_mm": 1.999999999999952,
+    "minimum_guide_equipment_clearance_mm": 8.0,
+    "minimum_equipment_roof_clearance_mm": 27.000000000000057,
+    "removed_deck_mass_kg_at_assumed_2700kg_m3": 0.040715040790523724,
+    "all_modeled_solids_clear": false,
+    "fabrication_released": false,
+    "pairs": [
+      {
+        "a": "L1_motor1",
+        "b": "L1_carrier1",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.85820839365,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.85820839365
+      },
+      {
+        "a": "L1_carrier1",
+        "b": "L1_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4847.8032662422365,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4847.803266242674
+      },
+      {
+        "a": "L1_motor2",
+        "b": "L1_carrier2",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083935553,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.8582083939377
+      },
+      {
+        "a": "L1_carrier2",
+        "b": "L1_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4204.190714733342,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4204.19071473411
+      },
+      {
+        "a": "L1_carrier2",
+        "b": "L1_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.2462417325323,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.2462417329443
+      },
+      {
+        "a": "L1_motor3",
+        "b": "L1_carrier3",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083936353,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.858208393831
+      },
+      {
+        "a": "L1_carrier3",
+        "b": "L1_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.2462417327843,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.246241732954
+      },
+      {
+        "a": "L1_carrier3",
+        "b": "L1_link3",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2882.969983809439,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2934.9014943409934
+      },
+      {
+        "a": "L1_link2",
+        "b": "L1_link3",
+        "a_kind": "link_stock",
+        "b_kind": "link_stock",
+        "volume_mm3": 282.97189608873236,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 332.1909259780729
+      },
+      {
+        "a": "L1_link3",
+        "b": "L1_Mini45",
+        "a_kind": "link_stock",
+        "b_kind": "sensor",
+        "volume_mm3": 928.1205698179313,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 940.8426370996701
+      },
+      {
+        "a": "L2_motor1",
+        "b": "L2_carrier1",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083936503,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.8582083936503
+      },
+      {
+        "a": "L2_carrier1",
+        "b": "L2_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4847.803266242445,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4847.803266242628
+      },
+      {
+        "a": "L2_motor2",
+        "b": "L2_carrier2",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.85820839365,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.858208393714
+      },
+      {
+        "a": "L2_carrier2",
+        "b": "L2_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4204.190714733708,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4204.190714734004
+      },
+      {
+        "a": "L2_carrier2",
+        "b": "L2_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.246241732357,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.2462417327706
+      },
+      {
+        "a": "L2_motor3",
+        "b": "L2_carrier3",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083936853,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.858208393717
+      },
+      {
+        "a": "L2_carrier3",
+        "b": "L2_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.246241732488,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.2462417328534
+      },
+      {
+        "a": "L2_carrier3",
+        "b": "L2_link3",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.2462417328215,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2834.7435329122773
+      },
+      {
+        "a": "L2_link2",
+        "b": "L2_link3",
+        "a_kind": "link_stock",
+        "b_kind": "link_stock",
+        "volume_mm3": 761.7795718724299,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 947.3346114974922
+      },
+      {
+        "a": "L2_link3",
+        "b": "L2_Mini45",
+        "a_kind": "link_stock",
+        "b_kind": "sensor",
+        "volume_mm3": 1142.191559416556,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 1142.191559416556
+      },
+      {
+        "a": "L3_motor1",
+        "b": "L3_carrier1",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083936503,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.8582083936503
+      },
+      {
+        "a": "L3_carrier1",
+        "b": "L3_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4847.80326624243,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4847.803266242677
+      },
+      {
+        "a": "L3_motor2",
+        "b": "L3_carrier2",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083936276,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.858208393834
+      },
+      {
+        "a": "L3_carrier2",
+        "b": "L3_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4204.190714733646,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4204.190714734086
+      },
+      {
+        "a": "L3_carrier2",
+        "b": "L3_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.246241732575,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.2462417327342
+      },
+      {
+        "a": "L3_motor3",
+        "b": "L3_carrier3",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.858208393478,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.8582083939555
+      },
+      {
+        "a": "L3_carrier3",
+        "b": "L3_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.2462417326274,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.2462417328097
+      },
+      {
+        "a": "L3_carrier3",
+        "b": "L3_link3",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2882.9699825099124,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2934.901510208639
+      },
+      {
+        "a": "L3_link2",
+        "b": "L3_link3",
+        "a_kind": "link_stock",
+        "b_kind": "link_stock",
+        "volume_mm3": 282.97189608870326,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 332.19092597806906
+      },
+      {
+        "a": "L3_link3",
+        "b": "L3_Mini45",
+        "a_kind": "link_stock",
+        "b_kind": "sensor",
+        "volume_mm3": 928.1205698179218,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 940.8426370996667
+      },
+      {
+        "a": "L4_motor1",
+        "b": "L4_carrier1",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083936503,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.8582083936503
+      },
+      {
+        "a": "L4_carrier1",
+        "b": "L4_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4847.803266242427,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4847.803266242676
+      },
+      {
+        "a": "L4_motor2",
+        "b": "L4_carrier2",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.858208393636,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.8582083938563
+      },
+      {
+        "a": "L4_carrier2",
+        "b": "L4_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4204.1907147335,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4204.190714734347
+      },
+      {
+        "a": "L4_carrier2",
+        "b": "L4_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.2462417325255,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.246241732962
+      },
+      {
+        "a": "L4_motor3",
+        "b": "L4_carrier3",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.858208393638,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.858208393856
+      },
+      {
+        "a": "L4_carrier3",
+        "b": "L4_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.2462417328775,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.246241732927
+      },
+      {
+        "a": "L4_carrier3",
+        "b": "L4_link3",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2882.9699838093743,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2934.901494341665
+      },
+      {
+        "a": "L4_link2",
+        "b": "L4_link3",
+        "a_kind": "link_stock",
+        "b_kind": "link_stock",
+        "volume_mm3": 282.9718960887774,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 332.19092597806986
+      },
+      {
+        "a": "L4_link3",
+        "b": "L4_Mini45",
+        "a_kind": "link_stock",
+        "b_kind": "sensor",
+        "volume_mm3": 928.1205698179441,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 940.8426370996734
+      },
+      {
+        "a": "L5_motor1",
+        "b": "L5_carrier1",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083936503,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.8582083936503
+      },
+      {
+        "a": "L5_carrier1",
+        "b": "L5_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4847.803266242443,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4847.8032662426285
+      },
+      {
+        "a": "L5_motor2",
+        "b": "L5_carrier2",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083936844,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.858208393714
+      },
+      {
+        "a": "L5_carrier2",
+        "b": "L5_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4204.190714733706,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4204.190714733953
+      },
+      {
+        "a": "L5_carrier2",
+        "b": "L5_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.2462417323595,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.246241732837
+      },
+      {
+        "a": "L5_motor3",
+        "b": "L5_carrier3",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.85820839365,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.858208393726
+      },
+      {
+        "a": "L5_carrier3",
+        "b": "L5_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.246241732496,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.246241732877
+      },
+      {
+        "a": "L5_carrier3",
+        "b": "L5_link3",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.2462417328184,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2834.7435329127193
+      },
+      {
+        "a": "L5_link2",
+        "b": "L5_link3",
+        "a_kind": "link_stock",
+        "b_kind": "link_stock",
+        "volume_mm3": 761.7795718724301,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 947.3346114974925
+      },
+      {
+        "a": "L5_link3",
+        "b": "L5_Mini45",
+        "a_kind": "link_stock",
+        "b_kind": "sensor",
+        "volume_mm3": 1142.1915594165562,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 1142.1915594165562
+      },
+      {
+        "a": "L6_motor1",
+        "b": "L6_carrier1",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.85820839365,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.85820839365
+      },
+      {
+        "a": "L6_carrier1",
+        "b": "L6_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4847.803266242238,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4847.803266242676
+      },
+      {
+        "a": "L6_motor2",
+        "b": "L6_carrier2",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083935944,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.8582083938354
+      },
+      {
+        "a": "L6_carrier2",
+        "b": "L6_link1",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 4204.190714733578,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 4204.190714734093
+      },
+      {
+        "a": "L6_carrier2",
+        "b": "L6_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.24624173247,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.246241732766
+      },
+      {
+        "a": "L6_motor3",
+        "b": "L6_carrier3",
+        "a_kind": "actuator",
+        "b_kind": "carrier",
+        "volume_mm3": 2339.8582083937013,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2339.858208393985
+      },
+      {
+        "a": "L6_carrier3",
+        "b": "L6_link2",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2832.2462417328734,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2832.2462417329493
+      },
+      {
+        "a": "L6_carrier3",
+        "b": "L6_link3",
+        "a_kind": "carrier",
+        "b_kind": "link_stock",
+        "volume_mm3": 2882.9699825075368,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 2934.9015102080575
+      },
+      {
+        "a": "L6_link2",
+        "b": "L6_link3",
+        "a_kind": "link_stock",
+        "b_kind": "link_stock",
+        "volume_mm3": 282.97189608871855,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 332.19092597806457
+      },
+      {
+        "a": "L6_link3",
+        "b": "L6_Mini45",
+        "a_kind": "link_stock",
+        "b_kind": "sensor",
+        "volume_mm3": 928.1205698179299,
+        "classification": "unresolved_interface_overlap",
+        "first_pose": "nominal",
+        "poses_with_overlap": 31,
+        "maximum_volume_mm3": 940.8426370996704
+      }
+    ],
+    "baseline_issue_ledger": [
+      {
+        "a": "Deck",
+        "b": "Rail_-1",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "Deck",
+        "b": "Rail_1",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "Deck",
+        "b": "LandingGuide_-270_-145",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "Deck",
+        "b": "LandingGuide_-270_145",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "Deck",
+        "b": "LandingGuide_270_-145",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "Deck",
+        "b": "LandingGuide_270_145",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "Electronics_allowance_-1",
+        "b": "LandingGuide_-270_-145",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "Electronics_allowance_-1",
+        "b": "LandingGuide_-270_145",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "Electronics_allowance_1",
+        "b": "LandingGuide_270_-145",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "Electronics_allowance_1",
+        "b": "LandingGuide_270_145",
+        "status": "MODELED_OVERLAP_RESOLVED_INTERFACE_REVIEW_OPEN",
+        "action": "Review deck/rail joints, guide mounts, stiffness and tolerance stack before fabrication"
+      },
+      {
+        "a": "L1_motor1",
+        "b": "L1_carrier1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L1_carrier1",
+        "b": "L1_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L1_motor2",
+        "b": "L1_carrier2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L1_carrier2",
+        "b": "L1_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L1_carrier2",
+        "b": "L1_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L1_motor3",
+        "b": "L1_carrier3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L1_carrier3",
+        "b": "L1_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L1_carrier3",
+        "b": "L1_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L1_link2",
+        "b": "L1_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L1_link3",
+        "b": "L1_Mini45",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_motor1",
+        "b": "L2_carrier1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_carrier1",
+        "b": "L2_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_motor2",
+        "b": "L2_carrier2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_carrier2",
+        "b": "L2_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_carrier2",
+        "b": "L2_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_motor3",
+        "b": "L2_carrier3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_carrier3",
+        "b": "L2_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_carrier3",
+        "b": "L2_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_link2",
+        "b": "L2_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L2_link3",
+        "b": "L2_Mini45",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_motor1",
+        "b": "L3_carrier1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_carrier1",
+        "b": "L3_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_motor2",
+        "b": "L3_carrier2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_carrier2",
+        "b": "L3_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_carrier2",
+        "b": "L3_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_motor3",
+        "b": "L3_carrier3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_carrier3",
+        "b": "L3_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_carrier3",
+        "b": "L3_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_link2",
+        "b": "L3_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L3_link3",
+        "b": "L3_Mini45",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_motor1",
+        "b": "L4_carrier1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_carrier1",
+        "b": "L4_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_motor2",
+        "b": "L4_carrier2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_carrier2",
+        "b": "L4_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_carrier2",
+        "b": "L4_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_motor3",
+        "b": "L4_carrier3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_carrier3",
+        "b": "L4_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_carrier3",
+        "b": "L4_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_link2",
+        "b": "L4_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L4_link3",
+        "b": "L4_Mini45",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_motor1",
+        "b": "L5_carrier1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_carrier1",
+        "b": "L5_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_motor2",
+        "b": "L5_carrier2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_carrier2",
+        "b": "L5_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_carrier2",
+        "b": "L5_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_motor3",
+        "b": "L5_carrier3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_carrier3",
+        "b": "L5_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_carrier3",
+        "b": "L5_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_link2",
+        "b": "L5_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L5_link3",
+        "b": "L5_Mini45",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_motor1",
+        "b": "L6_carrier1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_carrier1",
+        "b": "L6_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_motor2",
+        "b": "L6_carrier2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_carrier2",
+        "b": "L6_link1",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_carrier2",
+        "b": "L6_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_motor3",
+        "b": "L6_carrier3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_carrier3",
+        "b": "L6_link2",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_carrier3",
+        "b": "L6_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_link2",
+        "b": "L6_link3",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      },
+      {
+        "a": "L6_link3",
+        "b": "L6_Mini45",
+        "status": "UNRESOLVED_INTERFACE",
+        "action": "Supply complete bearing/shaft/coupler/clevis/sensor adapter geometry and load path; retain envelope until replaced"
+      }
+    ]
+  },
+  "correction_checks": {
+    "revised_nominal_statics_pass": true,
+    "all_components_retained": true,
+    "all_commercial_envelope_volumes_preserved": true,
+    "only_declared_deck_material_removed": true,
+    "all_ten_target_pairs_resolved": true,
+    "no_new_overlap_pairs": true,
+    "untouched_interface_findings_retained": true,
+    "guide_deck_clearance": true,
+    "guide_equipment_clearance": true,
+    "equipment_roof_clearance": true
+  }
+}

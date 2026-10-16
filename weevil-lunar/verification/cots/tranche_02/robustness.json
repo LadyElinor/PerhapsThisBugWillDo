@@ -1,0 +1,550 @@
+{
+  "experiment_id": "COTS-TRANCHE-02",
+  "baseline_commit": "4330551e5776e094e03767caa6a727679f5a071f",
+  "spec_sha256": "a379b3b64b936f5839101940e0f1fc360a268547c7e346f25000970beb6813d4",
+  "runner_sha256": "f89bac4cb46034976e504cfd0b065bb8c3221e0930dce591c1ad8b34cc1237f1",
+  "controls": {
+    "outside_support_rejected": true,
+    "frictionless_slope_rejected": true
+  },
+  "profiles": {
+    "reference_10deg": {
+      "parameters": {
+        "id": "reference_10deg",
+        "slope_deg": 10
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.07415923566180728,
+      "largest_feasible_torque_bound_nm": 42.66505224255082,
+      "largest_feasible_normal_n": 296.2850850177139,
+      "maximum_equilibrium_residual": 1.0311238223754862e-10,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    },
+    "commissioning_5deg": {
+      "parameters": {
+        "id": "commissioning_5deg",
+        "slope_deg": 5
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.09447561187596713,
+      "largest_feasible_torque_bound_nm": 39.9513860642364,
+      "largest_feasible_normal_n": 277.4401810016418,
+      "maximum_equilibrium_residual": 9.943045628558234e-11,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    },
+    "friction_0p3": {
+      "parameters": {
+        "id": "friction_0p3",
+        "slope_deg": 5,
+        "friction": 0.3
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.09447561187596713,
+      "largest_feasible_torque_bound_nm": 39.9513860642364,
+      "largest_feasible_normal_n": 277.44018100164175,
+      "maximum_equilibrium_residual": 4.597566806875775e-10,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    },
+    "friction_0p2": {
+      "parameters": {
+        "id": "friction_0p2",
+        "slope_deg": 5,
+        "friction": 0.2
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.09447561187596713,
+      "largest_feasible_torque_bound_nm": 39.88471313511529,
+      "largest_feasible_normal_n": 277.4401810016417,
+      "maximum_equilibrium_residual": 1.0749813072504366e-10,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    },
+    "torque_90pct": {
+      "parameters": {
+        "id": "torque_90pct",
+        "slope_deg": 5,
+        "torque_scale": 0.9
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.09447561187596713,
+      "largest_feasible_torque_bound_nm": 35.956247457812815,
+      "largest_feasible_normal_n": 277.44018100164186,
+      "maximum_equilibrium_residual": 8.4164937608017e-11,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    },
+    "torque_80pct": {
+      "parameters": {
+        "id": "torque_80pct",
+        "slope_deg": 5,
+        "torque_scale": 0.8
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.09447561187596713,
+      "largest_feasible_torque_bound_nm": 31.961108851389117,
+      "largest_feasible_normal_n": 277.4401810016417,
+      "maximum_equilibrium_residual": 6.54960626610489e-11,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    },
+    "com_up_50mm": {
+      "parameters": {
+        "id": "com_up_50mm",
+        "slope_deg": 5,
+        "com_z_increment_m": 0.05
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.09039240273131051,
+      "largest_feasible_torque_bound_nm": 40.59592975774508,
+      "largest_feasible_normal_n": 281.91617887322985,
+      "maximum_equilibrium_residual": 6.693971675063126e-11,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    },
+    "leg_mass_up_20pct": {
+      "parameters": {
+        "id": "leg_mass_up_20pct",
+        "slope_deg": 5,
+        "leg_mass_scale": 1.2
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.09447561187596713,
+      "largest_feasible_torque_bound_nm": 39.95138606423635,
+      "largest_feasible_normal_n": 277.44018100164186,
+      "maximum_equilibrium_residual": 7.825288310976195e-11,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    },
+    "combined_perturbations": {
+      "parameters": {
+        "id": "combined_perturbations",
+        "slope_deg": 5,
+        "friction": 0.3,
+        "torque_scale": 0.9,
+        "com_z_increment_m": 0.05,
+        "leg_mass_scale": 1.2
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.09039240273131051,
+      "largest_feasible_torque_bound_nm": 36.536336781970576,
+      "largest_feasible_normal_n": 281.91617887322985,
+      "maximum_equilibrium_residual": 1.8668803623943832e-10,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    },
+    "allocated_mass_5deg": {
+      "parameters": {
+        "id": "allocated_mass_5deg",
+        "slope_deg": 5,
+        "gross_mass_kg": 56.335
+      },
+      "verdict": "RETAIN",
+      "cases": 1080,
+      "infeasible_wrench": 0,
+      "margin_below_requirement": 0,
+      "cop_outside_pad": 0,
+      "accepted": 1080,
+      "rejection_count": 0,
+      "minimum_support_margin_m": 0.09447561187596713,
+      "largest_feasible_torque_bound_nm": 37.51102223214593,
+      "largest_feasible_normal_n": 260.49320994545803,
+      "maximum_equilibrium_residual": 1.3897740945234224e-10,
+      "failure_by_lost_leg": {},
+      "failure_examples": []
+    }
+  },
+  "hardware_validated": false,
+  "dense_interpolation": {
+    "verdict": "RETAIN",
+    "cases": 1728,
+    "infeasible_wrench": 0,
+    "margin_below_requirement": 0,
+    "cop_outside_pad": 0,
+    "accepted": 1728,
+    "rejection_count": 0,
+    "minimum_support_margin_m": 0.0741840824857007,
+    "largest_feasible_torque_bound_nm": 42.66117494748129,
+    "largest_feasible_normal_n": 296.2581593575088,
+    "maximum_equilibrium_residual": 2.854825723665846e-09,
+    "failure_by_lost_leg": {},
+    "failure_examples": []
+  },
+  "support_loss": {
+    "verdict": "CLOSED_UNDER_TESTED_SPECIFICATION",
+    "cases": 5400,
+    "infeasible_wrench": 2921,
+    "margin_below_requirement": 1702,
+    "cop_outside_pad": 0,
+    "accepted": 2479,
+    "rejection_count": 2921,
+    "minimum_support_margin_m": -0.09037018047009612,
+    "largest_feasible_torque_bound_nm": 43.188350342600316,
+    "largest_feasible_normal_n": 299.9190996013912,
+    "maximum_equilibrium_residual": 1.6238052059723583e-10,
+    "failure_by_lost_leg": {
+      "1": 540,
+      "2": 369,
+      "3": 559,
+      "4": 540,
+      "5": 365,
+      "6": 548
+    },
+    "failure_examples": [
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          0.0,
+          0.0,
+          -9.80665
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.06889251164829868
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          0.8547058646163219,
+          0.0,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.05201010136116395
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          0.6043683127901125,
+          0.6043683127901124,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.0476159060925612
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          5.2335640065742484e-17,
+          0.8547058646163219,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.05568525779724673
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          -0.6043683127901124,
+          0.6043683127901125,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.0714912396861742
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          -0.8547058646163219,
+          1.0467128013148497e-16,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.08577492193543342
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          -0.6043683127901126,
+          -0.6043683127901124,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.09016911720403616
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          -1.5700692019722743e-16,
+          -0.8547058646163219,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.08209976549935064
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          -0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          0.6043683127901123,
+          -0.6043683127901126,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.06629378361042317
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          0.0,
+          0.0,
+          -9.80665
+        ],
+        "reasons": [
+          "support_margin",
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.03192281312747337
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          0.8547058646163219,
+          0.0,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "support_margin",
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.01504040284033864
+      },
+      {
+        "pose": "phase0_sample0",
+        "lost_leg_1based": 2,
+        "active_legs_1based": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "com_m": [
+          -0.04,
+          0.03,
+          0.3
+        ],
+        "gravity_m_s2": [
+          0.6043683127901125,
+          0.6043683127901124,
+          -9.769332736041417
+        ],
+        "reasons": [
+          "support_margin",
+          "wrench_infeasible"
+        ],
+        "support_margin_m": 0.010646207571735898
+      }
+    ]
+  },
+  "interpretation": [
+    "Profile rejection means that the universal claim fails on at least one sampled case; it is not a physical failure rate.",
+    "Largest feasible torque/normal omit infeasible cases; they must not be used to size a rejected profile.",
+    "Support loss examines instantaneous static equilibrium, not contact-loss dynamics or a recovery controller.",
+    "Dense new sample positions were fixed before scoring; no parameters were fitted and no physical holdout measurements exist.",
+    "All values remain conditional on geometry, idealized contacts, gravity proxies and the friction pyramid."
+  ]
+}

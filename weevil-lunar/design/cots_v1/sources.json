@@ -1,0 +1,143 @@
+{
+  "reviewed_utc": "2026-10-16",
+  "sources": [
+    {
+      "id": "CM-PRODUCT",
+      "title": "CubeMars AK80-64 product",
+      "url": "https://www.cubemars.com/product/ak80-64-kv80-robotic-actuator.html",
+      "note": "48 Nm catalog rated torque; 850 g. Holding thermals and output bearing moments remain unverified."
+    },
+    {
+      "id": "CM-STORE",
+      "title": "CubeMars official store",
+      "url": "https://store.cubemars.com/products/ak80-64",
+      "note": "Driver YES variant $989.90 observed. HTML and availability indicator conflict; confirm by quote."
+    },
+    {
+      "id": "CM-DRAWING",
+      "title": "AK80-64 manufacturer drawing",
+      "url": "https://www.cubemars.com/data/cms/202602/ak80-64-robotic-actuator-2d-drawing.pdf",
+      "note": "Front and rear bolt circles differ; front interface used for coupons."
+    },
+    {
+      "id": "CM-MANUAL",
+      "title": "AK series driver manual v1.0.18",
+      "url": "https://www.cubemars.com/data/cms/202605/ak-series-driver-manual-v1-0-18-for-ak-2-0-robotic-actuator.pdf",
+      "note": "Require matching 48 V board with 18–52 V input; protocol torque range is not a safe motor output rating."
+    },
+    {
+      "id": "ATI",
+      "title": "ATI Mini45 IP65/IP68",
+      "url": "https://www.ati-ia.com/products/ft/ft_models.aspx?id=Mini45+IP65/IP68",
+      "note": "SI-580-20 calibration; quote complete matched sensor and NETBA system."
+    },
+    {
+      "id": "ATI-DRAWING",
+      "title": "ATI drawing 9230-05-1443",
+      "url": "https://www.ati-ia.com/app_content/documents/9230-05-1443.auto.pdf",
+      "note": "57.9 mm diameter, 25.1 mm high. Do not infer the adapter pattern from the motor pattern."
+    },
+    {
+      "id": "ATI-NET",
+      "title": "ATI Net F/T manual",
+      "url": "https://www.ati-ia.com/app_content/documents/9610-05-1022.pdf",
+      "note": "Electrical configuration and six-interface auxiliary load must be verified."
+    },
+    {
+      "id": "SKF",
+      "title": "SKF rolling bearing catalog",
+      "url": "https://cdn.skfmediahub.skf.com/api/public/0901d196802809de/pdf_preview_medium/0901d196802809de_pdf_preview_medium.pdf",
+      "note": "6204-2RSH: 20x47x14 mm; 6.55 kN static; approximately 0.11 kg. No life certification from static ratio."
+    },
+    {
+      "id": "BAT",
+      "title": "Bioenno BLF-3620A",
+      "url": "https://www.bioennopower.com/products/36v-20ah-lfp-battery-black-pvc-pack-charger",
+      "note": "36 V 20 Ah; 20 A continuous; 7.2 kg; $379.99 battery-only observed. No lunar qualification."
+    },
+    {
+      "id": "MW-BENCH",
+      "title": "MEAN WELL RSP-1500",
+      "url": "https://www.meanwell.com/Upload/PDF/RSP-1500/RSP-1500-SPEC.PDF",
+      "note": "Selected 36 V / 42 A variant; supply capability exceeds battery profile and must be limited."
+    },
+    {
+      "id": "MW-AUX",
+      "title": "MEAN WELL RSD-100",
+      "url": "https://www.meanwell.com/Upload/PDF/RSD-100/RSD-100-spec.pdf",
+      "note": "C-12 continuous input 33.6–62.4 V; output 12 V 8.4 A. Wider input range is only one second."
+    },
+    {
+      "id": "OD-CLAMP",
+      "title": "ODrive Regen Clamp",
+      "url": "https://docs.odriverobotics.com/v/latest/hardware/regen-clamp-datasheet.html",
+      "note": "Heatspreader variant selected. OTP disables clamping; external temperature response is required."
+    },
+    {
+      "id": "TE-R",
+      "title": "TE HSC3004R7J",
+      "url": "https://www.te.com/en/product-1-1630027-7.html",
+      "note": "4.7 ohm +/-5%, 300 W under specified mounting. Pulse/thermal acceptance remains open."
+    },
+    {
+      "id": "ALBRIGHT",
+      "title": "Albright SW80",
+      "url": "https://www.albrightinternational.com/products/sw80/",
+      "note": "Configure coil, blowouts and auxiliary contact with supplier; family name is not a complete ordering code."
+    },
+    {
+      "id": "PEAK",
+      "title": "PEAK PCAN-USB X6",
+      "url": "https://www.peak-system.com/products/hardware/external-pc-interfaces/pcan-usb-x6/?L=1",
+      "note": "IPEH-004063 isolated M12 selected; 004062 is not isolated. External 8–30 V supply."
+    },
+    {
+      "id": "ACE",
+      "title": "ACE MC600EUM",
+      "url": "https://www.acecontrols.co.uk/uk/products/automation-control/miniature-shock-absorbers/mc150-to-mc600/mc600eum/mc600eum.html",
+      "note": "136 J/cycle, 25 mm stroke; 9–136 kg effective mass. Bare rod side-load limit requires a separate guide."
+    },
+    {
+      "id": "MOXA",
+      "title": "Moxa EDS-208A",
+      "url": "https://www.moxa.com/en/products/industrial-network-infrastructure/ethernet-switches/unmanaged-switches/eds-208a-series/eds-208a",
+      "note": "Eight 100 Mb Ethernet ports; use 12 V auxiliary rail, not PoE."
+    },
+    {
+      "id": "POLOLU",
+      "title": "Pololu D24V90F5",
+      "url": "https://www.pololu.com/product/2866",
+      "note": "5 V regulator; thermally limited current. Does not itself implement USB-C PD."
+    },
+    {
+      "id": "PI",
+      "title": "Raspberry Pi 5 product brief",
+      "url": "https://datasheets.raspberrypi.com/rpi5/raspberry-pi-5-product-brief.pdf",
+      "note": "Supervisory host. Power adapter/USB peripheral budget must be verified."
+    },
+    {
+      "id": "CAM",
+      "title": "Luxonis OAK-D S2",
+      "url": "https://docs.luxonis.com/hardware/products/OAK-D%20S2",
+      "note": "Ground perception development camera; no flight or lunar lighting claim."
+    },
+    {
+      "id": "CUSTOM",
+      "title": "Project custom design",
+      "url": null,
+      "note": "Fabricated parts, not catalog assemblies."
+    },
+    {
+      "id": "SPEC",
+      "title": "Procurement requirement",
+      "url": null,
+      "note": "Performance specification, exact supplier SKU not yet released."
+    }
+  ],
+  "local_reference_sha256": {
+    "AK80-64-2D.pdf": "d10c81bd1b560904a4c4bb5b1707fbfafd0e12b774910eac3f90b82e0bf5380e",
+    "AK-driver.pdf": "4c82e46a5d286010b0526b558e734a0695a1cede6cdaba56e217971b6db24bef",
+    "ATI-Mini45.pdf": "56df2359a32d75098a0434783bd86e77a8fc8ba89594ee6cfbcff2daae88506b",
+    "dcdc.pdf": "9e315b74f8e16b99cd2bd68e6a9c6d5974fd0211d62ef310464d07e4ec898a15"
+  }
+}

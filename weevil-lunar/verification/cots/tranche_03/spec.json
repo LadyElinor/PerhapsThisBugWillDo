@@ -1,0 +1,105 @@
+{
+  "id": "COTS-TRANCHE-03",
+  "baseline_commit": "99e607062a8c7a221458bb13a6cffa0dbec900e3",
+  "frozen_inputs_sha256": {
+    "design/cots_v1/config.json": "cf22ebbc729fbdce837473c695d5ecc22b6ebb0a8cf38940ead7c34bc3059b7f",
+    "design/cots_v1/bom.csv": "ddcceac02279a6d66ada9ea12d9fd4e36fff02449c3f57b71a0d16537475289f",
+    "models/cots_rover.py": "98ed350d943727571ede1b9369c5662c33cef5c956d278c0abc91547a510f9b3",
+    "cad/scripts/build_cots_rover.py": "ea6dc687ecc28492ab46701fd774ade231b9168ab3b03e0d60475102f0ed0b4a"
+  },
+  "candidate": {
+    "id": "WEEVIL-COTS-1.1",
+    "deck_opening_radius_mm": 20.0,
+    "landing_guide_radius_mm": 18.0,
+    "electronics_raise_mm": 10.0,
+    "rail_raise_mm": 1.5,
+    "com_z_increment_m": 0.01,
+    "mass_credit_kg": 0.0
+  },
+  "rationale": [
+    "40 mm deck openings give a nominal 2 mm radial passage around the existing 36 mm guide envelopes; mount design and tolerance stack remain open.",
+    "Raise intact electronics allowances by 10 mm, preserving equipment volume and leaving 8 mm nominal separation above the unchanged guide envelopes.",
+    "Seat rail lower faces on the actual upper deck face, correcting the 1.5 mm frame overlap.",
+    "Raise the analytical COM by a full 10 mm to conservatively cover equipment relocation at fixed gross mass; do not credit removed deck material as payload."
+  ],
+  "geometry": {
+    "subdivisions": 4,
+    "include_nominal": true,
+    "overlap_tolerance_mm3": 1e-05,
+    "expected_component_count": 86,
+    "required_resolved_pairs": [
+      [
+        "Deck",
+        "Rail_-1"
+      ],
+      [
+        "Deck",
+        "Rail_1"
+      ],
+      [
+        "Deck",
+        "LandingGuide_-270_-145"
+      ],
+      [
+        "Electronics_allowance_-1",
+        "LandingGuide_-270_-145"
+      ],
+      [
+        "Deck",
+        "LandingGuide_-270_145"
+      ],
+      [
+        "Electronics_allowance_-1",
+        "LandingGuide_-270_145"
+      ],
+      [
+        "Deck",
+        "LandingGuide_270_-145"
+      ],
+      [
+        "Electronics_allowance_1",
+        "LandingGuide_270_-145"
+      ],
+      [
+        "Deck",
+        "LandingGuide_270_145"
+      ],
+      [
+        "Electronics_allowance_1",
+        "LandingGuide_270_145"
+      ]
+    ],
+    "no_new_pairs": true,
+    "minimum_guide_radial_clearance_mm": 2.0,
+    "minimum_guide_equipment_clearance_mm": 8.0,
+    "minimum_equipment_roof_clearance_mm": 27.0,
+    "all_pairs_checked": true,
+    "interface_waivers": []
+  },
+  "statics": {
+    "subdivisions": 4,
+    "slope_deg": 5.0,
+    "com_xy": "four baseline uncertainty corners",
+    "gravity": "flat plus eight equally spaced headings",
+    "load_factor": 1.3,
+    "single_support_loss": "each supporting foot removed at each pose; retain every failure"
+  },
+  "preflight_rule": "Sample the entire phase and all declared COM/gravity cases. Nominal and every single supporting-foot-loss case must satisfy wrench, COP, margin and residual constraints to pass the conditional static contingency gate. Any missing, nonfinite, malformed or incomplete plan fails closed. Hardware motion is never released by this offline check.",
+  "monitor_rule": "Offline only. Start disarmed. Arm only on six fresh valid contacts. Loss of an expected support, stale or invalid feedback, unsupported swing transition, backward clock or host heartbeat timeout latches a fault. Do not command blind hold, swing-foot placement or torque-off. Require explicit rearm on six valid contacts in the external restraint; no automatic recovery.",
+  "monitor_thresholds": {
+    "motor_and_contact_feedback_stale_ms": 40.0,
+    "heartbeat_timeout_ms": 100.0,
+    "support_contact_states": "six explicit booleans from an independently calibrated contact estimator; thresholds not invented here"
+  },
+  "controls": [
+    "baseline frozen hashes remain intact",
+    "all 86 objects retained with unchanged commercial envelope volumes",
+    "known interfering/touching/separated box controls",
+    "bad residual/COP/margin/allocation responses rejected by preflight",
+    "preflight rejects unknown phase or empty scenario collections",
+    "monitor loss, stale, invalid, time reversal and premature swing tests",
+    "positive monitor sequence remains an offline synthetic control"
+  ],
+  "release_rule": "Never convert absence of a modeled overlap into fabrication release; detailed interfaces, guide mounts, sensor load path, cables, power and measured fault response remain required.",
+  "stop_rule": "Evaluate this declared chassis repair once. Preserve the original negative baseline and unresolved interfaces; no erasing geometry or relaxing constraints for a clearance pass."
+}

@@ -1,0 +1,155 @@
+{
+  "design_id": "WEEVIL-COTS-1",
+  "analytical_checks_pass": true,
+  "hardware_validated": false,
+  "flight_qualified": false,
+  "checks": [
+    {
+      "name": "all_sampled_wrenches_feasible",
+      "pass": true
+    },
+    {
+      "name": "support_margin",
+      "pass": true
+    },
+    {
+      "name": "foot_clearance",
+      "pass": true
+    },
+    {
+      "name": "cop_inside_pad",
+      "pass": true
+    },
+    {
+      "name": "force_moment_residual",
+      "pass": true
+    },
+    {
+      "name": "tube_and_shaft_yield_screen",
+      "pass": true
+    },
+    {
+      "name": "gait_joint_speed",
+      "pass": true
+    },
+    {
+      "name": "landing_energy_and_mass",
+      "pass": true
+    },
+    {
+      "name": "mass_reserve",
+      "pass": true
+    },
+    {
+      "name": "shaft_load_arm_covers_gait",
+      "pass": true
+    },
+    {
+      "name": "bearing_static_screen",
+      "pass": true
+    },
+    {
+      "name": "aux_voltage_range",
+      "pass": true
+    },
+    {
+      "name": "battery_current",
+      "pass": true
+    },
+    {
+      "name": "can_bandwidth",
+      "pass": true
+    },
+    {
+      "name": "clamp_voltage_screen",
+      "pass": true
+    },
+    {
+      "name": "brake_current_screen",
+      "pass": true
+    },
+    {
+      "name": "regen_power_absorption_screen",
+      "pass": true
+    }
+  ],
+  "load_cases": 1944,
+  "worst": {
+    "torque_nm": 42.66505224255082,
+    "normal_n": 296.2850850177139,
+    "cop_offset_m": 0.02750000000005343,
+    "force_residual_n": 1.0311238223754862e-10,
+    "moment_residual_nm": 4.6029669338200025e-10
+  },
+  "min_support_margin_m": 0.07415923566180728,
+  "min_pad_gap_m": 0.15365247246599636,
+  "joint_range_deg": [
+    [
+      -7.125016348901798,
+      -2.131696221213808,
+      91.58583927210566
+    ],
+    [
+      7.125016348901798,
+      11.65532412613542,
+      107.92459964183281
+    ]
+  ],
+  "structure": {
+    "tube_bending_stress_pa": 56430665.677379675,
+    "tube_yield_factor": 4.253006713975455,
+    "tube_tip_deflection_m": 0.0010555533212696332,
+    "shaft_von_mises_pa": 419483825.15129876,
+    "shaft_yield_factor": 2.1454939285808923,
+    "shaft_bending_moment_nm": 160.4262873499874,
+    "bearing_reaction_n": 2874.3043150206076,
+    "bearing_static_capacity_ratio": 2.2788122906022354
+  },
+  "power": {
+    "nominal_energy_wh": 720.0,
+    "planning_usable_wh": 504.0,
+    "runtime_scenarios_min": {
+      "250": 120.96,
+      "400": 75.6,
+      "500": 60.48
+    },
+    "battery_continuous_bus_limit_w_at_cutoff": 544.0,
+    "clamp_max_bus_v": 46.3,
+    "driver_voltage_headroom_v": 5.700000000000003,
+    "resistor_instantaneous_max_w": 480.10974244120933,
+    "resistor_brake_current_max_a": 10.369540873460245,
+    "resistor_absorption_min_w": 269.9594731509625,
+    "independent_joint_mechanical_bound_w": 233.28,
+    "regen_bound_w": 233.28,
+    "can_utilization": 0.29
+  },
+  "landing": {
+    "single_damper_energy_j": 55.897905,
+    "impact_velocity_m_s": 1.1717213832648101,
+    "effective_mass_single_kg": 81.42857142857142,
+    "effective_mass_four_kg": 20.357142857142854,
+    "energy_capacity_ratio": 2.433007104649092,
+    "qualification": "energy screen only; guided skids and drop testing required"
+  },
+  "mass_budget": {
+    "allocated_mass_kg": 56.335,
+    "reserve_kg": 3.664999999999999,
+    "reserve_fraction": 0.06108333333333327
+  },
+  "maximum_load_arm_with_offset_m": 0.394577213029828,
+  "gait": {
+    "peak_joint_speed_rad_s": 0.2684294320170322,
+    "mean_body_speed_m_s": 0.002181818181818182
+  },
+  "failure_count": 0,
+  "first_failures": [],
+  "limitations": [
+    "Discrete quasi-static cases, not a dynamic or continuous collision proof.",
+    "Friction, material properties, link mass proxies and COM envelope require measurement.",
+    "No sinkage, anchor, lunar soil, fatigue, gearbox life or thermal qualification claim.",
+    "Voltage transient margin requires oscilloscope verification; no clamp transient model."
+  ],
+  "config_sha256": "cf22ebbc729fbdce837473c695d5ecc22b6ebb0a8cf38940ead7c34bc3059b7f",
+  "bom_sha256": "ddcceac02279a6d66ada9ea12d9fd4e36fff02449c3f57b71a0d16537475289f",
+  "model_sha256": "98ed350d943727571ede1b9369c5662c33cef5c956d278c0abc91547a510f9b3"
+}

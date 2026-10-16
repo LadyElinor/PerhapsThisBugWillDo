@@ -1,0 +1,1 @@
+time_s,measured_torque_nm,motor_case_temp_c,driver_temp_c,ambient_temp_c,bus_voltage_v,bus_current_a,aux_output_power_w,torque_sensor_ok,motor_feedback_ok,driver_fault_code
