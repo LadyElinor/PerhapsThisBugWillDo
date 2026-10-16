@@ -1,0 +1,109 @@
+{
+  "id": "COTS-TRANCHE-02",
+  "baseline_commit": "4330551e5776e094e03767caa6a727679f5a071f",
+  "frozen_inputs_sha256": {
+    "design/cots_v1/config.json": "cf22ebbc729fbdce837473c695d5ecc22b6ebb0a8cf38940ead7c34bc3059b7f",
+    "design/cots_v1/bom.csv": "ddcceac02279a6d66ada9ea12d9fd4e36fff02449c3f57b71a0d16537475289f",
+    "models/cots_rover.py": "98ed350d943727571ede1b9369c5662c33cef5c956d278c0abc91547a510f9b3",
+    "cad/scripts/build_cots_rover.py": "ea6dc687ecc28492ab46701fd774ade231b9168ab3b03e0d60475102f0ed0b4a"
+  },
+  "rule": "Freeze scenarios before outcomes; no adjustment of caps, friction or mass to obtain passing results.",
+  "interpretation": "Conditional quasi-static screening; sensitivity values are deliberately chosen perturbations, not measured distributions or reliability estimates.",
+  "common": {
+    "gait_subdivisions": 4,
+    "com_xy": "four configured uncertainty corners",
+    "gravity_cases": "flat plus eight equally spaced slope headings",
+    "load_factor": 1.3,
+    "required_support_margin_m": 0.04
+  },
+  "profiles": [
+    {
+      "id": "reference_10deg",
+      "slope_deg": 10
+    },
+    {
+      "id": "commissioning_5deg",
+      "slope_deg": 5
+    },
+    {
+      "id": "friction_0p3",
+      "slope_deg": 5,
+      "friction": 0.3
+    },
+    {
+      "id": "friction_0p2",
+      "slope_deg": 5,
+      "friction": 0.2
+    },
+    {
+      "id": "torque_90pct",
+      "slope_deg": 5,
+      "torque_scale": 0.9
+    },
+    {
+      "id": "torque_80pct",
+      "slope_deg": 5,
+      "torque_scale": 0.8
+    },
+    {
+      "id": "com_up_50mm",
+      "slope_deg": 5,
+      "com_z_increment_m": 0.05
+    },
+    {
+      "id": "leg_mass_up_20pct",
+      "slope_deg": 5,
+      "leg_mass_scale": 1.2
+    },
+    {
+      "id": "combined_perturbations",
+      "slope_deg": 5,
+      "friction": 0.3,
+      "torque_scale": 0.9,
+      "com_z_increment_m": 0.05,
+      "leg_mass_scale": 1.2
+    },
+    {
+      "id": "allocated_mass_5deg",
+      "slope_deg": 5,
+      "gross_mass_kg": 56.335
+    }
+  ],
+  "dense_interpolation": {
+    "subdivisions": 16,
+    "use_only_odd_sample_indices": true,
+    "slope_deg": 10
+  },
+  "contact_loss": {
+    "slope_deg": 5,
+    "remove_each_active_foot": true,
+    "recovery_motion": "none; test instantaneous four-contact equilibrium only"
+  },
+  "geometry": {
+    "subdivisions": 4,
+    "include_nominal": true,
+    "overlap_tolerance_mm3": 1e-05,
+    "scope": "every modeled solid pair; no unlisted waivers",
+    "classification": "same-leg envelopes and frame joints are unresolved interfaces, never a clearance pass; all other overlaps are packaging conflicts"
+  },
+  "bench_evidence": {
+    "scope": [
+      "M5 numerical temperature/holding record checks",
+      "E2 sampled power-budget checks"
+    ],
+    "no_measurements_status": "SOURCE-GATED",
+    "minimum_duration_s": 3600,
+    "maximum_sample_gap_s": 1.5,
+    "temperature_window_s": 600,
+    "maximum_tail_rise_c": 1.0,
+    "test_origin_must_be_measured_for_review": true,
+    "hardware_gate_auto_release": false
+  },
+  "controls": [
+    "outside-support COM must be infeasible",
+    "frictionless nonzero slope must be infeasible",
+    "synthetic boxes must detect overlap and reject separated/touching as volumetric overlap",
+    "synthetic bench record must remain non-evidence; corrupt/missing/short/gapped/over-limit inputs must fail"
+  ],
+  "stop_rule": "Report retained and closed claims; do not optimize geometry or parameters against these outcomes. A revision, if needed, requires a separate explicit change and new verification."
+}
