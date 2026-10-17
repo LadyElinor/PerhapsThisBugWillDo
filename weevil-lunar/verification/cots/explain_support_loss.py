@@ -123,10 +123,10 @@ def draw(report, examples, output):
     for pair, count in baseline["loss_breakdowns"]["swing_lost_pair"].items():
         i, j = map(int, pair.split(","))
         matrix[i-1, j-1] = count["rejected"]
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(11.5, 5), layout="constrained")
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(11.5, 5.7), layout="constrained")
     ax.imshow(matrix, vmin=0, vmax=180, cmap="YlOrRd")
     for i, j in itertools.product(range(6), repeat=2):
-        ax.text(j, i, "—" if i == j else str(int(matrix[i, j])), ha="center", va="center", fontsize=11)
+        ax.text(j, i, "—" if i == j else str(int(matrix[i, j])), ha="center", va="center", fontsize=11, color="white" if i != j and matrix[i, j] >= 90 else "black")
     ax.set(xticks=range(6), yticks=range(6), xticklabels=range(1, 7), yticklabels=range(1, 7),
            xlabel="Additional lost leg", ylabel="Swing leg", title="Baseline rejections by missing pair\n180 sampled cases per off-diagonal cell")
     example = examples["inside_uncapped_but_outside_capped"]
@@ -143,9 +143,9 @@ def draw(report, examples, output):
         bx.annotate(str(i+1), foot[:2], xytext=(6, 6), textcoords="offset points")
     projection = example["projection_xy_m"]
     bx.scatter(*projection, marker="*", s=160, color="#b91c1c", label="Projected COM")
-    bx.set(xlabel="Body x (m)", ylabel="Body y (m)", title="Why being inside the hull is insufficient\n" + example["scenario"])
+    bx.set(xlabel="Body x (m)", ylabel="Body y (m)", title="Why being inside the hull is insufficient\nSwing 1, lost 2 · flat · COM (−40, −30) mm")
     bx.set_aspect("equal")
-    bx.legend(loc="lower left", fontsize=8)
+    bx.legend(loc="upper center", bbox_to_anchor=(.5, -.16), fontsize=8)
     fig.suptitle("Lunar Weevil COTS-1.1 • conditional static analysis", fontsize=14)
     fig.savefig(output / "support_loss_diagnostics.svg", metadata={"Date": None})
     fig.savefig(output / "support_loss_diagnostics.png", dpi=160)

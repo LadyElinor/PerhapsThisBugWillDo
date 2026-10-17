@@ -1,0 +1,114 @@
+{
+  "derivation": "Necessary-condition bound for the preregistered family; no hardware release.\n\nChoose swing leg 1, additional loss leg 2, positive y COM uncertainty, and the\n+5-degree-y gravity vector. Leg 3 is the sole positive-y support. Longitudinal\nstride/spread/order cannot change y moment balance. At nominal radial reach r,\nits y is a+d, a=.26+sqrt(3)/2*r, common sway d. All opposite-side supports have\ny <= -a+d. With total normal W and gravity-projected COM Y, equilibrium implies\nN3 >= W*(Y+a-d)/(2*a). Here d<=.08 and r>=.20. Since Y-.08<0, that lower bound\nis minimized at r=.20,d=.08. It still exceeds the unchanged 300 N cap.\nThis proves rejection within this precisely bounded, common-sway family,\nnot impossibility of an arbitrary redesign or a dynamic result.\n",
+  "total_normal_n": 762.0079534112305,
+  "adversarial_projected_y_m": 0.052309609199110624,
+  "family_minimum_required_normal_n": 356.65027108139117,
+  "normal_cap_n": 300.0,
+  "verdict": "CLOSED_PROOFLIKE_UNDER_DECLARED_FAMILY_PREMISES",
+  "variants": {
+    "baseline": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 423.60381724395717,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.394577213029828,
+      "original_400mm_shaft_arm_bound_satisfied": true,
+      "invalid_joint_targets": 0
+    },
+    "reach_200mm": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 427.01029105898374,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.36699388373484915,
+      "original_400mm_shaft_arm_bound_satisfied": true,
+      "invalid_joint_targets": 0
+    },
+    "reach_220mm": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 425.24157301267917,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.3804776057246644,
+      "original_400mm_shaft_arm_bound_satisfied": true,
+      "invalid_joint_targets": 0
+    },
+    "reach_260mm": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 422.08299764407604,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.4092221553482402,
+      "original_400mm_shaft_arm_bound_satisfied": false,
+      "invalid_joint_targets": 0
+    },
+    "reach_280mm": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 420.6670219993005,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.42435010081955227,
+      "original_400mm_shaft_arm_bound_satisfied": false,
+      "invalid_joint_targets": 0
+    },
+    "stride_30mm": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 423.60381724395717,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.38849677186453246,
+      "original_400mm_shaft_arm_bound_satisfied": true,
+      "invalid_joint_targets": 0
+    },
+    "reverse_order": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 423.60381724395717,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.394577213029828,
+      "original_400mm_shaft_arm_bound_satisfied": true,
+      "invalid_joint_targets": 0
+    },
+    "perimeter_order": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 423.60381724395717,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.394577213029828,
+      "original_400mm_shaft_arm_bound_satisfied": true,
+      "invalid_joint_targets": 0
+    },
+    "alternating_order": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 423.60381724395717,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.394577213029828,
+      "original_400mm_shaft_arm_bound_satisfied": true,
+      "invalid_joint_targets": 0
+    },
+    "longitudinal_spread_30mm": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 423.60381724395717,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.4082729965664058,
+      "original_400mm_shaft_arm_bound_satisfied": false,
+      "invalid_joint_targets": 0
+    },
+    "reach_220_stride_30mm": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 425.24157301267917,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.37458930048643213,
+      "original_400mm_shaft_arm_bound_satisfied": true,
+      "invalid_joint_targets": 0
+    },
+    "sway_40mm": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 395.3929055830094,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.4128597408700425,
+      "original_400mm_shaft_arm_bound_satisfied": false,
+      "invalid_joint_targets": 0
+    },
+    "sway_80mm": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 367.1819939220616,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.4404940923725301,
+      "original_400mm_shaft_arm_bound_satisfied": false,
+      "invalid_joint_targets": 0
+    },
+    "zero_stride_control": {
+      "minimum_required_leg3_normal_n_at_registered_samples": 423.60381724395717,
+      "exceeds_300n_cap": true,
+      "maximum_shaft_load_arm_with_original_40mm_allowance_m": 0.38296501279285033,
+      "original_400mm_shaft_arm_bound_satisfied": true,
+      "invalid_joint_targets": 0
+    }
+  },
+  "source_sha256": "fb7f4fcf860b7d695189b8c7d1f60b247c36405b8fe8cdb807308a1a888f1ba4",
+  "spec_sha256": "9cfce27e5a553562b7f7a48168a26adb11655eac7be7ab2390f66403efc14b81",
+  "hardware_motion_allowed": false,
+  "fabrication_released": false,
+  "dynamic_recovery_proven": false,
+  "scope": "This analytical bound was derived after baseline diagnosis, not a preregistered independent holdout. Shaft-arm audit preserves an existing engineering limit; it is not a CAD interface check."
+}
