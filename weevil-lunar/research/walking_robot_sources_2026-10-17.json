@@ -1,0 +1,181 @@
+{
+  "review_date": "2026-10-17",
+  "purpose": "Read-only research and source audit for Lunar Weevil support-loss investigation; no candidate simulations or hardware execution.",
+  "weevil_frozen_baseline": "405a49bb77b49e8f44e21c55a213462c6a513482",
+  "weevil_investigation_commit": "d1f9cc12d106134c5c47d6d52e4bcb0169bcac80",
+  "github_revisions": [
+    {
+      "repo": "orsoromeo/jet-leg",
+      "branch": "master",
+      "sha": "532d2b218690e73b3f15d4f3c160c977a92c43ba",
+      "date": "2025-02-04T14:38:24Z"
+    },
+    {
+      "repo": "abdelrahman-h-abdalla/jet-leg",
+      "branch": "master",
+      "sha": "73cc3d3fdfa6f4fecb6548e089e16c41c49cde8a",
+      "date": "2025-06-20T08:35:35Z"
+    },
+    {
+      "repo": "qiayuanl/legged_control",
+      "branch": "master",
+      "sha": "a7f381c0367e98e31c01336e678eef47e304d40d",
+      "date": "2025-02-13T10:09:24Z"
+    },
+    {
+      "repo": "open-dynamic-robot-initiative/open_robot_actuator_hardware",
+      "branch": "master",
+      "sha": "66af1522b4fba0ec4a1d7790e66f5e4652208d30",
+      "date": "2022-09-06T15:20:49Z"
+    },
+    {
+      "repo": "ERC-BPGC/SpiderBot",
+      "branch": "main",
+      "sha": "dd4ebe38aa3a9b2603c30fb9267f3b5d07e79381",
+      "date": "2026-09-24T18:46:14Z"
+    },
+    {
+      "repo": "HebiRobotics/hebi-ros-daisy",
+      "branch": "master",
+      "sha": "1b1247c7d1052591b3f3f9788ba9ab8a8b93b702",
+      "date": "2020-10-26T21:51:11Z"
+    },
+    {
+      "repo": "robomechanics/MiniRHex",
+      "branch": "main",
+      "sha": "7904cd20049396e973dd6526cd22d9240244412d",
+      "date": "2025-03-10T16:56:55Z"
+    },
+    {
+      "repo": "google-deepmind/mujoco_menagerie",
+      "branch": "main",
+      "sha": "62ab00f2bc44f6f20c1c9b7a13f3fb1dd41a4e35",
+      "date": "2026-10-15T04:44:40Z"
+    }
+  ],
+  "inspected_files": [
+    {
+      "repository": "orsoromeo/jet-leg",
+      "path": "jet_leg/constraints/constraints.py",
+      "commit": "532d2b218690e73b3f15d4f3c160c977a92c43ba",
+      "blob_sha": "dc274fa2569ecdfc3fe3e1e5c183dd998f6f8809",
+      "url": "https://github.com/orsoromeo/jet-leg/blob/532d2b218690e73b3f15d4f3c160c977a92c43ba/jet_leg/constraints/constraints.py"
+    },
+    {
+      "repository": "abdelrahman-h-abdalla/jet-leg",
+      "path": "README.md",
+      "commit": "73cc3d3fdfa6f4fecb6548e089e16c41c49cde8a",
+      "blob_sha": "3dd921b387e32e87299cfdd14cf9d8366024eb37",
+      "url": "https://github.com/abdelrahman-h-abdalla/jet-leg/blob/73cc3d3fdfa6f4fecb6548e089e16c41c49cde8a/README.md"
+    },
+    {
+      "repository": "qiayuanl/legged_control",
+      "path": "legged_wbc/src/WbcBase.cpp",
+      "commit": "a7f381c0367e98e31c01336e678eef47e304d40d",
+      "blob_sha": "12beb4f75b3959d2961449ef584b28c17d72a49f",
+      "url": "https://github.com/qiayuanl/legged_control/blob/a7f381c0367e98e31c01336e678eef47e304d40d/legged_wbc/src/WbcBase.cpp"
+    },
+    {
+      "repository": "qiayuanl/legged_control",
+      "path": "legged_wbc/src/WeightedWbc.cpp",
+      "commit": "a7f381c0367e98e31c01336e678eef47e304d40d",
+      "blob_sha": "4829727f7d8ab1808d8b3506cd0c7956a7b7da3b",
+      "url": "https://github.com/qiayuanl/legged_control/blob/a7f381c0367e98e31c01336e678eef47e304d40d/legged_wbc/src/WeightedWbc.cpp"
+    },
+    {
+      "repository": "HebiRobotics/hebi-ros-daisy",
+      "path": "src/robot/hexapod.cpp",
+      "commit": "1b1247c7d1052591b3f3f9788ba9ab8a8b93b702",
+      "blob_sha": "a9753b04aa9804c8367a739b90f0f3fd6cb3d900",
+      "url": "https://github.com/HebiRobotics/hebi-ros-daisy/blob/1b1247c7d1052591b3f3f9788ba9ab8a8b93b702/src/robot/hexapod.cpp"
+    },
+    {
+      "repository": "HebiRobotics/hebi-ros-daisy",
+      "path": "src/robot/leg.cpp",
+      "commit": "1b1247c7d1052591b3f3f9788ba9ab8a8b93b702",
+      "blob_sha": "b1532c156ed2bc27716dc6019fb6228f483d588c",
+      "url": "https://github.com/HebiRobotics/hebi-ros-daisy/blob/1b1247c7d1052591b3f3f9788ba9ab8a8b93b702/src/robot/leg.cpp"
+    },
+    {
+      "repository": "HebiRobotics/hebi-ros-daisy",
+      "path": "README.md",
+      "commit": "1b1247c7d1052591b3f3f9788ba9ab8a8b93b702",
+      "blob_sha": "c9a73d94d886dab1af135cc5550d7a1ad9ff7b35",
+      "url": "https://github.com/HebiRobotics/hebi-ros-daisy/blob/1b1247c7d1052591b3f3f9788ba9ab8a8b93b702/README.md"
+    },
+    {
+      "repository": "open-dynamic-robot-initiative/open_robot_actuator_hardware",
+      "path": "mechanics/general/robot_calibration.md",
+      "commit": "66af1522b4fba0ec4a1d7790e66f5e4652208d30",
+      "blob_sha": "5576c6ef06c963f673d8f9812ddb2b0e42690097",
+      "url": "https://github.com/open-dynamic-robot-initiative/open_robot_actuator_hardware/blob/66af1522b4fba0ec4a1d7790e66f5e4652208d30/mechanics/general/robot_calibration.md"
+    },
+    {
+      "repository": "open-dynamic-robot-initiative/open_robot_actuator_hardware",
+      "path": "mechanics/leg_test_stand_v2/README.md",
+      "commit": "66af1522b4fba0ec4a1d7790e66f5e4652208d30",
+      "blob_sha": "35cd0caa52c5f3616fccbb6443f02b55e559acfc",
+      "url": "https://github.com/open-dynamic-robot-initiative/open_robot_actuator_hardware/blob/66af1522b4fba0ec4a1d7790e66f5e4652208d30/mechanics/leg_test_stand_v2/README.md"
+    },
+    {
+      "repository": "ERC-BPGC/SpiderBot",
+      "path": "src/mjlab/asset_zoo/robots/spiderbot/spiderbot_constants.py",
+      "commit": "dd4ebe38aa3a9b2603c30fb9267f3b5d07e79381",
+      "blob_sha": "56d689b15199bba0eecd0e4fba0c4ed77df3a584",
+      "url": "https://github.com/ERC-BPGC/SpiderBot/blob/dd4ebe38aa3a9b2603c30fb9267f3b5d07e79381/src/mjlab/asset_zoo/robots/spiderbot/spiderbot_constants.py"
+    },
+    {
+      "repository": "google-deepmind/mujoco_menagerie",
+      "path": "README.md",
+      "commit": "62ab00f2bc44f6f20c1c9b7a13f3fb1dd41a4e35",
+      "blob_sha": "00b45b4dd960671b59fb88284cbcabc1f0a3e0b2",
+      "url": "https://github.com/google-deepmind/mujoco_menagerie/blob/62ab00f2bc44f6f20c1c9b7a13f3fb1dd41a4e35/README.md"
+    }
+  ],
+  "hugging_face": [
+    {
+      "repository": "diasAiMaster/unitree-go2-velocity-flat",
+      "revision": "9a723b7ab0784cd86abb942836aa1f208ddde891",
+      "inspected": "model card and API file listing; model weights not downloaded or executed",
+      "url": "https://huggingface.co/diasAiMaster/unitree-go2-velocity-flat"
+    },
+    {
+      "repository": "Kyu3224/quadruped-locomotion-policy",
+      "revision": null,
+      "inspected": "model card only; not a pinned execution dependency",
+      "url": "https://huggingface.co/Kyu3224/quadruped-locomotion-policy"
+    }
+  ],
+  "papers": [
+    {
+      "url": "https://arxiv.org/abs/1903.07999v3",
+      "evidence": "primary paper abstract; implementation separately inspected"
+    },
+    {
+      "url": "https://arxiv.org/abs/2011.07967v2",
+      "evidence": "primary paper abstract; repository README separately inspected"
+    },
+    {
+      "url": "https://arxiv.org/abs/1910.00093v2",
+      "evidence": "primary paper abstract; hardware calibration/test-stand documentation separately inspected"
+    },
+    {
+      "url": "https://arxiv.org/html/2609.26989v1",
+      "evidence": "primary paper including mechanism, experiments, and discussion; authors' hardware claims not independently reproduced"
+    },
+    {
+      "url": "https://www.nature.com/articles/s41598-026-56856-0",
+      "evidence": "primary paper; release promised, public implementation not verified"
+    },
+    {
+      "url": "https://arxiv.org/abs/2006.07550v2",
+      "evidence": "primary paper abstract; public implementation not verified"
+    }
+  ],
+  "limitations": [
+    "Review is a targeted selection, not an exhaustive inventory.",
+    "No external package, robot model, controller, or policy was installed or executed.",
+    "Repository availability does not establish license compatibility for reuse; per-file and asset licenses require review before copying.",
+    "No new Weevil candidate was scored or admitted; all proposed experiments remain unexecuted."
+  ]
+}
