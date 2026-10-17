@@ -1,0 +1,169 @@
+{
+  "id": "COTS-SUPPORT-LOSS-01",
+  "baseline_commit": "405a49bb77b49e8f44e21c55a213462c6a513482",
+  "frozen_inputs_sha256": {
+    "models/cots_rover.py": "98ed350d943727571ede1b9369c5662c33cef5c956d278c0abc91547a510f9b3",
+    "models/cots_support_guard.py": "d51ba87e1197ef441392f1a16f115ed891888a4ca158b14c36d26a71d3f4379f",
+    "design/cots_v1/config.json": "cf22ebbc729fbdce837473c695d5ecc22b6ebb0a8cf38940ead7c34bc3059b7f",
+    "design/cots_v1/bom.csv": "ddcceac02279a6d66ada9ea12d9fd4e36fff02449c3f57b71a0d16537475289f",
+    "verification/cots/tranche_02/spec.json": "a379b3b64b936f5839101940e0f1fc360a268547c7e346f25000970beb6813d4",
+    "verification/cots/tranche_02/robustness.json": "2589fbddb001e99d8cf30dc64a5baf18d2d99db5650958ea7b1b088dfc5a8ff6",
+    "verification/cots/tranche_02/geometry.json": "7d2be6ebf4df89fa6e77f0e472fa2dd5172f9f915316e30d36aae8845ef917fd",
+    "verification/cots/tranche_03/spec.json": "a362a809fb803fb544d463dfed9eb43e634a53baf6a6aa7c0c90df78e234403a",
+    "verification/cots/tranche_03/results.json": "04e18d39c9e23273248cab551adce1d3e3834efd77fe2a73fed05db0c12ae89a"
+  },
+  "baseline_config_source": "verification/cots/tranche_03/results.json:config",
+  "default_order": [
+    0,
+    3,
+    1,
+    4,
+    2,
+    5
+  ],
+  "subdivisions": 4,
+  "gravity_grid": {
+    "slope_deg": 5.0,
+    "headings_deg": [
+      0,
+      45,
+      90,
+      135,
+      180,
+      225,
+      270,
+      315
+    ],
+    "include_flat": true
+  },
+  "com_grid": "four original +/-40 mm x, +/-30 mm y corners; z=310 mm",
+  "cases_per_variant": {
+    "nominal": 1080,
+    "loss": 5400
+  },
+  "candidates": [
+    {
+      "id": "baseline",
+      "kind": "reference"
+    },
+    {
+      "id": "reach_200mm",
+      "reach_m": 0.2
+    },
+    {
+      "id": "reach_220mm",
+      "reach_m": 0.22
+    },
+    {
+      "id": "reach_260mm",
+      "reach_m": 0.26
+    },
+    {
+      "id": "reach_280mm",
+      "reach_m": 0.28
+    },
+    {
+      "id": "stride_30mm",
+      "stride_m": 0.03
+    },
+    {
+      "id": "reverse_order",
+      "order": [
+        5,
+        2,
+        4,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "id": "perimeter_order",
+      "order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "alternating_order",
+      "order": [
+        0,
+        2,
+        4,
+        1,
+        3,
+        5
+      ]
+    },
+    {
+      "id": "longitudinal_spread_30mm",
+      "spread_m": 0.03
+    },
+    {
+      "id": "reach_220_stride_30mm",
+      "reach_m": 0.22,
+      "stride_m": 0.03
+    },
+    {
+      "id": "sway_40mm",
+      "sway_m": 0.04
+    },
+    {
+      "id": "sway_80mm",
+      "sway_m": 0.08
+    },
+    {
+      "id": "zero_stride_control",
+      "stride_m": 0.0,
+      "kind": "negative_control"
+    }
+  ],
+  "geometry_rules": {
+    "reach": "Set nominal radial reach only. Links, hips, joints and all limits unchanged.",
+    "stride": "Change 60 mm step length only. Phase time remains 5 s; zero stride is a non-progressing negative control.",
+    "order": "Use same periodic 5/6-duty generator with specified swing permutation; match comparisons by swing leg, sample, lost leg, COM and gravity, not phase number.",
+    "spread": "Add sign(hip_x)*30 mm to nominal foot x; middle feet unchanged.",
+    "sway": "Translate every foot in body coordinates by a periodic offset toward the current swing leg azimuth. At phase start use half the sum of previous/current unit azimuths; at phase middle current unit; at end half current/next. Interpolate each half with quintic smoothstep. Multiply by sway_m. Common stance translation represents opposite chassis sway, not independent stance-foot skating. Feet retain original z. Adjacent endpoint positions and zero endpoint derivatives must match.",
+    "bounds_rationale": "Analyst-defined finite sensitivity study, not supplier allowances or collision clearance. Reach +/-40 mm, stride halved, spread 30 mm and sway <=80 mm. No parameter fitting or extra combinations after scores."
+  },
+  "acceptance": [
+    "Exact frozen baseline phase counts [542,540,368,383,544,548] and 1080 nominal passes reproduced before candidate scoring.",
+    "All 30 poses, 4 COM corners, 9 gravity vectors and each of five additional losses retained, with exact paired scenario IDs.",
+    "All six legs meet original IK/joint limits at all sampled poses; feet retain 20 mm XY pad clearance; dense 100-subdivision kinematic screen meets 0.3 rad/s and phase boundary continuity.",
+    "Original allocate() and allocation_reasons() decide each statics case. Independent witness verification checks force/moment equilibrium, unilateral loads, 300 N cap, 43.2 Nm joint bounds including gravity, friction pyramid, COP and 40 mm margin.",
+    "Complete static acceptance requires zero nominal rejections and zero loss rejections across all six phases AND kinematic admissibility. No averaging, phase omission, increased caps, changed friction, mass, COM uncertainty or load factor.",
+    "Improvement means fewer paired contingency rejections without new nominal rejects; retained regressions and kinematic failures must also be reported. This is descriptive, not a significance test.",
+    "No release of hardware motion, fabrication, automatic recovery or dynamic recovery under any outcome."
+  ],
+  "diagnostics": {
+    "margin": "Always evaluate gravity-projected COM distance to every hull edge, even when LP fails. Report limiting edge and signed margin.",
+    "groups": [
+      "friction",
+      "normal_cap",
+      "yaw_torque",
+      "pitch_torque",
+      "knee_torque"
+    ],
+    "method": "Independent force-only feasibility LP with tagged row families. Equilibrium and unilateral support are permanent. For rejected LPs, greedily delete groups in listed order whenever infeasibility remains; final set is deletion-minimal, not necessarily unique or minimum-cardinality. A feasible deletion witness is residual-checked. These diagnostic deletions NEVER enter candidate acceptance.",
+    "interpretation": "Empty conflict = unilateral wrench geometry alone infeasible. Otherwise conflict names jointly incompatible groups, not a unique physical failure mode. Support margin is a separate concurrent gate; LP feasible active limits are not causal attribution."
+  },
+  "controls": [
+    "baseline negative contingency and positive nominal controls",
+    "zero stride negative control: no translational progress and positive-margin contingency must fail; no claim of redesign",
+    "synthetic impossible wrench from COM outside hull; normal-cap insufficiency; zero-friction sloped case; near-zero joint torque",
+    "independent LP agrees with original feasibility over every executed case; any disagreement aborts report acceptance",
+    "malformed scenarios, missing cases, nonfinite numbers, altered immutable limits and fabricated success witnesses fail closed"
+  ],
+  "stop_rule": "Execute exactly this family once. Reject inadmissible kinematic configurations before full force solves and record unexecuted cases. Do not expand search after outcomes. No statistical or physical holdout: shared grid is a deterministic comparison. Dense kinematics is not dense statics or continuous proof.",
+  "unexecuted_scope": [
+    "new CAD/interfaces",
+    "physical tests",
+    "dynamic recovery",
+    "continuous static envelope",
+    "extra variants beyond this specification"
+  ]
+}
