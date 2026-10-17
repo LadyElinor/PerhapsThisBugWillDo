@@ -1,0 +1,38 @@
+name: support-loss-analysis
+on:
+  pull_request:
+    branches: [codex/cots-rover-design]
+  workflow_dispatch:
+jobs:
+  offline-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: weevil-lunar
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install analysis dependencies
+        run: pip install -r ../requirements.txt -r ../requirements-dev.txt
+      - name: Lint, type check, and regressions
+        run: |
+          python -m ruff check .
+          python -m mypy models/ verification/ cad/scripts/
+          python -m pytest verification/tests -q
+          python -m pytest verification/backends -q
+      - name: Reproduce frozen comparison
+        run: python verification/cots/run_support_loss_01.py --output /tmp/support-loss-01
+      - name: Verify independent geometric certificates and family bound
+        run: |
+          python verification/cots/explain_support_loss.py --results-dir /tmp/support-loss-01
+          python verification/cots/check_support_family_bound.py --output /tmp/support-loss-01/family_bound.json
+          python verification/cots/check_support_loss_artifacts.py --results-dir /tmp/support-loss-01 --compare-committed
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: support-loss-analysis
+          path: /tmp/support-loss-01
+          retention-days: 30
