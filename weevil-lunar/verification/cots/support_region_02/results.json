@@ -1,0 +1,2412 @@
+{
+  "id": "COTS-SUPPORT-REGION-02",
+  "complete": true,
+  "spec_sha256": "022d389fa4af6c5bf4b907efb35789b71c71b676dfabf00f942e3bad0006a6f9",
+  "frozen_inputs_sha256": {
+    "models/cots_rover.py": "98ed350d943727571ede1b9369c5662c33cef5c956d278c0abc91547a510f9b3",
+    "models/cots_support_guard.py": "d51ba87e1197ef441392f1a16f115ed891888a4ca158b14c36d26a71d3f4379f",
+    "design/cots_v1/config.json": "cf22ebbc729fbdce837473c695d5ecc22b6ebb0a8cf38940ead7c34bc3059b7f",
+    "design/cots_v1/bom.csv": "ddcceac02279a6d66ada9ea12d9fd4e36fff02449c3f57b71a0d16537475289f",
+    "verification/cots/tranche_02/spec.json": "a379b3b64b936f5839101940e0f1fc360a268547c7e346f25000970beb6813d4",
+    "verification/cots/tranche_02/robustness.json": "2589fbddb001e99d8cf30dc64a5baf18d2d99db5650958ea7b1b088dfc5a8ff6",
+    "verification/cots/tranche_02/geometry.json": "7d2be6ebf4df89fa6e77f0e472fa2dd5172f9f915316e30d36aae8845ef917fd",
+    "verification/cots/tranche_03/spec.json": "a362a809fb803fb544d463dfed9eb43e634a53baf6a6aa7c0c90df78e234403a",
+    "verification/cots/tranche_03/results.json": "04e18d39c9e23273248cab551adce1d3e3834efd77fe2a73fed05db0c12ae89a",
+    "verification/cots/support_loss_01/spec.json": "9cfce27e5a553562b7f7a48168a26adb11655eac7be7ab2390f66403efc14b81",
+    "verification/cots/support_loss_01/results.json": "c096f9b57417a038972a6b974654843c1194c9e7656792522b9d67dfd6318f7c",
+    "verification/cots/support_loss_01/cases.csv.gz": "ccca4a0c17099b157c46ecacadb78d62ffb1b1823aa621c3b8ea5c2ea2b54d3e",
+    "verification/cots/support_loss_analysis.py": "70b36283019d1894a70b9a046031879cd2beb99ec487fcae165ff8661d52c3e8",
+    "verification/cots/explain_support_loss.py": "17eed5bcfd138738c1d8e6f701d7342d481bf5c0403bfca6cbc523fb61d65880",
+    "verification/cots/check_support_family_bound.py": "fb7f4fcf860b7d695189b8c7d1f60b247c36405b8fe8cdb807308a1a888f1ba4"
+  },
+  "source_sha256": {
+    "verification/cots/run_support_region_02.py": "9d18cac75f1778b3e906375faeaa43d77d4bb08e94f9b7bb9aa1df55b6d60f24",
+    "verification/cots/support_regions.py": "27e65a48e62f5411267384d82de01d3b5d66f27fd6602bb41bc2a3b071b34fe7",
+    "models/cots_support_audit.py": "19b388a70fce8358adcede640d54ffa34ef99d0257e0bc4f9c59e9a8c7a58253"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "controls": {
+    "positive_region": true,
+    "per_loss_nonempty_but_common_empty": true,
+    "checked_empty_region_dual": true,
+    "relaxed_flat_mechanism_not_falsely_closed": true,
+    "fresh_synthetic_contact_positive": true,
+    "unconfirmed_touchdown_denied": true,
+    "no_hardware_release": true,
+    "nominal_six_contact_positive": true,
+    "synthetic_normal_cap_negative": true,
+    "synthetic_friction_negative": true,
+    "synthetic_torque_negative": true,
+    "synthetic_geometry_negative": true
+  },
+  "mechanism_certificate": {
+    "closed": true,
+    "normal_lower_bound_n": 303.637780640337,
+    "normal_cap_n": 300.0,
+    "shortfall_n": 3.6377806403369846,
+    "total_normal_n": 762.0079534112305,
+    "projected_outward_com_m": 0.052309609199110624,
+    "hip_side_m": 0.26,
+    "maximum_horizontal_hip_reach_m": 0.2637707337821996,
+    "sole_side_maximum_y_m": 0.5237707337821996,
+    "shaft_allowance_m": 0.04,
+    "relaxed_lp_forces_n": [
+      303.637780640337,
+      0.0,
+      158.37017277089348,
+      300.0
+    ],
+    "relaxed_lp_residual": 7.105427357601002e-15,
+    "witnesses": [
+      {
+        "swing_leg_1based": 1,
+        "lost_leg_1based": 2,
+        "sole_side_leg_1based": 3,
+        "heading_deg": 90,
+        "com_sign_y": 1,
+        "required_normal_lower_bound_n": 303.637780640337
+      },
+      {
+        "swing_leg_1based": 2,
+        "lost_leg_1based": 1,
+        "sole_side_leg_1based": 3,
+        "heading_deg": 90,
+        "com_sign_y": 1,
+        "required_normal_lower_bound_n": 303.637780640337
+      },
+      {
+        "swing_leg_1based": 3,
+        "lost_leg_1based": 1,
+        "sole_side_leg_1based": 2,
+        "heading_deg": 90,
+        "com_sign_y": 1,
+        "required_normal_lower_bound_n": 303.637780640337
+      },
+      {
+        "swing_leg_1based": 4,
+        "lost_leg_1based": 5,
+        "sole_side_leg_1based": 6,
+        "heading_deg": 270,
+        "com_sign_y": -1,
+        "required_normal_lower_bound_n": 303.637780640337
+      },
+      {
+        "swing_leg_1based": 5,
+        "lost_leg_1based": 4,
+        "sole_side_leg_1based": 6,
+        "heading_deg": 270,
+        "com_sign_y": -1,
+        "required_normal_lower_bound_n": 303.637780640337
+      },
+      {
+        "swing_leg_1based": 6,
+        "lost_leg_1based": 4,
+        "sole_side_leg_1based": 5,
+        "heading_deg": 270,
+        "com_sign_y": -1,
+        "required_normal_lower_bound_n": 303.637780640337
+      }
+    ],
+    "hardware_motion_allowed": false,
+    "scope": "Fixed original body height/orientation/COM, hips, accepted IK yaw ranges, planar ankle contacts and 400 mm shaft envelope including 40 mm allowance. Not arbitrary redesign or dynamic recovery."
+  },
+  "hardware_motion_allowed": false,
+  "fabrication_released": false,
+  "dynamic_recovery_proven": false,
+  "automatic_recovery_allowed": false,
+  "regions": [
+    {
+      "phase": 0,
+      "sample": 0,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.06851478386944412,
+          -0.07977381619015743
+        ],
+        "signed_inradius_m": -0.07450155522361782,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.2824054025831353e-16,
+          "combined_rhs_m": -0.07450155522361783,
+          "terms": [
+            {
+              "row": 366,
+              "weight": 0.1797075254558853,
+              "a": [
+                0.08344211045044111,
+                0.996512626213826
+              ],
+              "b": -0.15971418846149288,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 927,
+              "weight": 0.43364870813430956,
+              "a": [
+                -0.9255258555599384,
+                -0.3786844209761525
+              ],
+              "b": 0.019119750128681487,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1959,
+              "weight": 0.38664376640980513,
+              "a": [
+                0.9992606890009994,
+                -0.03844574641293803
+              ],
+              "b": -0.139898721452114,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 0,
+      "sample": 1,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.06975697136944412,
+          -0.0797738161901574
+        ],
+        "signed_inradius_m": -0.07450155522361784,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.43982048506075e-16,
+          "combined_rhs_m": -0.07450155522361784,
+          "terms": [
+            {
+              "row": 366,
+              "weight": 0.1797075254558853,
+              "a": [
+                0.08344211045044107,
+                0.996512626213826
+              ],
+              "b": -0.15981783920806802,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 927,
+              "weight": 0.4336487081343095,
+              "a": [
+                -0.9255258555599385,
+                -0.3786844209761524
+              ],
+              "b": 0.020269426777384844,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1959,
+              "weight": 0.38664376640980525,
+              "a": [
+                0.9992606890009994,
+                -0.03844574641293803
+              ],
+              "b": -0.14113999058923243,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 0,
+      "sample": 2,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.07451478386944412,
+          -0.07977381619015739
+        ],
+        "signed_inradius_m": -0.07450155522361783,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.2824054025831353e-16,
+          "combined_rhs_m": -0.07450155522361783,
+          "terms": [
+            {
+              "row": 366,
+              "weight": 0.1797075254558853,
+              "a": [
+                0.08344211045044111,
+                0.996512626213826
+              ],
+              "b": -0.1602148411241955,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 927,
+              "weight": 0.43364870813430956,
+              "a": [
+                -0.9255258555599384,
+                -0.3786844209761525
+              ],
+              "b": 0.02467290526204112,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1962,
+              "weight": 0.38664376640980513,
+              "a": [
+                0.9992606890009994,
+                -0.03844574641293803
+              ],
+              "b": -0.14589428558612,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 0,
+      "sample": 3,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.07927259636944414,
+          -0.0797738161901574
+        ],
+        "signed_inradius_m": -0.07450155522361782,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 2.120907854283028e-16,
+          "combined_rhs_m": -0.07450155522361784,
+          "terms": [
+            {
+              "row": 366,
+              "weight": 0.17970752545588542,
+              "a": [
+                0.0834421104504411,
+                0.996512626213826
+              ],
+              "b": -0.160611843040323,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 927,
+              "weight": 0.43364870813430945,
+              "a": [
+                -0.9255258555599384,
+                -0.3786844209761525
+              ],
+              "b": 0.029076383746697396,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1962,
+              "weight": 0.38664376640980513,
+              "a": [
+                0.9992606890009994,
+                -0.038445746412938096
+              ],
+              "b": -0.15064858058300756,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 0,
+      "sample": 4,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.0805147838694441,
+          -0.07977381619015741
+        ],
+        "signed_inradius_m": -0.07450155522361783,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.4414915379777784e-16,
+          "combined_rhs_m": -0.07450155522361782,
+          "terms": [
+            {
+              "row": 366,
+              "weight": 0.1797075254558853,
+              "a": [
+                0.08344211045044113,
+                0.996512626213826
+              ],
+              "b": -0.16071549378689817,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 927,
+              "weight": 0.43364870813430956,
+              "a": [
+                -0.9255258555599384,
+                -0.3786844209761525
+              ],
+              "b": 0.030226060395400753,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1962,
+              "weight": 0.38664376640980513,
+              "a": [
+                0.9992606890009994,
+                -0.03844574641293796
+              ],
+              "b": -0.15188984972012598,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 1,
+      "sample": 0,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.07215468333303973,
+          0.08975013932791893
+        ],
+        "signed_inradius_m": -0.06656538079382114,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.9540102647498285e-16,
+          "combined_rhs_m": -0.06656538079382114,
+          "terms": [
+            {
+              "row": 343,
+              "weight": 0.37593676440592505,
+              "a": [
+                0.9410189071804556,
+                0.3383539808084149
+              ],
+              "b": 0.03170085738389898,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1039,
+              "weight": 0.35979712193454316,
+              "a": [
+                -0.9255258555599384,
+                0.3786844209761525
+              ],
+              "b": -0.0993594262743672,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1383,
+              "weight": 0.2642661136595318,
+              "a": [
+                -0.07856498820918513,
+                -0.9969089941552792
+              ],
+              "b": -0.16170693376181075,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 1,
+      "sample": 1,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.07091249583303974,
+          0.08975013932791898
+        ],
+        "signed_inradius_m": -0.06656538079382117,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.8544510392421952e-16,
+          "combined_rhs_m": -0.06656538079382116,
+          "terms": [
+            {
+              "row": 343,
+              "weight": 0.37593676440592505,
+              "a": [
+                0.9410189071804556,
+                0.33835398080841483
+              ],
+              "b": 0.03053193546013576,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1039,
+              "weight": 0.35979712193454316,
+              "a": [
+                -0.9255258555599384,
+                0.37868442097615246
+              ],
+              "b": -0.09820974962566384,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1383,
+              "weight": 0.2642661136595318,
+              "a": [
+                -0.07856498820918517,
+                -0.9969089941552793
+              ],
+              "b": -0.16160934131551968,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 1,
+      "sample": 2,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.06615468333303974,
+          0.08975013932791893
+        ],
+        "signed_inradius_m": -0.06656538079382116,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 6.736447455048117e-17,
+          "combined_rhs_m": -0.06656538079382116,
+          "terms": [
+            {
+              "row": 343,
+              "weight": 0.37593676440592494,
+              "a": [
+                0.9410189071804554,
+                0.3383539808084149
+              ],
+              "b": 0.026054743940816236,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1039,
+              "weight": 0.3597971219345432,
+              "a": [
+                -0.9255258555599384,
+                0.3786844209761525
+              ],
+              "b": -0.09380627114100756,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1383,
+              "weight": 0.2642661136595318,
+              "a": [
+                -0.07856498820918514,
+                -0.9969089941552792
+              ],
+              "b": -0.16123554383255562,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 1,
+      "sample": 3,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.061396870833039754,
+          0.08975013932791889
+        ],
+        "signed_inradius_m": -0.06656538079382117,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 9.159602786276758e-17,
+          "combined_rhs_m": -0.06656538079382117,
+          "terms": [
+            {
+              "row": 343,
+              "weight": 0.37593676440592505,
+              "a": [
+                0.9410189071804556,
+                0.3383539808084149
+              ],
+              "b": 0.021577552421496726,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1039,
+              "weight": 0.35979712193454316,
+              "a": [
+                -0.9255258555599386,
+                0.37868442097615246
+              ],
+              "b": -0.08940279265635134,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1383,
+              "weight": 0.2642661136595318,
+              "a": [
+                -0.07856498820918514,
+                -0.9969089941552792
+              ],
+              "b": -0.1608617463495916,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 1,
+      "sample": 4,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.060154683333039756,
+          0.08975013932791889
+        ],
+        "signed_inradius_m": -0.06656538079382116,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.920770561445796e-16,
+          "combined_rhs_m": -0.06656538079382114,
+          "terms": [
+            {
+              "row": 343,
+              "weight": 0.37593676440592505,
+              "a": [
+                0.9410189071804556,
+                0.3383539808084149
+              ],
+              "b": 0.020408630497733518,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1039,
+              "weight": 0.35979712193454316,
+              "a": [
+                -0.9255258555599384,
+                0.37868442097615246
+              ],
+              "b": -0.08825311600764796,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1383,
+              "weight": 0.2642661136595318,
+              "a": [
+                -0.07856498820918514,
+                -0.9969089941552792
+              ],
+              "b": -0.1607641539033005,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 2,
+      "sample": 0,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.004263652586893246,
+          -0.17159400352952023
+        ],
+        "signed_inradius_m": -0.054307159099994555,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 0.0,
+          "combined_rhs_m": -0.05430715909999456,
+          "terms": [
+            {
+              "row": 341,
+              "weight": 0.1454274573319025,
+              "a": [
+                0.9410189071804554,
+                0.33835398080841494
+              ],
+              "b": -0.10835449557914552,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 607,
+              "weight": 0.47494950584183343,
+              "a": [
+                -0.9255258555599384,
+                0.3786844209761525
+              ],
+              "b": -0.1232332556778455,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2044,
+              "weight": 0.37962303682626414,
+              "a": [
+                0.797443862470544,
+                -0.6033931439849647
+              ],
+              "b": 0.052631509765774465,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading315",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 2,
+      "sample": 1,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.003021465086893234,
+          -0.17159400352952017
+        ],
+        "signed_inradius_m": -0.054307159099994555,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 5.551115123125783e-17,
+          "combined_rhs_m": -0.05430715909999456,
+          "terms": [
+            {
+              "row": 341,
+              "weight": 0.14542745733190243,
+              "a": [
+                0.9410189071804556,
+                0.3383539808084149
+              ],
+              "b": -0.10952341750290873,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 607,
+              "weight": 0.47494950584183343,
+              "a": [
+                -0.9255258555599384,
+                0.37868442097615246
+              ],
+              "b": -0.1220835790291421,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2044,
+              "weight": 0.3796230368262642,
+              "a": [
+                0.797443862470544,
+                -0.6033931439849645
+              ],
+              "b": 0.051640934967861735,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading315",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 2,
+      "sample": 2,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.0017363474131067477,
+          -0.1715940035295202
+        ],
+        "signed_inradius_m": -0.054307159099994576,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 5.551115123125783e-17,
+          "combined_rhs_m": -0.054307159099994576,
+          "terms": [
+            {
+              "row": 341,
+              "weight": 0.14542745733190243,
+              "a": [
+                0.9410189071804554,
+                0.3383539808084149
+              ],
+              "b": -0.11400060902222825,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 607,
+              "weight": 0.47494950584183343,
+              "a": [
+                -0.9255258555599384,
+                0.37868442097615246
+              ],
+              "b": -0.11768010054448588,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2044,
+              "weight": 0.3796230368262642,
+              "a": [
+                0.797443862470544,
+                -0.6033931439849645
+              ],
+              "b": 0.047846846590951134,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading315",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 2,
+      "sample": 3,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.006494159913106759,
+          -0.1715940035295202
+        ],
+        "signed_inradius_m": -0.05430715909999456,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 5.551115123125783e-17,
+          "combined_rhs_m": -0.05430715909999456,
+          "terms": [
+            {
+              "row": 341,
+              "weight": 0.14542745733190243,
+              "a": [
+                0.9410189071804554,
+                0.3383539808084149
+              ],
+              "b": -0.11847780054154776,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 607,
+              "weight": 0.47494950584183343,
+              "a": [
+                -0.9255258555599384,
+                0.37868442097615246
+              ],
+              "b": -0.1132766220598296,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2044,
+              "weight": 0.3796230368262642,
+              "a": [
+                0.797443862470544,
+                -0.6033931439849645
+              ],
+              "b": 0.044052758214040505,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading315",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 2,
+      "sample": 4,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.0077363474131067565,
+          -0.17159400352952023
+        ],
+        "signed_inradius_m": -0.054307159099994555,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 5.551115123125783e-17,
+          "combined_rhs_m": -0.05430715909999456,
+          "terms": [
+            {
+              "row": 341,
+              "weight": 0.14542745733190243,
+              "a": [
+                0.9410189071804556,
+                0.3383539808084149
+              ],
+              "b": -0.11964672246531098,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 607,
+              "weight": 0.47494950584183343,
+              "a": [
+                -0.9255258555599384,
+                0.37868442097615246
+              ],
+              "b": -0.11212694541112624,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2044,
+              "weight": 0.3796230368262642,
+              "a": [
+                0.797443862470544,
+                -0.6033931439849645
+              ],
+              "b": 0.04306218341612787,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading315",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 3,
+      "sample": 0,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.0068990514702341795,
+          0.14102535722295267
+        ],
+        "signed_inradius_m": -0.04813377271528541,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 7.850462293418876e-17,
+          "combined_rhs_m": -0.04813377271528543,
+          "terms": [
+            {
+              "row": 1021,
+              "weight": 0.36603475749041847,
+              "a": [
+                -0.797443862470544,
+                0.6033931439849645
+              ],
+              "b": 0.03145835470926808,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading135",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1357,
+              "weight": 0.15935971251525194,
+              "a": [
+                -0.9482755215385172,
+                -0.3174484765294255
+              ],
+              "b": -0.09944425914878714,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1956,
+              "weight": 0.4746055299943296,
+              "a": [
+                0.933425881730771,
+                -0.358770293245041
+              ],
+              "b": -0.09228972827944151,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 3,
+      "sample": 1,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.005656863970234185,
+          0.14102535722295267
+        ],
+        "signed_inradius_m": -0.04813377271528542,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 7.850462293418876e-17,
+          "combined_rhs_m": -0.04813377271528543,
+          "terms": [
+            {
+              "row": 1021,
+              "weight": 0.36603475749041847,
+              "a": [
+                -0.797443862470544,
+                0.6033931439849645
+              ],
+              "b": 0.0324489295071807,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading135",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1357,
+              "weight": 0.15935971251525194,
+              "a": [
+                -0.9482755215385172,
+                -0.3174484765294255
+              ],
+              "b": -0.09826632314937603,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1956,
+              "weight": 0.4746055299943296,
+              "a": [
+                0.933425881730771,
+                -0.358770293245041
+              ],
+              "b": -0.09344921824190394,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 3,
+      "sample": 2,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.0008990514702341768,
+          0.14102535722295265
+        ],
+        "signed_inradius_m": -0.04813377271528543,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.2412670766236366e-16,
+          "combined_rhs_m": -0.048133772715285426,
+          "terms": [
+            {
+              "row": 1021,
+              "weight": 0.3660347574904186,
+              "a": [
+                -0.797443862470544,
+                0.6033931439849647
+              ],
+              "b": 0.036243017884091344,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading135",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1357,
+              "weight": 0.15935971251525194,
+              "a": [
+                -0.9482755215385172,
+                -0.3174484765294256
+              ],
+              "b": -0.09375460601955607,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1956,
+              "weight": 0.4746055299943295,
+              "a": [
+                0.933425881730771,
+                -0.3587702932450411
+              ],
+              "b": -0.09789028356982615,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 3,
+      "sample": 3,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.003858761029765824,
+          0.1410253572229527
+        ],
+        "signed_inradius_m": -0.04813377271528544,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.5700924586837752e-16,
+          "combined_rhs_m": -0.048133772715285426,
+          "terms": [
+            {
+              "row": 1021,
+              "weight": 0.3660347574904187,
+              "a": [
+                -0.797443862470544,
+                0.6033931439849645
+              ],
+              "b": 0.04003710626100199,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading135",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1357,
+              "weight": 0.15935971251525183,
+              "a": [
+                -0.9482755215385172,
+                -0.3174484765294256
+              ],
+              "b": -0.08924288888973611,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1956,
+              "weight": 0.4746055299943295,
+              "a": [
+                0.933425881730771,
+                -0.3587702932450411
+              ],
+              "b": -0.10233134889774836,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 3,
+      "sample": 4,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.005100948529765826,
+          0.14102535722295267
+        ],
+        "signed_inradius_m": -0.04813377271528542,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 7.850462293418876e-17,
+          "combined_rhs_m": -0.04813377271528544,
+          "terms": [
+            {
+              "row": 1021,
+              "weight": 0.36603475749041847,
+              "a": [
+                -0.797443862470544,
+                0.6033931439849645
+              ],
+              "b": 0.041027681058914606,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading135",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1357,
+              "weight": 0.15935971251525194,
+              "a": [
+                -0.9482755215385172,
+                -0.3174484765294255
+              ],
+              "b": -0.08806495289032495,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1956,
+              "weight": 0.4746055299943296,
+              "a": [
+                0.933425881730771,
+                -0.358770293245041
+              ],
+              "b": -0.10349083886021077,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 4,
+      "sample": 0,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.08638638992299291,
+          -0.0851171721078085
+        ],
+        "signed_inradius_m": -0.069007131135415,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.4946834900704541e-16,
+          "combined_rhs_m": -0.06900713113541501,
+          "terms": [
+            {
+              "row": 577,
+              "weight": 0.2541963050209032,
+              "a": [
+                -0.10251442572390543,
+                0.9947315178069398
+              ],
+              "b": -0.16253171609096687,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 928,
+              "weight": 0.3561105296458545,
+              "a": [
+                -0.9482755215385172,
+                -0.31744847652942554
+              ],
+              "b": -0.12390491348135411,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1962,
+              "weight": 0.3896931653332424,
+              "a": [
+                0.933425881730771,
+                -0.35877029324504106
+              ],
+              "b": 0.042165673845299914,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 4,
+      "sample": 1,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.08514420242299292,
+          -0.08511717210780848
+        ],
+        "signed_inradius_m": -0.06900713113541503,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 7.850462293418876e-17,
+          "combined_rhs_m": -0.06900713113541501,
+          "terms": [
+            {
+              "row": 577,
+              "weight": 0.25419630502090323,
+              "a": [
+                -0.10251442572390543,
+                0.9947315178069398
+              ],
+              "b": -0.16240437395276294,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 928,
+              "weight": 0.3561105296458545,
+              "a": [
+                -0.9482755215385172,
+                -0.3174484765294256
+              ],
+              "b": -0.12272697748194297,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1962,
+              "weight": 0.38969316533324233,
+              "a": [
+                0.933425881730771,
+                -0.358770293245041
+              ],
+              "b": 0.041006183882837485,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 4,
+      "sample": 2,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.08038638992299289,
+          -0.08511717210780848
+        ],
+        "signed_inradius_m": -0.06900713113541503,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.2412670766236366e-16,
+          "combined_rhs_m": -0.06900713113541501,
+          "terms": [
+            {
+              "row": 577,
+              "weight": 0.2541963050209032,
+              "a": [
+                -0.10251442572390543,
+                0.9947315178069398
+              ],
+              "b": -0.16191662953662342,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 928,
+              "weight": 0.3561105296458545,
+              "a": [
+                -0.9482755215385172,
+                -0.3174484765294255
+              ],
+              "b": -0.11821526035212301,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1962,
+              "weight": 0.3896931653332424,
+              "a": [
+                0.933425881730771,
+                -0.35877029324504106
+              ],
+              "b": 0.036565118554915274,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 4,
+      "sample": 3,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.07562857742299291,
+          -0.08511717210780849
+        ],
+        "signed_inradius_m": -0.06900713113541504,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.2412670766236366e-16,
+          "combined_rhs_m": -0.06900713113541503,
+          "terms": [
+            {
+              "row": 577,
+              "weight": 0.25419630502090323,
+              "a": [
+                -0.10251442572390543,
+                0.9947315178069398
+              ],
+              "b": -0.16142888512048392,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 928,
+              "weight": 0.3561105296458545,
+              "a": [
+                -0.9482755215385172,
+                -0.3174484765294257
+              ],
+              "b": -0.11370354322230303,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1962,
+              "weight": 0.38969316533324233,
+              "a": [
+                0.933425881730771,
+                -0.358770293245041
+              ],
+              "b": 0.03212405322699309,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 4,
+      "sample": 4,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          0.07438638992299292,
+          -0.08511717210780849
+        ],
+        "signed_inradius_m": -0.06900713113541501,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 6.206335383118183e-17,
+          "combined_rhs_m": -0.06900713113541501,
+          "terms": [
+            {
+              "row": 577,
+              "weight": 0.2541963050209033,
+              "a": [
+                -0.10251442572390543,
+                0.9947315178069398
+              ],
+              "b": -0.16130154298228,
+              "tag": {
+                "lost_leg_1based": 2,
+                "gravity": "slope5_heading90",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 928,
+              "weight": 0.3561105296458544,
+              "a": [
+                -0.9482755215385172,
+                -0.3174484765294255
+              ],
+              "b": -0.1125256072228919,
+              "tag": {
+                "lost_leg_1based": 4,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1962,
+              "weight": 0.3896931653332423,
+              "a": [
+                0.933425881730771,
+                -0.3587702932450411
+              ],
+              "b": 0.030964563264530676,
+              "tag": {
+                "lost_leg_1based": 6,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY",
+        "6": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 5,
+      "sample": 0,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.06705338492942482,
+          0.0951644137774731
+        ],
+        "signed_inradius_m": -0.0613614190015904,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 2.8609792490763984e-17,
+          "combined_rhs_m": -0.0613614190015904,
+          "terms": [
+            {
+              "row": 340,
+              "weight": 0.3651572237897073,
+              "a": [
+                0.9410189071804554,
+                0.33835398080841494
+              ],
+              "b": -0.09226066377772098,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1032,
+              "weight": 0.38723665892340614,
+              "a": [
+                -0.9482755215385171,
+                0.3174484765294255
+              ],
+              "b": 0.03243346273675758,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2034,
+              "weight": 0.24760611728688653,
+              "a": [
+                0.09526094620860048,
+                -0.9954523354372334
+              ],
+              "b": -0.16248062584175776,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 5,
+      "sample": 1,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.06829557242942481,
+          0.0951644137774731
+        ],
+        "signed_inradius_m": -0.061361419001590416,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 1.0408340855860843e-17,
+          "combined_rhs_m": -0.0613614190015904,
+          "terms": [
+            {
+              "row": 340,
+              "weight": 0.3651572237897073,
+              "a": [
+                0.9410189071804554,
+                0.33835398080841494
+              ],
+              "b": -0.0934295857014842,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1032,
+              "weight": 0.38723665892340614,
+              "a": [
+                -0.9482755215385171,
+                0.3174484765294256
+              ],
+              "b": 0.03361139873616871,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2034,
+              "weight": 0.24760611728688656,
+              "a": [
+                0.09526094620860048,
+                -0.9954523354372334
+              ],
+              "b": -0.16259895779837624,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 5,
+      "sample": 2,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.07305338492942483,
+          0.0951644137774731
+        ],
+        "signed_inradius_m": -0.06136141900159038,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 2.8609792490763984e-17,
+          "combined_rhs_m": -0.06136141900159038,
+          "terms": [
+            {
+              "row": 340,
+              "weight": 0.3651572237897073,
+              "a": [
+                0.9410189071804556,
+                0.3383539808084149
+              ],
+              "b": -0.09790677722080371,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1032,
+              "weight": 0.3872366589234062,
+              "a": [
+                -0.9482755215385171,
+                0.3174484765294256
+              ],
+              "b": 0.038123115865988697,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2034,
+              "weight": 0.24760611728688653,
+              "a": [
+                0.09526094620860048,
+                -0.9954523354372334
+              ],
+              "b": -0.16305219151900935,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 5,
+      "sample": 3,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.07781119742942481,
+          0.0951644137774731
+        ],
+        "signed_inradius_m": -0.061361419001590395,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 3.1031676915590914e-17,
+          "combined_rhs_m": -0.061361419001590395,
+          "terms": [
+            {
+              "row": 340,
+              "weight": 0.3651572237897073,
+              "a": [
+                0.9410189071804556,
+                0.3383539808084149
+              ],
+              "b": -0.10238396874012322,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1032,
+              "weight": 0.3872366589234062,
+              "a": [
+                -0.9482755215385171,
+                0.3174484765294255
+              ],
+              "b": 0.042634832995808655,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2034,
+              "weight": 0.2476061172868865,
+              "a": [
+                0.09526094620860052,
+                -0.9954523354372334
+              ],
+              "b": -0.16350542523964245,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY"
+      }
+    },
+    {
+      "phase": 5,
+      "sample": 4,
+      "common": {
+        "status": "EMPTY",
+        "center_body_translation_xy_m": [
+          -0.07905338492942482,
+          0.0951644137774731
+        ],
+        "signed_inradius_m": -0.061361419001590395,
+        "row_count": 2160,
+        "hardware_motion_allowed": false,
+        "empty_certificate": {
+          "normal_cancellation_residual": 7.609091204154493e-17,
+          "combined_rhs_m": -0.061361419001590395,
+          "terms": [
+            {
+              "row": 340,
+              "weight": 0.3651572237897073,
+              "a": [
+                0.9410189071804554,
+                0.3383539808084149
+              ],
+              "b": -0.10355289066388644,
+              "tag": {
+                "lost_leg_1based": 1,
+                "gravity": "slope5_heading0",
+                "com_sign_x": 1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 1032,
+              "weight": 0.3872366589234062,
+              "a": [
+                -0.9482755215385171,
+                0.31744847652942565
+              ],
+              "b": 0.043812768995219784,
+              "tag": {
+                "lost_leg_1based": 3,
+                "gravity": "slope5_heading180",
+                "com_sign_x": -1,
+                "com_sign_y": 1,
+                "constraint": "normal_cap"
+              }
+            },
+            {
+              "row": 2034,
+              "weight": 0.24760611728688653,
+              "a": [
+                0.09526094620860047,
+                -0.9954523354372334
+              ],
+              "b": -0.16362375719626096,
+              "tag": {
+                "lost_leg_1based": 5,
+                "gravity": "slope5_heading270",
+                "com_sign_x": 1,
+                "com_sign_y": -1,
+                "constraint": "normal_cap"
+              }
+            }
+          ]
+        }
+      },
+      "per_loss_status": {
+        "1": "NECESSARY_REGION_ONLY",
+        "2": "NECESSARY_REGION_ONLY",
+        "3": "NECESSARY_REGION_ONLY",
+        "4": "NECESSARY_REGION_ONLY",
+        "5": "NECESSARY_REGION_ONLY"
+      }
+    }
+  ],
+  "reference_counts": {
+    "nominal_cases": 1080,
+    "nominal_rejected": 0,
+    "loss_cases": 5400,
+    "loss_rejected": 2925
+  },
+  "phase_contingency_rejections": [
+    542,
+    540,
+    368,
+    383,
+    544,
+    548
+  ],
+  "raw_force_witnesses_audited": 3555,
+  "encoding_disagreements": 0,
+  "common_region_counts": {
+    "EMPTY": 30
+  },
+  "candidate_search": {
+    "executed": false,
+    "candidate_configurations_scored": 0,
+    "status": "UNEXECUTED_BY_NECESSARY_GATE",
+    "reason": "No eligible foot placement within the fixed-height/orientation family can meet the cap"
+  },
+  "unexecuted_scope": [
+    "dynamic recovery",
+    "hardware motion",
+    "fabrication",
+    "CAD/interface modifications",
+    "new support contacts",
+    "changed body height/orientation or relocated COM",
+    "continuous-envelope certification"
+  ],
+  "complete_sampled_static_candidate_pass": false,
+  "artifact_sha256": {
+    "regions.json.gz": "3f2d8e6e9ad01e7115527838a55f77f422b7c4913fede855d5890ad35b8d7888",
+    "replay.csv.gz": "f0da2c22391703d723d69ef0a7a7422ef0572870cbbcb8e26d94712d6d8b1c80"
+  }
+}

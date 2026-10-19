@@ -1,0 +1,117 @@
+{
+  "id": "COTS-SUPPORT-REGION-02",
+  "parent_commit": "1bbf4e419d48afe5c5d2392c7e531d00c19476af",
+  "evidence_basis": "research/walking_robot_review_2026-10-17.md; Jet-leg method adapted without importing its constraints",
+  "frozen_inputs_sha256": {
+    "models/cots_rover.py": "98ed350d943727571ede1b9369c5662c33cef5c956d278c0abc91547a510f9b3",
+    "models/cots_support_guard.py": "d51ba87e1197ef441392f1a16f115ed891888a4ca158b14c36d26a71d3f4379f",
+    "design/cots_v1/config.json": "cf22ebbc729fbdce837473c695d5ecc22b6ebb0a8cf38940ead7c34bc3059b7f",
+    "design/cots_v1/bom.csv": "ddcceac02279a6d66ada9ea12d9fd4e36fff02449c3f57b71a0d16537475289f",
+    "verification/cots/tranche_02/spec.json": "a379b3b64b936f5839101940e0f1fc360a268547c7e346f25000970beb6813d4",
+    "verification/cots/tranche_02/robustness.json": "2589fbddb001e99d8cf30dc64a5baf18d2d99db5650958ea7b1b088dfc5a8ff6",
+    "verification/cots/tranche_02/geometry.json": "7d2be6ebf4df89fa6e77f0e472fa2dd5172f9f915316e30d36aae8845ef917fd",
+    "verification/cots/tranche_03/spec.json": "a362a809fb803fb544d463dfed9eb43e634a53baf6a6aa7c0c90df78e234403a",
+    "verification/cots/tranche_03/results.json": "04e18d39c9e23273248cab551adce1d3e3834efd77fe2a73fed05db0c12ae89a",
+    "verification/cots/support_loss_01/spec.json": "9cfce27e5a553562b7f7a48168a26adb11655eac7be7ab2390f66403efc14b81",
+    "verification/cots/support_loss_01/results.json": "c096f9b57417a038972a6b974654843c1194c9e7656792522b9d67dfd6318f7c",
+    "verification/cots/support_loss_01/cases.csv.gz": "ccca4a0c17099b157c46ecacadb78d62ffb1b1823aa621c3b8ea5c2ea2b54d3e",
+    "verification/cots/support_loss_analysis.py": "70b36283019d1894a70b9a046031879cd2beb99ec487fcae165ff8661d52c3e8",
+    "verification/cots/explain_support_loss.py": "17eed5bcfd138738c1d8e6f701d7342d481bf5c0403bfca6cbc523fb61d65880",
+    "verification/cots/check_support_family_bound.py": "fb7f4fcf860b7d695189b8c7d1f60b247c36405b8fe8cdb807308a1a888f1ba4"
+  },
+  "configuration_source": "verification/cots/tranche_03/results.json:config",
+  "acceptance": {
+    "nominal_cases": 1080,
+    "contingency_cases": 5400,
+    "allowed_rejections": 0,
+    "phase_subdivisions": 4,
+    "com_corners": 4,
+    "gravity_vectors": 9,
+    "full_periodic_progressing_cycle_required": true,
+    "joint_clearance_speed_shaft_checks_required": true,
+    "all_original_limits_retained": true
+  },
+  "stage_a": {
+    "name": "fixed_height_orientation_mechanism_necessary_bound",
+    "hypothesis": "Any independently placed supporting feet accepted by original IK and the inherited shaft envelope can satisfy all additional losses.",
+    "premises": [
+      "Original hips, yaw ranges, body height/orientation, COM and uncertainty; supporting ankle plane unchanged.",
+      "For each swing, additionally lose one same-side support, leaving one support on that side and all three opposite-side feet.",
+      "Original yaw ranges place every opposite-side foot at or beyond its hip side.",
+      "Hip-to-foot distance plus inherited 40 mm allowance cannot exceed the original 400 mm shaft load arm.",
+      "Force and moment balance plus unilateral normal forces and 300 N cap remain mandatory."
+    ],
+    "formula": "H=abs(hip_y); R=sqrt((shaft_arm-0.04)^2-(hip_height-ankle_height)^2); Y=abs(com_y)+dy+(com_z-ankle_height)*tan(5deg); W=mass*load_factor*g*cos(5deg); Nsole >= W*(Y+H)/(2*H+R). For mirrored case use the outward COM corner and slope.",
+    "controls": [
+      "Cross-check bound using separate 4-normal-force LP at favorable relaxed positions.",
+      "Zero COM uncertainty and flat slope relax the bound and must not falsely close the family.",
+      "Altered hip/yaw/height premises reject reuse of this certificate."
+    ],
+    "stop_rule": "If the validated necessary bound exceeds the frozen cap, close only this fixed-height/orientation planar-ankle family. Do not score independent-foot or body-path candidates inside that impossible family; record their searches as unexecuted by gate."
+  },
+  "stage_b": {
+    "name": "baseline_common_body_translation_regions",
+    "poses": 30,
+    "purpose": "Diagnostic necessary regions, never a static admission shortcut.",
+    "construction": "For every five-foot baseline stance intersect all five capped-normal-load centroid polygons and ordinary 40 mm inset support polygons over all four COM corners and all nine gravity vectors. Variables are common body x/y translation; feet remain fixed in a reference world frame. Leg torque and kinematic dependence on body pose are deliberately omitted from this outer region.",
+    "quantifier": "One pre-loss body translation for all possible extra losses; forces may differ.",
+    "outputs": [
+      "halfspaces tagged by loss, slope and constraint",
+      "Chebyshev center and inradius or checked numerical infeasibility certificate",
+      "per-loss feasibility separately to expose wrong-quantifier acceptance",
+      "all six phases and original sampled positions"
+    ],
+    "algorithm": "Normalized halfspaces; HiGHS LP maximizing signed common slack in meters; explicit primal residual check; if slack < 0, verify nonnegative dual combination cancelling body x/y with negative combined bound."
+  },
+  "stage_c": {
+    "name": "full_reference_replay_and_raw_witness_audit",
+    "cases": 6480,
+    "expected_nominal_rejections": 0,
+    "expected_contingency_rejections": 2925,
+    "expected_phase_rejections": [
+      542,
+      540,
+      368,
+      383,
+      544,
+      548
+    ],
+    "checks": [
+      "force and moment balance recomputed from raw forces",
+      "unilateral normals and frozen normal cap",
+      "original L1 friction pyramid",
+      "torque with conservative link self-weight",
+      "support margin and finite-foot COP",
+      "summary fields and leg identities cannot substitute for witness validation"
+    ],
+    "controls": [
+      "forged success and force summaries",
+      "componentwise friction false pass",
+      "omitted self-weight false pass",
+      "negative/excess normal force",
+      "nonfinite/malformed witnesses",
+      "stale or unconfirmed synthetic contact evidence"
+    ]
+  },
+  "outcome_labels": [
+    "COMPLETED_SOFTWARE_CHECK",
+    "CLOSED_UNDER_EXPLICIT_PREMISES",
+    "NECESSARY_REGION_ONLY",
+    "UNEXECUTED_BY_NECESSARY_GATE",
+    "UNEXECUTED_OUT_OF_SCOPE"
+  ],
+  "unexecuted_scope": [
+    "dynamic recovery",
+    "hardware motion",
+    "fabrication",
+    "CAD/interface modifications",
+    "new support contacts",
+    "changed body height/orientation or relocated COM",
+    "continuous-envelope certification"
+  ],
+  "hardware_motion_allowed": false,
+  "automatic_recovery_allowed": false,
+  "fabrication_released": false,
+  "dynamic_recovery_proven": false,
+  "notes": "Preregistered analytical extension and software hardening, not an independent physical holdout or proof about arbitrary redesigns. No search expansion after outcomes."
+}

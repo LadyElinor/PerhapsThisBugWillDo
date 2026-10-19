@@ -1,0 +1,36 @@
+name: support-region-analysis
+on:
+  pull_request:
+    branches: [codex/support-loss-analysis, codex/cots-rover-design]
+  workflow_dispatch:
+jobs:
+  offline-region-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: weevil-lunar
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          # Match mypy.ini's target so dependencies install compatible type stubs.
+          python-version: '3.11'
+      - name: Install analysis dependencies
+        run: pip install -r ../requirements.txt -r ../requirements-dev.txt
+      - name: Static checks and regressions
+        run: |
+          python -m ruff check .
+          python -m mypy models/ verification/ cad/scripts/
+          python -m pytest verification/tests -q
+          python -m pytest verification/backends -q
+      - name: Reproduce robust regions and original scenario decisions
+        run: |
+          python verification/cots/run_support_region_02.py --output /tmp/support-region-02
+          python verification/cots/check_support_region_artifacts.py --results-dir /tmp/support-region-02 --compare-committed
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: support-region-analysis
+          path: /tmp/support-region-02
+          retention-days: 30
