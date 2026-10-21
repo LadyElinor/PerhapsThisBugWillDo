@@ -55,6 +55,8 @@ def scenario_contact_traction(params, state: LegState, contact: ContactModel) ->
         use_directional_cleats=True,
     )
 
+    if contact_forces.max_shear_forward is None:
+        raise ValueError("Benchmark contact evaluation did not provide forward shear capacity")
     traction_n = contact_forces.max_shear_forward * max(0.0, contact.regolith_mu)
     success = out.reachable and contact_forces.anchored and traction_n > 1.0
     return traction_n, success
