@@ -44,11 +44,11 @@ jobs:
           git add cad/freecad_spreadsheet_template.csv cad/phase2_template_aliases.csv
           git diff --cached --quiet || (echo "CSV drift detected: commit regenerated CSVs." && exit 1)
 
-      - name: Run unit tests
-        run: python -m pytest verification/tests -q
-
       - name: Install physics engine for applied-terrain regression
         run: python -m pip install mujoco==3.3.7
+
+      - name: Run unit tests
+        run: python -m pytest verification/tests -q
 
       - name: Run backend tests
         run: python -m pytest verification/backends -q
