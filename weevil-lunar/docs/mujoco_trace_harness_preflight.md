@@ -64,3 +64,11 @@ Do not begin custom trace-harness implementation work. First install either:
 ## Governance reminder
 
 Even once the toolchain is ready, custom trace capture still increases comparative power, not validation status. It should improve visibility into contact/slip behavior, but it does not by itself close the findings in `DECISION_MEMO.md`.
+
+## Applied terrain in the Python runner
+
+The current Python runner uses the MuJoCo bindings to compile the scenario and save the same engine model as an MJB. The Windows tools in the preflight remain relevant to the separate native toolchain. Install the Python bindings to run the trace-backed path.
+
+The runner records the signed terrain angle read from the engine's plane normal, the gravity vector, timestep and content-addressed MJCF. The receipt hashes those resolved MJCF bytes. This permits a replay to distinguish a requested inclination from one actually applied. The geometry, mass distribution and contact parameters remain properties of a single-leg fixture. A matching angle does not establish rover stability or contact-force accuracy.
+
+Each trace row reports geometry and contact at its recorded post-step time. The harness reconstructs derived quantities on a separate observation state. Displacement and the first finite difference use the initial foot position at time zero. The requested duration remains in `duration_s`; `elapsed_s` is the engine clock after the fixed number of steps. Earlier traces predate this sampling convention.

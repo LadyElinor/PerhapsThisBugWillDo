@@ -119,7 +119,7 @@ def main() -> int:
     for r in results.values():
         by_data_source[r["data_source"]] = by_data_source.get(r["data_source"], 0) + 1
 
-    data = {
+    data: dict[str, Any] = {
         "schema_version": 2,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "git_commit": git_commit(),
