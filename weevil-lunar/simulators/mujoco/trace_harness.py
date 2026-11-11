@@ -72,7 +72,7 @@ def run_trace(scenario: SimulationScenario, output_root: Path | None = None, *, 
 
     nstep = max(1, int(round(scenario.duration_s / scenario.timestep_s)))
     steps: list[dict[str, Any]] = []
-    foot_x_positions: list[float] = []
+    initial_x = float(data.xpos[body_id, 0])
     foot_x_velocities: list[float] = []
     contact_force_normal_proxies: list[float] = []
     contact_force_tangential_proxies: list[float] = []
@@ -80,29 +80,34 @@ def run_trace(scenario: SimulationScenario, output_root: Path | None = None, *, 
     body_pitch_deg: list[float] = []
     body_roll_deg: list[float] = []
 
-    prev_foot_x: float | None = None
+    prev_foot_x = initial_x
+    observer = mujoco.MjData(model)
+    state_kind = mujoco.mjtState.mjSTATE_INTEGRATION
+    state = np.empty(mujoco.mj_stateSize(model, state_kind))
 
     for step_idx in range(nstep):
         mujoco.mj_step(model, data)
 
-        foot_pos = np.array(data.xpos[body_id], dtype=float)
+        # mj_step advances time and joint state; derived geometry can still be
+        # from the force evaluation. Recompute on a separate data object so
+        # recording cannot change the integrator's warm start.
+        mujoco.mj_getState(model, data, state, state_kind)
+        mujoco.mj_setState(model, observer, state, state_kind)
+        mujoco.mj_forward(model, observer)
+        foot_pos = np.array(observer.xpos[body_id], dtype=float)
         foot_x = float(foot_pos[0])
-        foot_x_positions.append(foot_x)
 
-        if prev_foot_x is None:
-            slip_velocity = 0.0
-        else:
-            slip_velocity = abs((foot_x - prev_foot_x) / scenario.timestep_s)
+        slip_velocity = abs((foot_x - prev_foot_x) / model.opt.timestep)
         foot_x_velocities.append(slip_velocity)
         prev_foot_x = foot_x
 
-        total_normal_proxy, total_tangential_proxy, max_normal_proxy, max_tangential_proxy = _contact_force_proxy(model, data)
+        total_normal_proxy, total_tangential_proxy, max_normal_proxy, max_tangential_proxy = _contact_force_proxy(model, observer)
         contact_force_normal_proxies.append(total_normal_proxy)
         contact_force_tangential_proxies.append(total_tangential_proxy)
-        has_contact = data.ncon > 0
+        has_contact = observer.ncon > 0
         contact_presence.append(has_contact)
 
-        torso_quat = np.array(data.xquat[1], dtype=float) if model.nbody > 1 else np.array([1.0, 0.0, 0.0, 0.0])
+        torso_quat = np.array(observer.xquat[1], dtype=float) if model.nbody > 1 else np.array([1.0, 0.0, 0.0, 0.0])
         roll_deg, pitch_deg, _ = _quat_to_euler_deg(torso_quat)
         body_pitch_deg.append(float(pitch_deg))
         body_roll_deg.append(float(roll_deg))
@@ -114,7 +119,7 @@ def run_trace(scenario: SimulationScenario, output_root: Path | None = None, *, 
                 "foot_pos": foot_pos.tolist(),
                 "foot_x_m": foot_x,
                 "slip_velocity_m_s": slip_velocity,
-                "contact_count": int(data.ncon),
+                "contact_count": int(observer.ncon),
                 "contact_present": has_contact,
                 "contact_force_normal_proxy_n": total_normal_proxy,
                 "contact_force_tangential_proxy_n": total_tangential_proxy,
@@ -125,8 +130,7 @@ def run_trace(scenario: SimulationScenario, output_root: Path | None = None, *, 
             }
         )
 
-    initial_x = foot_x_positions[0] if foot_x_positions else 0.0
-    final_x = foot_x_positions[-1] if foot_x_positions else 0.0
+    final_x = prev_foot_x
     slip_distance = abs(final_x - initial_x)
     contact_steps = sum(1 for c in contact_presence if c)
     contact_persistence_ratio = contact_steps / nstep if nstep else 0.0
@@ -142,6 +146,8 @@ def run_trace(scenario: SimulationScenario, output_root: Path | None = None, *, 
             "applied_gravity_m_s2": model.opt.gravity.tolist(),
             "timestep_s": float(model.opt.timestep),
             "duration_s": scenario.duration_s,
+            "elapsed_s": float(data.time),
+            "sampling_phase": "post_step",
             "solver_iterations": int(model.opt.iterations),
         },
         "summary": {

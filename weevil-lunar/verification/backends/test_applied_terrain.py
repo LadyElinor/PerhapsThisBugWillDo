@@ -55,3 +55,27 @@ def test_model_trace_and_receipt_share_applied_plane(tmp_path):
         histories.append(trace["steps"])
     assert len(hashes) == len(slopes)
     assert histories[2] != histories[3]
+
+
+def test_trace_coordinates_belong_to_recorded_times(tmp_path):
+    mujoco = pytest.importorskip("mujoco")
+    from simulators.mujoco.trace_harness import run_trace
+
+    case = replace(scenario(25), duration_s=0.0074, timestep_s=0.001)
+    _, trace = run_trace(case, tmp_path)
+    model = mujoco.MjModel.from_xml_path(trace["metadata"]["model_artifact"])
+    reference = mujoco.MjData(model)
+    observer = mujoco.MjData(model)
+    mujoco.mj_forward(model, reference)
+    start = reference.body("foot").xpos[0]
+    for sample in trace["steps"]:
+        mujoco.mj_step(model, reference)
+        # Forward kinematics needs only the new generalized coordinates.
+        observer.qpos[:] = reference.qpos
+        mujoco.mj_kinematics(model, observer)
+        assert sample["time_s"] == reference.time
+        assert sample["foot_pos"] == pytest.approx(observer.body("foot").xpos.tolist(), abs=1e-13)
+    assert trace["summary"]["initial_foot_x_m"] == start
+    assert trace["metadata"]["duration_s"] == 0.0074
+    assert trace["metadata"]["elapsed_s"] == pytest.approx(0.007)
+    assert trace["metadata"]["sampling_phase"] == "post_step"
