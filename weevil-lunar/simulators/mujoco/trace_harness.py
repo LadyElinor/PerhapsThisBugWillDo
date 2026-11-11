@@ -10,7 +10,7 @@ import numpy as np
 from simulators.common.artifact_paths import scenario_artifact_stem
 from simulators.common.scenario_schema import SimulationScenario
 
-from .adapters import scenario_to_model_path
+from .adapters import materialize_scenario_model
 
 
 def _quat_to_euler_deg(quat: np.ndarray) -> tuple[float, float, float]:
@@ -51,14 +51,20 @@ def _contact_force_proxy(model: mujoco.MjModel, data: mujoco.MjData) -> tuple[fl
     return total_normal, total_tangential, max_normal, max_tangential
 
 
-def run_trace(scenario: SimulationScenario, output_root: Path | None = None) -> tuple[Path, dict[str, Any]]:
+def run_trace(scenario: SimulationScenario, output_root: Path | None = None, *, save_compiled_model: bool = False) -> tuple[Path, dict[str, Any]]:
     scenario.validate()
-    model_path = scenario_to_model_path(scenario)
+    model_path = materialize_scenario_model(scenario, output_root)
     model = mujoco.MjModel.from_xml_path(str(model_path))
     data = mujoco.MjData(model)
 
-    model.opt.timestep = scenario.timestep_s
-    model.opt.gravity[:] = np.array([0.0, 0.0, -scenario.gravity_m_s2], dtype=float)
+    stem = scenario_artifact_stem("mujoco", scenario.scenario_id, output_root=output_root)
+    if save_compiled_model:
+        mujoco.mj_saveModel(model, str(stem) + ".mjb", None)
+    # World-body plane orientation is fixed. Read its normal back from the engine.
+    mujoco.mj_forward(model, data)
+    plane_id, = np.flatnonzero(model.geom_type == mujoco.mjtGeom.mjGEOM_PLANE)
+    normal = data.geom_xmat[plane_id].reshape(3, 3)[:, 2]
+    applied_slope = float(np.degrees(np.arctan2(normal[0], normal[2])))
 
     body_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, "foot")
     if body_id < 0:
@@ -131,7 +137,10 @@ def run_trace(scenario: SimulationScenario, output_root: Path | None = None) -> 
             "engine_version": mujoco.__version__,
             "scenario_id": scenario.scenario_id,
             "model_artifact": str(model_path),
-            "timestep_s": scenario.timestep_s,
+            "requested_slope_deg": scenario.slope_deg,
+            "applied_slope_deg": applied_slope,
+            "applied_gravity_m_s2": model.opt.gravity.tolist(),
+            "timestep_s": float(model.opt.timestep),
             "duration_s": scenario.duration_s,
             "solver_iterations": int(model.opt.iterations),
         },
@@ -154,7 +163,6 @@ def run_trace(scenario: SimulationScenario, output_root: Path | None = None) -> 
         "steps": steps,
     }
 
-    stem = scenario_artifact_stem("mujoco", scenario.scenario_id, output_root=output_root)
     trace_path = Path(str(stem) + "_trace.json")
     trace_path.write_text(json.dumps(trace, indent=2) + "\n", encoding="utf-8")
     return trace_path, trace

@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-from simulators.common.metrics import BackendMetricValue, CommonMetrics, unavailable_metric
+from simulators.common.metrics import BackendMetricValue, CommonMetrics
 from simulators.common.scenario_schema import SimulationScenario
 
 
@@ -30,7 +30,6 @@ def trace_backed_metrics(
     """Extract metrics from a custom per-step MuJoCo trace artifact."""
     foot_radius = _extract_geom_radius(model_path, scenario.foot_radius_m)
 
-    steps = trace_data.get("steps", [])
     metadata = trace_data.get("metadata", {})
     summary = trace_data.get("summary", {})
 

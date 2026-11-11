@@ -47,6 +47,9 @@ jobs:
       - name: Run unit tests
         run: python -m pytest verification/tests -q
 
+      - name: Install physics engine for applied-terrain regression
+        run: python -m pip install mujoco==3.3.7
+
       - name: Run backend tests
         run: python -m pytest verification/backends -q
 
